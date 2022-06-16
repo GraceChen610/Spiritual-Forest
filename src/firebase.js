@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-// import { getAnalytics } from 'firebase/analytics';
+import { getAnalytics } from 'firebase/analytics';
 import {
   getFirestore, doc, addDoc, getDocs, getDoc, collection,
 } from 'firebase/firestore';
@@ -16,13 +16,10 @@ export const firebaseConfig = initializeApp({
   measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
 });
 
-// Initialize Firebase
 // const app = initializeApp(firebaseConfig);
+// eslint-disable-next-line no-unused-vars
+const analytics = getAnalytics(firebaseConfig);
 
-// const analytics = getAnalytics(app);
-
-// Initialize Cloud Firestore and get a reference to the service
-// const db = getFirestore(app);
 const db = getFirestore(firebaseConfig);
 
 const firebaseStores = {
@@ -39,7 +36,6 @@ const firebaseStores = {
 
     if (docSnap.exists()) {
       console.log('Document data:', docSnap.data());
-    // 尚未return
     } else {
       // doc.data() will be undefined in this case
       console.log('No such document!');
