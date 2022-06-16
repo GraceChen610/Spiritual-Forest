@@ -1,10 +1,14 @@
 import './App.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Quiz from './pages/quiz';
 
 function App() {
   return (
-    <div className="App">
-      ok~~~~~~
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Quiz />} />
+      </Routes>
+    </Router>
   );
 }
 
