@@ -1,7 +1,7 @@
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Quiz from './pages/quiz';
-import MapApp from './pages/map';
+import MapApp from './pages/mapApp';
 
 function App() {
   return (

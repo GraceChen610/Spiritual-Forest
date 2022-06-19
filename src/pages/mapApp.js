@@ -1,12 +1,5 @@
-/* eslint-disable max-len */
-/* eslint-disable no-return-assign */
-/* eslint-disable no-sequences */
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable consistent-return */
 /* eslint-disable no-use-before-define */
-/* eslint-disable no-undef */
-/* eslint-disable no-mixed-spaces-and-tabs */
-/* eslint-disable no-tabs */
+/* eslint-disable no-alert */
 /* eslint-disable no-shadow */
 import styled from 'styled-components';
 
@@ -69,33 +62,31 @@ function MapApp() {
   const [duration, setDuration] = useState('');
   const [position, setposition] = useState({ lat: 25.038489, lng: 121.532369 });
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  useEffect(() => {
+    // 定位
+    gettingPosition()
+      .then((position) => successCallback(position))
+      .catch((error) => errorCallback(error));
+  }, []);
+
   async function getStore() {
     const url = `https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=25.038489,121.532369&radius=3000&keyword=%E5%BF%83%E7%90%86%E8%AB%AE%E5%95%86&language=zh-TW&key=${process.env.REACT_APP_GOOGLE_MAP_KEY}`;
     const store = await fetch(url);
     const res = await store.json();
-    console.log(res.results);
     localStorage.setItem('position', JSON.stringify(res.results));
   }
 
   const allStore = JSON.parse(localStorage.getItem('position'));
-  console.log(allStore);
   // eslint-disable-next-line prefer-const
   let storeDetail = allStore.map(
     (item) => ((item)),
   );
-  console.log(storeDetail);
 
   /** @type React.MutableRefObject<HTMLInputElement> */
   const originRef = useRef();
   /** @type React.MutableRefObject<HTMLInputElement> */
   const destiantionRef = useRef();
-
-  useEffect(() => {
-  // 定位
-    gettingPosition()
-      .then((position) => successCallback(position))
-      .catch((error) => errorCallback(error));
-  }, []);
 
   if (!isLoaded) {
     return <p>Loading...</p>;
@@ -133,6 +124,7 @@ function MapApp() {
   }
 
   // 及時定位
+  // eslint-disable-next-line consistent-return
   function gettingPosition() {
     if (navigator.geolocation) {
       return new Promise((resolve, reject) => {
@@ -146,8 +138,8 @@ function MapApp() {
     }
     alert('Does not support positioning!');
   }
+
   function successCallback(position) {
-    console.log(position);
     setposition({ lat: position.coords.latitude, lng: position.coords.longitude });
   }
   function errorCallback(error) {
@@ -223,23 +215,14 @@ function MapApp() {
             onClick={() => {
               gettingPosition()
                 .then((position) => successCallback(position))
-	    .catch((error) => errorCallback(error));
+                .catch((error) => errorCallback(error));
               map.panTo(position);
-              console.log(position);
               map.setZoom(15);
               getStore();
             }}
           >
             我的位置
           </Button>
-          {/* <Button onClick={
-              () => gettingPosition()
-                .then((position) => successCallback(position))
-	    .catch((error) => errorCallback(error))
-          }
-          >
-            重新定位
-          </Button> */}
         </Box>
       </SearchBar>
     </Flex>

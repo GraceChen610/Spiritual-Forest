@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import firebaseStores from '../firebase';
-import MapApp from './map';
+import MapApp from './mapApp';
 
 const QuizWapper = styled.div`
 display:flex;
