@@ -5,6 +5,7 @@
 .App-logo {
   border-radius: 5px;
   border: black 1px solid;
+justify-content: space-between;
 }
 
 @media (prefers-reduced-motion: no-preference) {

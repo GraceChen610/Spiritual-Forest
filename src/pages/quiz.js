@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import firebaseStores from '../firebase';
+import MapApp from './mapApp';
 
 const QuizWapper = styled.div`
 display:flex;
@@ -28,6 +29,14 @@ margin:1rem;
 padding:1rem;
 opacity:${(prop) => ((prop.show) ? 1 : 0)};
 width:500px;
+`;
+
+const MapControl = styled.div`
+position:absolute; 
+top:300px;
+width:1280px;
+height: 800px;
+opacity:${(prop) => ((prop.show) ? 1 : 0)};
 `;
 
 function Quiz() {
@@ -122,6 +131,9 @@ function Quiz() {
         {`親愛的~您的分數為${quizScore}`}
         <p>{ myQuizResult }</p>
       </QuizResult>
+      <MapControl show={showQuizResult}>
+        <MapApp />
+      </MapControl>
     </div>
   );
 }
