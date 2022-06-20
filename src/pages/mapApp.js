@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-use-before-define */
 /* eslint-disable no-alert */
@@ -84,8 +85,6 @@ function MapApp() {
   }, []);
 
   /** @type React.MutableRefObject<HTMLInputElement> */
-  const originRef = useRef();
-  /** @type React.MutableRefObject<HTMLInputElement> */
   const destiantionRef = useRef();
 
   if (!isLoaded) {
@@ -114,8 +113,12 @@ function MapApp() {
     setDirectionsResponse(null);
     setDistance('');
     setDuration('');
-    originRef.current.value = '';
     destiantionRef.current.value = '';
+  }
+
+  function goToMarker(name) {
+    destiantionRef.current.value = name;
+    calculateRoute();
   }
 
   // 及時定位
@@ -157,9 +160,11 @@ function MapApp() {
           // }}
           onLoad={(map) => setMap(map)}
         >
-          <Marker position={center} />
-          <Marker position={position} />
-          {allStore.map((e) => (<Marker position={e.geometry.location} title={e.name} />))}
+          <Marker position={center} title="AppWorks School" onClick={() => goToMarker('AppWorks School')} />
+          <Marker position={position} title="U are Here ~" />
+          {storeDetail.map((e) => (
+            <Marker position={e.geometry.location} title={e.name} onClick={() => goToMarker(e.name)} />
+          ))}
           ;
           {directionsResponse && (
           <DirectionsRenderer directions={directionsResponse} />
@@ -169,12 +174,7 @@ function MapApp() {
       <SearchBar>
         <Box>
           <Box>
-            {/* <Autocomplete>
-              <Input type="text" placeholder="Origin" ref={originRef} />
-            </Autocomplete> */}
-            前往目的地
-          </Box>
-          <Box>
+            前往目的地：
             <Autocomplete>
               <Input
                 type="text"
@@ -186,24 +186,24 @@ function MapApp() {
 
           <Box>
             <Button colorScheme="pink" type="submit" onClick={() => calculateRoute()}>
-              Calculate Route
+              出發
             </Button>
             <Button
               aria-label="center back"
               // icon={<FaTimes />}
               onClick={() => clearRoute()}
             >
-              clearRoute
+              重設
             </Button>
           </Box>
         </Box>
         <Box>
           <span>
-            Distance:
+            距離：
             {distance}
           </span>
           <span>
-            Duration:
+            開車時間：
             {duration}
           </span>
           <Button
