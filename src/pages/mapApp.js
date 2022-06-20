@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-use-before-define */
 /* eslint-disable no-alert */
 /* eslint-disable no-shadow */
@@ -27,7 +28,6 @@ width:100%;
 z-index:0;
 `;
 const Flex = styled.div`
-      ${'' /* position="relative" */}
   display:flex;
   flex-direction:column;
   height:100vh;
@@ -61,7 +61,8 @@ function MapApp() {
   const [distance, setDistance] = useState('');
   const [duration, setDuration] = useState('');
   const [position, setposition] = useState({ lat: 25.038489, lng: 121.532369 });
-
+  // eslint-disable-next-line no-unused-vars
+  const [allStore, setAllstore] = useState([]);
   // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     // 定位
@@ -70,18 +71,17 @@ function MapApp() {
       .catch((error) => errorCallback(error));
   }, []);
 
-  async function getStore() {
+  function getStore() {
     const url = `https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=25.038489,121.532369&radius=3000&keyword=%E5%BF%83%E7%90%86%E8%AB%AE%E5%95%86&language=zh-TW&key=${process.env.REACT_APP_GOOGLE_MAP_KEY}`;
-    const store = await fetch(url);
-    const res = await store.json();
-    localStorage.setItem('position', JSON.stringify(res.results));
+    fetch(url)
+      .then((store) => store.json())
+      // .then((res) => console.log(res.results))
+      .then((res) => setAllstore(res.results));
   }
 
-  const allStore = JSON.parse(localStorage.getItem('position'));
-  // eslint-disable-next-line prefer-const
-  let storeDetail = allStore.map(
-    (item) => ((item)),
-  );
+  useEffect(() => {
+    getStore();
+  }, []);
 
   /** @type React.MutableRefObject<HTMLInputElement> */
   const originRef = useRef();
@@ -92,12 +92,7 @@ function MapApp() {
     return <p>Loading...</p>;
   }
 
-  // useEffect(() => {
-
-  // }, []);
-
   async function calculateRoute() {
-    // if (originRef.current.value === '' || destiantionRef.current.value === '') {
     if (destiantionRef.current.value === '') {
       return;
     }
@@ -164,7 +159,7 @@ function MapApp() {
         >
           <Marker position={center} />
           <Marker position={position} />
-          {storeDetail.map((e) => (<Marker position={e.geometry.location} title={e.name} />))}
+          {allStore.map((e) => (<Marker position={e.geometry.location} title={e.name} />))}
           ;
           {directionsResponse && (
           <DirectionsRenderer directions={directionsResponse} />
