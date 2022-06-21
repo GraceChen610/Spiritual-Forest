@@ -4,6 +4,7 @@ import { getAnalytics } from 'firebase/analytics';
 import {
   getFirestore, doc, addDoc, getDocs, getDoc, collection,
 } from 'firebase/firestore';
+import { getStorage } from 'firebase/storage';
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -20,7 +21,7 @@ export const firebaseConfig = initializeApp({
 // const app = initializeApp(firebaseConfig);
 // eslint-disable-next-line no-unused-vars
 const analytics = getAnalytics(firebaseConfig);
-
+export const storage = getStorage(firebaseConfig);
 const db = getFirestore(firebaseConfig);
 
 const firebaseStores = {
