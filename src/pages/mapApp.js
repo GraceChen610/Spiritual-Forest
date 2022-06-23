@@ -162,7 +162,7 @@ function MapApp() {
         >
           <Marker position={center} title="AppWorks School" onClick={() => goToMarker('AppWorks School')} />
           <Marker position={position} title="U are Here ~" />
-          {storeDetail.map((e) => (
+          {allStore.map((e) => (
             <Marker position={e.geometry.location} title={e.name} onClick={() => goToMarker(e.name)} />
           ))}
           ;
