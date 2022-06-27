@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable max-len */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-use-before-define */
@@ -13,6 +14,7 @@ import {
   DirectionsRenderer,
 } from '@react-google-maps/api';
 import { useEffect, useRef, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 const Box = styled.div`
   background-color: white;
@@ -62,9 +64,26 @@ function MapApp() {
   const [distance, setDistance] = useState('');
   const [duration, setDuration] = useState('');
   const [position, setposition] = useState({ lat: 25.038489, lng: 121.532369 });
-  // eslint-disable-next-line no-unused-vars
   const [allStore, setAllstore] = useState([]);
-  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [searchParams] = useSearchParams();
+
+  const search = searchParams.get('search');
+  console.log(search);
+
+  // eslint-disable-next-line prefer-const
+  let keyword = '心理諮詢';
+
+  if (search === 'restaurant') {
+    keyword = '餐廳';
+  } else if (search === 'park') {
+    keyword = 'park';
+  } else if (search === 'movie') {
+    keyword = 'movie';
+  } else {
+    keyword = '心理諮詢';
+  }
+
+  console.log(keyword);
   useEffect(() => {
     // 定位
     gettingPosition()
@@ -73,10 +92,9 @@ function MapApp() {
   }, []);
 
   function getStore() {
-    const url = `https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=25.038489,121.532369&radius=3000&keyword=%E5%BF%83%E7%90%86%E8%AB%AE%E5%95%86&language=zh-TW&key=${process.env.REACT_APP_GOOGLE_MAP_KEY}`;
+    const url = `https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=25.038489,121.532369&radius=3000&keyword=${keyword}&language=zh-TW&key=${process.env.REACT_APP_GOOGLE_MAP_KEY}`;
     fetch(url)
       .then((store) => store.json())
-      // .then((res) => console.log(res.results))
       .then((res) => setAllstore(res.results));
   }
 
@@ -160,7 +178,6 @@ function MapApp() {
           // }}
           onLoad={(map) => setMap(map)}
         >
-          <Marker position={center} title="AppWorks School" onClick={() => goToMarker('AppWorks School')} />
           <Marker position={position} title="U are Here ~" />
           {allStore.map((e) => (
             <Marker position={e.geometry.location} title={e.name} onClick={() => goToMarker(e.name)} />
