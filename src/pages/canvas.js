@@ -6,6 +6,7 @@ import {
   getStorage, ref, getDownloadURL, uploadString,
 } from 'firebase/storage';
 import firebaseStores from '../firebase';
+import baseImg from './base.png';
 
 export default function Canvas() {
   const userID = 'THwS7xjxkLtR5N7t8CRA';
@@ -85,11 +86,11 @@ export default function Canvas() {
       <ImageEditor
         includeUI={{
           loadImage: {
-            path: 'img/sampleImage.jpg',
+            path: baseImg,
             name: 'SampleImage',
           },
           menu: ['crop', 'flip', 'rotate', 'draw', 'shape', 'icon', 'text', 'mask', 'filter'],
-          initMenu: 'filter',
+          initMenu: 'text',
           uiSize: {
             width: '1000px',
             height: '700px',
