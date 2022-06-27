@@ -5,6 +5,7 @@ import MapApp from './pages/mapApp';
 import Card from './pages/card';
 // import NewCard from './cardjs/newcard';
 import Home from './pages/home';
+import Canvas from './pages/canvas';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="map?search=movie" element={<MapApp />} />
         <Route path="card" element={<Card />} />
         <Route path="home" element={<Home />} />
+        <Route path="canvas" element={<Canvas />} />
       </Routes>
     </Router>
   );
