@@ -566,7 +566,7 @@ body > textarea {
 }
 
 .tui-image-editor-container .tui-image-editor-virtual-range-bar .tui-image-editor-disabled,.tui-image-editor-container .tui-image-editor-virtual-range-subbar .tui-image-editor-disabled,.tui-image-editor-container .tui-image-editor-virtual-range-pointer .tui-image-editor-disabled {
-    backbround-color: #f00
+    background-color: #f00;
 }
 
 .tui-image-editor-container .tui-image-editor-range {
@@ -1202,7 +1202,7 @@ body > textarea {
 }
 
 .tui-image-editor-container .filter-color-item .color-picker-control label {
-    font-color: #333;
+    color: #333;
     font-weight: normal;
     margin-right: 7pxleft
 }

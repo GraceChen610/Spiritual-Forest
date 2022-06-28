@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable no-console */
 import './tui-image-editor.css';
 import ImageEditor from '@toast-ui/react-image-editor';
