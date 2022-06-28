@@ -1,7 +1,10 @@
+/* eslint-disable no-console */
 import styled, { keyframes } from 'styled-components';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import firebaseStores from '../../firebase';
+import Modal from '../../components/Modal';
+import BadModal from '../../components/badModal';
 
 const Wrapper = styled.div`
     height:100vh;
@@ -19,17 +22,17 @@ const Sky = styled.div`
 
 const cloud = keyframes`
     0%   { transform: translate(10%, 0px);}
-  100% {transform: translate(180%, 90px);}
+  100% {transform: translate(100%, 90px);}
   
 `;
 
 const cloud2 = keyframes`
-    0%   { transform: translate(200%, 90px);}
+    0%   { transform: translate(100%, 90px);}
   100% {transform: translate(0, 150px);}
 `;
 
 const cloud3 = keyframes`
-    0%   { transform: translate(180%, 150px);}
+    0%   { transform: translate(100%, 150px);}
   100% {transform: translate(0%, 200px);}
 `;
 
@@ -54,7 +57,7 @@ const Cloud3 = styled(Cloud)`
 const Tree = styled.div`
     position: absolute;
     z-index:-45;
-    bottom:30px;
+    bottom:100px;
     left:-10px;
 `;
 
@@ -78,13 +81,6 @@ const Butterfly = styled(Tree)`
     z-index:-42;
 `;
 
-// const bear = keyframes`
-//     0%   { transform: translate(0, -20px);}
-//   ${'' /* 25% {transform: translate(-15px, 0px);}
-//   50% {transform: translate(-30px, -20px);} */}
-//   100% {transform: translate(0px, 0px);}
-// `;
-
 const bear = keyframes`
     0%   {transform: rotate(0deg);  opacity: 0;}
   50% {transform: rotate(75deg) translate(0px, 150px);}
@@ -100,10 +96,9 @@ const Bear = styled(Tree)`
 `;
 
 const Turf = styled(Tree)`
-bottom:-5px;
+bottom:0px;
 left:0px;
 z-index:-50;
-height:105%;
 `;
 
 const zebra = keyframes`
@@ -129,6 +124,7 @@ opacity: 0;
     ${'' /* transform-origin: bottom center; */}
     bottom:380px;
     left:970px;
+    z-index:0;
 `;
 
 const Lion = styled(Tree)`
@@ -137,30 +133,26 @@ left:1090px;
 `;
 
 const RedPanda = styled(Tree)`
+z-index:-42;
 bottom:60px;
-left:1300px;
+left:220px;
 `;
 
-const Baboon = styled(Tree)`
-z-index:-42;
-bottom:30px;
-left:250px;
-`;
 const Giraffe = styled(Tree)`
-bottom:50px;
+bottom:100px;
 left:20px;
 `;
 
 const Grass = styled(Tree)`
 z-index:0;
-bottom:-110px;
+bottom:0px;
 left:0px;
 `;
 
 const SignWord = styled.div`
 z-index:0;
 position: absolute;
-bottom:15px;
+bottom:85px;
 left:60px;
 font-weight: bold;
 `;
@@ -168,21 +160,24 @@ font-weight: bold;
 const Sign = styled.div`
 z-index:-40;
 position: absolute;
-bottom:-80px;
+bottom:0px;
 left:35px;
 `;
 
 const SignWordR = styled(SignWord)`
-  right:60px;
-  text-align:right;
+  right:0px;
+  ${'' /* text-align:right; */}
   color: 'withe',
 `;
 
 const SignR = styled.div`
 z-index:-40;
 position: absolute;
-bottom:-80px;
-right:-550px;
+bottom:0px;
+right:30px;
+${'' /* border: black solid 1px;  */}
+display:flex;
+justify-content: right;
 `;
 
 const Title = styled.div`
@@ -205,39 +200,43 @@ const Qusition = styled.div`
     animation: ${qusition} 2s ease 2s 1 forwards;
     opacity: 0;
     position: absolute;
-    z-index:-40;
-    top:130px;
-    left:1000px;
+    z-index:1;
+    bottom:450px;
+    left:990px;
     width:330px;
-    height:130px;
+    height:120px;
     text-align: center;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     ${'' /* border: black solid 1px; */}
-    font-size: 1.17em;
     font-weight: bold;
+    display:flex;
+    flex-direction: column;
+    padding:0.5rem;
+
 `;
 
-const Button = styled.button`
-    position: absolute;
-    bottom:0px;
-    left:30px;
+const ButtonControl = styled.div`
+    margin-top:1rem;
+    display:flex;
+    justify-content: space-around;
+    ${'' /* border: black solid 1px; */}
 `;
-
-const Button2 = styled.button`
-    position: absolute;
-    bottom:0px;
-    right:30px;
-`;
-
-// const newPage = styled.div`
-//     opacity:${(props) => (props.show ? 1 : 0)};;
-//     background-color: black;
-//     width: 100vw;
-//     height:100vh;
-// `;
 
 export default function Home() {
   const [positive, setPositive] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [showBadModal, setShowBadModal] = useState(false);
+  const refTitle = useRef('');
+  const refContent = useRef('');
+
+  const openModal = () => {
+    setShowModal((prev) => !prev);
+  };
+
+  const openBadModal = () => {
+    setShowBadModal((prev) => !prev);
+  };
+
   useEffect(() => {
     firebaseStores.getData('all_positives')
       .then((res) => res[0].data())
@@ -285,21 +284,35 @@ export default function Home() {
       </Zebra>
       <Qusition>
         <span>
-          <br />
           親愛的~
           <br />
           <span>今天感覺如何?</span>
         </span>
-        <Link to="/post">
-          <Button>
-            很棒
-          </Button>
-        </Link>
-        <Button2>
-          不好
-        </Button2>
-      </Qusition>
+        <ButtonControl>
 
+          <button type="button" onClick={() => openModal()}>
+            很棒
+          </button>
+          <Modal
+            showModal={showModal}
+            setShowModal={setShowModal}
+            refTitle={refTitle}
+            refContent={refContent}
+          />
+
+          <BadModal
+            showBadModal={showBadModal}
+            setShowBadModal={setShowBadModal}
+            refTitle={refTitle}
+            refContent={refContent}
+          />
+          <button type="button" onClick={() => openBadModal()}>
+            不好
+          </button>
+
+        </ButtonControl>
+
+      </Qusition>
       <Bubble>
         <img src="/img/bubble.png" alt="turf" width="70%" />
       </Bubble>
@@ -307,11 +320,8 @@ export default function Home() {
         <img src="/img/lion.png" alt="turf" width="80%" />
       </Lion>
       <RedPanda>
-        <img src="/img/red-panda.png" alt="turf" width="80%" />
+        <img src="/img/red-panda.png" alt="turf" width="60%" />
       </RedPanda>
-      <Baboon>
-        <img src="/img/baboon.png" alt="turf" width="70%" />
-      </Baboon>
       <Giraffe>
         <img src="/img/giraffe.png" alt="turf" width="60%" />
       </Giraffe>
@@ -337,25 +347,23 @@ export default function Home() {
           </Link>
         </SignWord>
       </div>
-      <div>
-        <SignR>
-          <img src="/img/signs.png" alt="turf" width="20%" />
-        </SignR>
-        <SignWordR>
-          <Link
-            to="/post"
-            style={{
-              color: 'withe',
-              textDecoration: 'none',
-              ':visited': {
-                color: 'black',
-              },
-            }}
-          >
-            紀錄今天＞
-          </Link>
-        </SignWordR>
-      </div>
+      <SignR>
+        <img src="/img/signs.png" alt="turf" width="20%" />
+      </SignR>
+      <SignWordR>
+        <Link
+          to="/post"
+          style={{
+            color: 'withe',
+            textDecoration: 'none',
+            ':visited': {
+              color: 'black',
+            },
+          }}
+        >
+          紀錄今天＞
+        </Link>
+      </SignWordR>
     </Wrapper>
   );
 }

@@ -11,13 +11,13 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Quiz />} />
+        <Route path="/" element={<Home />} />
+        <Route path="quiz" element={<Quiz />} />
         <Route path="map" element={<MapApp />} />
         <Route path="map?search=restaurant" element={<MapApp />} />
         <Route path="map?search=park" element={<MapApp />} />
         <Route path="map?search=movie" element={<MapApp />} />
         <Route path="card" element={<Card />} />
-        <Route path="home" element={<Home />} />
         <Route path="canvas" element={<Canvas />} />
       </Routes>
     </Router>
