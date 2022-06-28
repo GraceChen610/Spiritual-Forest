@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
 import styled, { keyframes } from 'styled-components';
 import { useEffect, useState, useRef } from 'react';
@@ -149,35 +150,22 @@ bottom:0px;
 left:0px;
 `;
 
-const SignWord = styled.div`
+const Sign = styled.span`
+display: inline-block;
+position: absolute;
 z-index:0;
-position: absolute;
-bottom:85px;
-left:60px;
-font-weight: bold;
+bottom:130px;
+left:30px;
+${'' /* border: 1px solid black; */}
+width:150px;
+text-align:center;
+color: white;
+text-shadow: black 0.1em 0.1em 0.2em;
 `;
 
-const Sign = styled.div`
-z-index:-40;
-position: absolute;
-bottom:0px;
-left:35px;
-`;
-
-const SignWordR = styled(SignWord)`
-  right:0px;
-  ${'' /* text-align:right; */}
-  color: 'withe',
-`;
-
-const SignR = styled.div`
-z-index:-40;
-position: absolute;
-bottom:0px;
+const SignR = styled(Sign)`
 right:30px;
-${'' /* border: black solid 1px;  */}
-display:flex;
-justify-content: right;
+left: initial;
 `;
 
 const Title = styled.div`
@@ -242,6 +230,21 @@ export default function Home() {
       .then((res) => res[0].data())
       .then((data) => setPositive(data.positives[10]));
   }, []);
+
+  const signLStyle = {
+    position: 'absolute',
+    zIndex: -1,
+    bottom: '30px',
+    left: '30px',
+  };
+
+  const signRStyle = {
+    position: 'absolute',
+    zIndex: -1,
+    bottom: '30px',
+    right: '30px',
+    // transform: 'scaleX(-1)',
+  };
 
   return (
     <Wrapper>
@@ -328,42 +331,20 @@ export default function Home() {
       <Grass>
         <img src="/img/grass.png" alt="turf" width="100%" />
       </Grass>
-      <div>
-        <Sign>
-          <img src="/img/signs.png" alt="turf" width="20%" />
-        </Sign>
-        <SignWord>
-          <Link
-            to="/post"
-            style={{
-              color: 'withe',
-              textDecoration: 'none',
-              ':visited': {
-                color: 'black',
-              },
-            }}
-          >
-            ＜前往草坪
-          </Link>
-        </SignWord>
-      </div>
+
+      <img src="/img/signs.png" alt="turf" width="10%" style={signLStyle} />
+      <Sign>
+        <Link to="/post">
+          ＜前往草坪
+        </Link>
+      </Sign>
+
+      <img src="/img/signs.png" alt="turf" width="10%" style={signRStyle} />
       <SignR>
-        <img src="/img/signs.png" alt="turf" width="20%" />
-      </SignR>
-      <SignWordR>
-        <Link
-          to="/post"
-          style={{
-            color: 'withe',
-            textDecoration: 'none',
-            ':visited': {
-              color: 'black',
-            },
-          }}
-        >
+        <Link to="/record">
           紀錄今天＞
         </Link>
-      </SignWordR>
+      </SignR>
     </Wrapper>
   );
 }

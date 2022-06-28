@@ -18,7 +18,7 @@ function App() {
         <Route path="map?search=park" element={<MapApp />} />
         <Route path="map?search=movie" element={<MapApp />} />
         <Route path="card" element={<Card />} />
-        <Route path="canvas" element={<Canvas />} />
+        <Route path="record" element={<Canvas />} />
       </Routes>
     </Router>
   );

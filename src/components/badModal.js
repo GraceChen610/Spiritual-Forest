@@ -60,18 +60,7 @@ const ModalContent = styled.div`
     align-self:flex-end;
     ${'' /* margin-right:15%; */}
     border-radius: 10px;
-  }
-
-  ${'' /* input {
-    margin-bottom: 1rem;
-    padding: 0.5rem;
-    width:100%;
-    height:30px;
-    border-radius: 10px;
-    font-size:1.3rem;
-  } */}
-
- 
+  } 
 `;
 
 const CloseModalButton = styled(MdClose)`
@@ -128,7 +117,7 @@ export default function BadModal({
         <Background onClick={closeModal} ref={modalRef}>
           <animated.div style={animation}>
             <ModalWrapper showModal={showBadModal}>
-              {/* <ModalImg src={require('./modal.jpg')} alt="camera" /> */}
+              {/* <ModalImg src={require('./modal.jpg')} alt="" /> */}
               <ModalContent>
                 <Link to="/quiz">
                   <button
