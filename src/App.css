@@ -5,10 +5,14 @@
   box-sizing: border-box;
 }
 
+a:-webkit-any-link{
+  color: white ;
+  text-decoration: none;
+  height: initial;
+}
+
 .App-logo {
   border-radius: 5px;
-
-
 }
 
 @media (prefers-reduced-motion: no-preference) {
