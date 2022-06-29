@@ -6,9 +6,39 @@ import { useEffect, useState, useRef } from 'react';
 import {
   getStorage, ref, getDownloadURL, uploadString,
 } from 'firebase/storage';
+import styled from 'styled-components';
 import firebaseStores from '../firebase';
 import baseImg from './base.png';
 
+const UploadBtn = styled.button`
+    background-color: #fdba3b;
+    border: 1px solid #fdba3b;
+    color: #000;
+    font-family: 'Noto Sans', sans-serif;
+    font-size: 12px;
+    display: inline-block;
+    position: absolute;
+    top: 10px;
+    left: 130px;
+    width: 120px;
+    height: 40px;
+    padding: 0;
+    line-height: 40px;
+    outline: none;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    vertical-align: middle;
+    letter-spacing: .3px;
+    text-align: center;
+`;
+
+const EditBtn = styled(UploadBtn)`
+    background-color: #fff;
+    border: 1px solid #ddd;
+    color: #222;
+    left: 2px;
+`;
 export default function Canvas() {
   const userID = 'THwS7xjxkLtR5N7t8CRA';
   const editorRef = useRef();
@@ -83,7 +113,7 @@ export default function Canvas() {
   };
 
   return (
-    <>
+    <div>
       <ImageEditor
         includeUI={{
           loadImage: {
@@ -112,13 +142,13 @@ export default function Canvas() {
         ref={editorRef}
       />
       <div>
-        <button type="button" onClick={getImgUrl}> 編輯圖片</button>
-        <button type="submit" onClick={handleSubmit}>確認上傳</button>
+        <EditBtn type="button" onClick={getImgUrl}> Edit</EditBtn>
+        <UploadBtn type="submit" onClick={handleSubmit}>Upload</UploadBtn>
       </div>
       {
         historyImg
         && <img src={historyImg} alt="myImg" height={200} />
       }
-    </>
+    </div>
   );
 }
