@@ -6,9 +6,10 @@ import { useEffect, useState, useRef } from 'react';
 import {
   getStorage, ref, getDownloadURL, uploadString,
 } from 'firebase/storage';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import firebaseStores from '../firebase';
 import baseImg from './base.png';
+import photoBg from './photoBg.png';
 
 const UploadBtn = styled.button`
     background-color: #fdba3b;
@@ -16,7 +17,7 @@ const UploadBtn = styled.button`
     color: #000;
     font-family: 'Noto Sans', sans-serif;
     font-size: 12px;
-    display: inline-block;
+    display: ${(prop) => (prop.show ? 'inline-block' : 'none')};
     position: absolute;
     top: 10px;
     left: 130px;
@@ -38,12 +39,27 @@ const EditBtn = styled(UploadBtn)`
     border: 1px solid #ddd;
     color: #222;
     left: 2px;
+    display: inline-block;
 `;
+
+const ImgBg = styled.div`
+  width: 45vw;
+  height: 75vh;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  background:  url(${photoBg}) no-repeat left top / 100% 100% ;
+  img{
+    ${'' /* margin-bottom:2rem; */}
+  }
+`;
+
 export default function Canvas() {
   const userID = 'THwS7xjxkLtR5N7t8CRA';
   const editorRef = useRef();
   //   const [myImgUrl, setMyImgUrl] = useState();
   const [historyImg, setHistoryImg] = useState();
+  const [showUploadBtn, setShowUploadBtn] = useState(true);
   console.log('存入到Cloud Firestore');
 
   function removeLogo() {
@@ -53,6 +69,15 @@ export default function Canvas() {
 
   useEffect(() => {
     removeLogo();
+  }, []);
+
+  useEffect(() => {
+    const storage = getStorage();
+    getDownloadURL(ref(storage, 'gs://forest-406b4.appspot.com/files'))
+      .then((url) => {
+        // `url` is the download URL for 'images/name.jpg'
+        setHistoryImg(url);
+      });
   }, []);
 
   // >>>>>>> 尚未重寫邏輯
@@ -80,6 +105,7 @@ export default function Canvas() {
     // 隱藏編輯器
     const imgEdit = document.querySelector('.tui-image-editor-container');
     imgEdit.style.display = 'none'; // inherit
+    setShowUploadBtn(false);
   };
 
   const getImgUrl = () => {
@@ -91,6 +117,7 @@ export default function Canvas() {
     // 顯示編輯器
     const imgEdit = document.querySelector('.tui-image-editor-container');
     imgEdit.style.display = 'inherit';
+    setShowUploadBtn(true);
 
     //  從資料庫讀圖 >>>>> "來源網址"要再改成對應的url
     const storage = getStorage();
@@ -112,43 +139,50 @@ export default function Canvas() {
     // firebaseStores.updateDoc(userID, { pic: '圖的url' });
   };
 
+  // , 'clip-path': 'inset(5px 5px 5px 2px round 20px 20px )'
+
   return (
-    <div>
-      <ImageEditor
-        includeUI={{
-          loadImage: {
-            path: baseImg,
-            name: 'SampleImage',
-          },
-          menu: ['crop', 'flip', 'rotate', 'draw', 'shape', 'icon', 'text', 'mask', 'filter'],
-          initMenu: 'text',
-          uiSize: {
-            width: '1000px',
-            height: '700px',
-          },
-          menuBarPosition: 'bottom',
-        }}
-        cssMaxHeight={500}
-        cssMaxWidth={700}
-        selectionStyle={{
-          cornerSize: 20,
-          rotatingPointOffset: 70,
-        }}
-        loadImage={{
-          path: 'URL',
-          name: 'SampleImage',
-        }}
-        usageStatistics
-        ref={editorRef}
-      />
-      <div>
-        <EditBtn type="button" onClick={getImgUrl}> Edit</EditBtn>
-        <UploadBtn type="submit" onClick={handleSubmit}>Upload</UploadBtn>
+    <div style={{ position: 'relative' }}>
+      <div style={{ display: 'none' }}>
+        <ImageEditor
+          includeUI={{
+            loadImage: {
+              path: baseImg,
+              name: 'SampleImage',
+            },
+            menu: ['crop', 'flip', 'rotate', 'draw', 'shape', 'icon', 'text', 'mask', 'filter'],
+            initMenu: 'text',
+            uiSize: {
+              width: '980px',
+              height: '700px',
+            },
+            menuBarPosition: 'bottom',
+          }}
+          cssMaxHeight={500}
+          cssMaxWidth={700}
+          selectionStyle={{
+            cornerSize: 20,
+            rotatingPointOffset: 70,
+          }}
+        // loadImage={{
+        //   path: 'URL',
+        //   name: 'SampleImage',
+        // }}
+          usageStatistics
+          ref={editorRef}
+        />
+        <div>
+          <EditBtn show type="button" onClick={getImgUrl}> Edit</EditBtn>
+          <UploadBtn show={showUploadBtn} type="submit" onClick={handleSubmit}>Upload</UploadBtn>
+        </div>
       </div>
-      {
+      {/* {
         historyImg
-        && <img src={historyImg} alt="myImg" height={200} />
-      }
+        &&
+      } */}
+      <ImgBg>
+        <img src={historyImg} alt="myImg" height={380} />
+      </ImgBg>
     </div>
   );
 }

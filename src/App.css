@@ -5,20 +5,23 @@
   box-sizing: border-box;
 }
 
-a:-webkit-any-link{
-  color: white ;
-  text-decoration: none;
-  height: initial;
-  position:absolute
-}
-
 .App-logo {
   border-radius: 5px;
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
   overflow-y: hidden;
-  height:30%
+  position:relative;
+  background-image: url();
+  background: #d5bfa4;
+ border-radius: 10px;
+
+}
+
+a:-webkit-any-link{
+  color: white ;
+  text-decoration: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
