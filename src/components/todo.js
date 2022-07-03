@@ -44,7 +44,7 @@ function Item({
 export function List({ data, deleteData, keyName }) {
   return (
     <div style={{ overflowY: 'scroll', height: '150px', 'margin-bottom': '0.5rem' }}>
-      {data.map((item) => {
+      {data?.map((item) => {
         const { content, id } = item;
         return (
           <Item
