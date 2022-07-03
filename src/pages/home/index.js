@@ -149,7 +149,7 @@ left:20px;
 
 const Owl = styled.div`
 position: absolute;
-z-index:3;
+z-index:0;
 bottom:285px;
 left:220px;
 `;
