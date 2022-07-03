@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import firebaseStores from '../firebase';
@@ -15,6 +16,7 @@ border-radius: 10px;
 border: black 1px solid;
 margin:1rem;
 padding:1rem;
+background: white;
 `;
 
 const QuizQuestion = styled.div`
@@ -83,6 +85,7 @@ function Quiz() {
   };
   return (
     <div className="App">
+
       <QuizWapper id="quizWapper">
         {quiz.map((item) => (
           <QuizContent key={item.id}>
@@ -134,6 +137,7 @@ function Quiz() {
       <MapControl show={showQuizResult}>
         <MapApp />
       </MapControl>
+
     </div>
   );
 }

@@ -19,6 +19,7 @@
     "react-spring": "^9.4.5",
     "styled-components": "^5.3.5",
     "sweetalert2": "^11.4.19",
+    "swiper": "^8.2.6",
     "tui-image-editor": "^3.15.3",
     "use-places-autocomplete": "^4.0.0",
     "web-vitals": "^2.1.4"
