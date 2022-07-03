@@ -144,6 +144,13 @@ bottom:100px;
 left:20px;
 `;
 
+const Owl = styled.div`
+position: absolute;
+z-index:-45;
+bottom:285px;
+left:220px;
+`;
+
 const Grass = styled(Tree)`
 z-index:0;
 bottom:0px;
@@ -328,6 +335,9 @@ export default function Home() {
       <Giraffe>
         <img src="/img/giraffe.png" alt="turf" width="60%" />
       </Giraffe>
+      <Owl>
+        <img src="/img/owl2.png" alt="owl" width="60%" />
+      </Owl>
       <Grass>
         <img src="/img/grass.png" alt="turf" width="100%" />
       </Grass>
@@ -335,7 +345,7 @@ export default function Home() {
       <img src="/img/signs.png" alt="turf" width="10%" style={signLStyle} />
       <Sign>
         <Link to="/post">
-          ＜前往草坪
+          ＜登入
         </Link>
       </Sign>
 

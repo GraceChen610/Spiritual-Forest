@@ -13,9 +13,10 @@
   justify-content: space-between;
   overflow-y: hidden;
   position:relative;
-  background-image: url();
+cursor: pointer;
   background: #d5bfa4;
  border-radius: 10px;
+ border: 1px solid;
 
 }
 
