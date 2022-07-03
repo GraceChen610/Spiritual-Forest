@@ -4,6 +4,7 @@ import React, { useRef, useEffect, useCallback } from 'react';
 import { useSpring, animated } from 'react-spring';
 import styled from 'styled-components';
 import { MdClose } from 'react-icons/md';
+import Swal from 'sweetalert2';
 import firebaseStores from '../firebase';
 
 const Background = styled.div`
@@ -145,7 +146,12 @@ export default function Modal({
                       'cheerful_articles',
                       { title: refTitle.current.value, content: refContent.current.value, user_id: 'a123' },
                     );
-                    alert('文章已發布');
+                    Swal.fire({
+                      icon: 'success',
+                      showConfirmButton: false,
+                      timer: 1200,
+                      text: '心情已送出',
+                    });
                   }}
                 >
                   submit
