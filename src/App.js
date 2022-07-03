@@ -3,11 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Quiz from './pages/quiz';
 import MapApp from './pages/mapApp';
 import Card from './pages/card';
-// import NewCard from './cardjs/newcard';
 import Home from './pages/home';
-// import Canvas from './pages/canvas';
 import Record from './pages/record';
-// import Todos from './components/todo';
 import Shuffle from './card/newcard';
 
 function App() {

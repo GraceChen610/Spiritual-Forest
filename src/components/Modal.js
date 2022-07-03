@@ -145,6 +145,7 @@ export default function Modal({
                       'cheerful_articles',
                       { title: refTitle.current.value, content: refContent.current.value, user_id: 'a123' },
                     );
+                    // eslint-disable-next-line no-alert
                     alert('文章已發布');
                   }}
                 >

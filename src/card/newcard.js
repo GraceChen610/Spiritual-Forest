@@ -1,22 +1,68 @@
+/* eslint-disable no-console */
+/* eslint-disable no-unused-vars */
 /* eslint-disable max-len */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ReactMixitup } from 'react-mixitup';
 import { shuffle, range } from 'lodash';
+import styled from 'styled-components/macro';
+import firebaseStores from '../firebase';
+import FlipCard from '../pages/FlipCard';
 import Card from '../pages/card';
 
+const CardControl = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    border: black 1px solid;
+    margin:1rem;
+    padding:1rem;
+    font-size:14px;
+    width:20px;
+    min-width: 200px;
+    a{
+      color: black;
+    }
+`;
+
+// [{ title: '' }]
+// { 1: { title: '' } }
 export default function Shuffle() {
-  const NUM_CELLS = 9;
+  // card
+  const [cards, setCards] = useState([]);
+  const [cardMap, setCardMap] = useState({});
+  console.log(cardMap);
+
+  useEffect(() => {
+    firebaseStores.getData('cards')
+      .then((res) => res[0].data())
+      .then((data) => {
+        const result = data.content.reduce((arr, item, index) => {
+          // eslint-disable-next-line no-param-reassign
+          arr[index] = item;
+          return arr;
+        }, {});
+        console.log({ result });
+        setCardMap(result);
+      });
+  }, []);
+
+  // Shuffle
+  const NUM_CELLS = 10;
   const [keys, setKeys] = useState(() => range(NUM_CELLS));
 
   const goShuffle = () => {
-    setKeys(shuffle(range(NUM_CELLS)));
+    setKeys(shuffle(keys));
   };
 
   const TRANSITION_DURATION = 250;
+  console.log(cards);
 
   return (
     <div>
       <button type="button" onClick={goShuffle}>Shuffle</button>
+      {}
       <ReactMixitup
         keys={keys}
           // dynamicDirection is off because keys.length never changes
@@ -27,24 +73,17 @@ export default function Shuffle() {
             key={key}
             ref={ref}
             style={{
-            //   width: 48,
-            //   height: 48,
-              border: '1px solid blue',
-              margin: 4,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              // transition-duration must be
-              // same as transitionDuration prop
               transition: `transform ${TRANSITION_DURATION}ms ease`,
               ...style,
             }}
           >
-            {/* <Card key={key}> {key} </Card> */}
+            <p>{cardMap[key]?.title}</p>
+            <p>{cardMap[key]?.content}</p>
+            <a href={cardMap[key]?.resource} target="_blank" title="更多資源" rel="noreferrer">更多資源</a>
           </Card>
         )}
         renderWrapper={(style, ref, children) => {
-          const squareWidth = (800 + 4 * 3);
+          const squareWidth = (250 + 4 * 3);
           const wrapperWidth = squareWidth
               * Math.ceil(Math.sqrt(NUM_CELLS));
           return (
@@ -56,7 +95,7 @@ export default function Shuffle() {
                 // we can have set boxSizing to anything
                 boxSizing: 'content-box',
                 width: wrapperWidth,
-                height: wrapperWidth,
+                height: '100%',
                 border: '1px solid red',
                 padding: '12px 0',
                 ...style,
@@ -71,75 +110,3 @@ export default function Shuffle() {
     </div>
   );
 }
-// const getItems = () => shuffle(range(9)).map((s) => String(s));
-
-// const duration = 300;
-
-// export default function Shuffle() {
-//   const [items, setItems] = useState(getItems());
-
-//   const shuffleItems = () => {
-//     setItems(getItems());
-//   };
-
-//   return (
-//     <div
-//       style={{
-//         flex: 1,
-//         width: '100%',
-//         flexDirection: 'column',
-//         alignItems: 'center',
-//         position: 'relative',
-//         height: 720,
-//         paddingTop: 16,
-//       }}
-//     >
-//       <div style={{ display: 'flex', justifyContent: 'center' }}>
-//         <button type="button" className="button button--primary" onClick={shuffleItems}>
-//           Shuffle
-//         </button>
-//       </div>
-//       <ReactMixitup
-//         keys={items}
-//         renderCell={(key, style, ref) => (
-//           <div
-//             key={key}
-//             ref={ref}
-//             style={{
-//               padding: '8px',
-//               transition: `transform ${duration}ms linear`,
-//               ...style,
-//             }}
-//           >
-//             <Card
-//               className="square"
-//             >
-//               {key}
-//             </Card>
-//           </div>
-//         )}
-//         dynamicDirection="off"
-//         transitionDuration={duration}
-//         renderWrapper={(style, ref, children) => (
-//           <div
-//             style={{
-//               transition: `height ${duration}ms ease`,
-//               display: 'flex',
-//               flexWrap: 'wrap',
-//               alignItems: 'flex-start',
-//               justifyContent: 'center',
-//               width: '75%',
-//               margin: 'auto',
-//               padding: '16px',
-//               maxWidth: '1080px',
-//               ...style,
-//             }}
-//             ref={ref}
-//           >
-//             {children}
-//           </div>
-//         )}
-//       />
-//     </div>
-//   );
-// }
