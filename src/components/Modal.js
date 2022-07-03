@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { MdClose } from 'react-icons/md';
 import Swal from 'sweetalert2';
 import firebaseStores from '../firebase';
+import BgImg from './happyBoard.png';
 
 const Background = styled.div`
   width: 100vw;
@@ -22,7 +23,7 @@ const Background = styled.div`
 
 const ModalWrapper = styled.div`
   width: 800px;
-  height: 600px;
+  height: 700px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -30,8 +31,7 @@ const ModalWrapper = styled.div`
   background: #fff;
   color: #000;
   background: linear-gradient(130deg, #D7FFFE, #ace0f9, #ebc0fd);
-  ${'' /* display: grid;
-  grid-template-columns: 8fr 1fr; */}
+  background: url(${BgImg})  no-repeat left top / contain ;
   position: relative;
   z-index: 10;
   border-radius: 10px;
@@ -48,35 +48,46 @@ const ModalContent = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  ${'' /* align-items: center; */}
   line-height: 1;
   color: #141414;
   opacity: 0.8;
   width:70%;
+  position:relative;
+
   
   input {
     margin-bottom: 1rem;
     padding: 0.5rem;
-    width:100%;
-    height:30px;
+    width:53%;
+    height:28px;
     border-radius: 10px;
     font-size:1.3rem;
+    position:relative;
+    top: 80px;
+    left:-25px;
   }
   textarea {
     margin-bottom: 1rem;
     padding: 0.5rem;
-    width:100%;
-    height:350px;
+    width:68%;
+    height:215px;
     border-radius: 10px;
+    position:relative;
+    top: 75px;
+    left:-70px;
   }
   button {
     padding: 10px 24px;
     background: #141414;
     color: #fff;
     border: none;
-    align-self:flex-end;
-    ${'' /* margin-right:15%; */}
+    align-self:flex-start;
     border-radius: 10px;
+    position:relative;
+    top: 100px;
+    left:90px;
+    cursor: pointer;
   }
 `;
 
