@@ -1,12 +1,15 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import Canvas from './canvas';
 import Todos, { List, Edit, Title } from '../components/todo';
 import bg from './recordBg.png';
 import listBg from './listBg2.png';
 import backfrog from './frog.png';
 import firebaseStores from '../firebase';
+import Modal from '../components/ModalCan';
+import photoBg from './photoBg.png';
 
 const Wrapper = styled.div`
     height: 100vh;
@@ -54,15 +57,35 @@ const Backfrog = styled.img`
   z-index:1;
 `;
 
+const ImgBg = styled.div`
+  width: 45vw;
+  height: 75vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background:  url(${photoBg}) no-repeat left top / 100% 100% ;
+`;
+
 export default function Record() {
   const collectionID = 'THwS7xjxkLtR5N7t8CRA';
   const [data, setData] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [historyImg, setHistoryImg] = useState();
+  const [updataImg, setUpdataImg] = useState(false);
+  // console.log(historyImg);
+
+  // const refTitle = useRef('');
+  // const refContent = useRef('');
+  const openModal = () => {
+    setShowModal((prev) => !prev);
+  };
 
   useEffect(() => {
     firebaseStores.getOneDoc('users', collectionID)
-      .then((res) => res.data())
-      .then((resdata) => setData(resdata.gratitude));
-  }, []);
+      .then((res) => res.data() && setHistoryImg(res.data().pic))
+      .then((resdata) => setData(resdata.gratitude))
+      .catch((e) => console.log(e));
+  }, [updataImg]);
 
   return (
     <Wrapper>
@@ -70,7 +93,16 @@ export default function Record() {
         <Backfrog src={backfrog} />
       </Link>
       <LeftControl>
-        <Canvas />
+        {/* <Canvas /> */}
+        <ImgBg>
+          <img src={historyImg} alt="myImg" height={380} onClick={() => openModal()} />
+          <Modal
+            showModal={showModal}
+            setShowModal={setShowModal}
+            setHistoryImg={setHistoryImg}
+            setUpdataImg={setUpdataImg}
+          />
+        </ImgBg>
       </LeftControl>
       <RightControl>
         <TodoList><Todos /></TodoList>
