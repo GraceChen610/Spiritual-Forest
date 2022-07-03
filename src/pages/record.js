@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable no-console */
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
@@ -10,12 +11,12 @@ import backfrog from './frog.png';
 import firebaseStores from '../firebase';
 import Modal from '../components/ModalCan';
 import photoBg from './photoBg.png';
+import baseImg from './base2.png';
 
 const Wrapper = styled.div`
     height: 100vh;
     width: 100vw;
     display: flex;
-    ${'' /* justify-content: space-around; */}
     background:  url(${bg}) no-repeat left top / contain ;
     padding-top:180px;
     padding-left:300px;
@@ -29,7 +30,6 @@ const RightControl = styled.div`
     display: flex;
     flex-direction: column;
   align-items: center;
-  ${'' /* justify-content: space-between; */}
 `;
 
 const TodoList = styled.div`
@@ -51,7 +51,6 @@ const Goal = styled(TodoList)`
 const Backfrog = styled.img`
   height:30vw;
   position: absolute;
-  ${'' /* top:350px; */}
   bottom:1rem;
   left:30px;
   z-index:1;
@@ -64,6 +63,7 @@ const ImgBg = styled.div`
   justify-content: center;
   align-items: center;
   background:  url(${photoBg}) no-repeat left top / 100% 100% ;
+  cursor: pointer;
 `;
 
 export default function Record() {
@@ -72,20 +72,25 @@ export default function Record() {
   const [showModal, setShowModal] = useState(false);
   const [historyImg, setHistoryImg] = useState();
   const [updataImg, setUpdataImg] = useState(false);
-  // console.log(historyImg);
 
-  // const refTitle = useRef('');
-  // const refContent = useRef('');
   const openModal = () => {
     setShowModal((prev) => !prev);
   };
 
   useEffect(() => {
     firebaseStores.getOneDoc('users', collectionID)
-      .then((res) => res.data() && setHistoryImg(res.data().pic))
-      .then((resdata) => setData(resdata.gratitude))
+      .then((res) => res.data())
+      .then((res) => setData(res.gratitude))
       .catch((e) => console.log(e));
-  }, [updataImg]);
+  }, []);
+
+  useEffect(() => {
+    firebaseStores.getOneDoc('users', collectionID)
+      .then((res) => setHistoryImg(res.data().pic))
+      .catch((e) => console.log(e));
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [updataImg, historyImg]);
 
   return (
     <Wrapper>
@@ -95,7 +100,11 @@ export default function Record() {
       <LeftControl>
         {/* <Canvas /> */}
         <ImgBg>
-          <img src={historyImg} alt="myImg" height={380} onClick={() => openModal()} />
+          {
+            historyImg
+              ? <img src={historyImg} alt="myImg" height={380} onClick={() => openModal()} />
+              : <img src={baseImg} alt="myImg" height={380} onClick={() => openModal()} />
+          }
           <Modal
             showModal={showModal}
             setShowModal={setShowModal}

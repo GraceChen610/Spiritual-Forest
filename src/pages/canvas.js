@@ -9,6 +9,7 @@ import {
   getStorage, ref, getDownloadURL, uploadString,
 } from 'firebase/storage';
 import styled from 'styled-components/macro';
+import Swal from 'sweetalert2';
 import firebaseStores from '../firebase';
 import baseImg from './base.png';
 
@@ -95,6 +96,14 @@ export default function Canvas({ setHistoryImg, setUpdataImg }) {
 
     // 更新照片
     setUpdataImg(true);
+
+    // 提醒送出
+    Swal.fire({
+      icon: 'success',
+      showConfirmButton: false,
+      timer: 1200,
+      text: '照片已上傳',
+    });
   };
 
   const getImgUrl = () => {
