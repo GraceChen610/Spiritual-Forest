@@ -36,7 +36,9 @@ function FlipCard({ setfun, item, flipped }) {
   return (
     <div onClick={setfun}>
       <a.div
-        style={{ opacity: opacity.to((o) => 1 - o), transform, backgroundColor: 'red' }}
+        style={{
+          opacity: opacity.to((o) => 1 - o), transform, backgroundColor: 'red', position: 'relative',
+        }}
       >
         <CardControl />
       </a.div>
@@ -45,6 +47,8 @@ function FlipCard({ setfun, item, flipped }) {
           opacity,
           transform,
           background,
+          position: 'relative',
+          top: '-60px',
         }}
         // onClick={setfun}
       >
