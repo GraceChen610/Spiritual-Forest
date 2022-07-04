@@ -13,11 +13,11 @@
   justify-content: space-between;
   overflow-y: hidden;
   position:relative;
-cursor: pointer;
+  cursor: pointer;
   background: white;
  border-radius: 10px;
  border: 1px solid;
-
+margin: 5px;
 }
 
 a:-webkit-any-link{

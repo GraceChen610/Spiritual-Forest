@@ -6,8 +6,8 @@ import { ReactMixitup } from 'react-mixitup';
 import { shuffle, range } from 'lodash';
 import styled from 'styled-components/macro';
 import firebaseStores from '../firebase';
-import FlipCard from '../pages/FlipCard';
-import Card from '../pages/card';
+import FlipCard from './FlipCard';
+import Card from './card';
 
 const CardControl = styled.div`
     display: flex;
@@ -32,6 +32,7 @@ export default function Shuffle() {
   // card
   const [cards, setCards] = useState([]);
   const [cardMap, setCardMap] = useState({});
+  const [flipped, set] = useState(null);
   console.log(cardMap);
 
   useEffect(() => {
@@ -56,6 +57,9 @@ export default function Shuffle() {
     setKeys(shuffle(keys));
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // useEffect(() => { goShuffle(); }, []);
+
   const TRANSITION_DURATION = 250;
   console.log(cards);
 
@@ -68,19 +72,22 @@ export default function Shuffle() {
           // dynamicDirection is off because keys.length never changes
         dynamicDirection="off"
         transitionDuration={TRANSITION_DURATION}
-        renderCell={(key, style, ref) => (
-          <Card
+        renderCell={(key, style, ref) => cardMap[key] && (
+          <FlipCard
             key={key}
-            ref={ref}
+            innerRef={ref}
+            setfun={() => { set(key); }}
+            flipped={flipped === key}
             style={{
               transition: `transform ${TRANSITION_DURATION}ms ease`,
               ...style,
             }}
-          >
-            <p>{cardMap[key]?.title}</p>
-            <p>{cardMap[key]?.content}</p>
-            <a href={cardMap[key]?.resource} target="_blank" title="更多資源" rel="noreferrer">更多資源</a>
-          </Card>
+            item={cardMap[key]}
+          />
+          //   {/* <p>{cardMap[key]?.title}</p>
+          //   <p>{cardMap[key]?.content}</p>
+          //   <a href={cardMap[key]?.resource} target="_blank" title="更多資源" rel="noreferrer">更多資源</a> */}
+          // </FlipCard>
         )}
         renderWrapper={(style, ref, children) => {
           const squareWidth = (250 + 4 * 3);
@@ -96,7 +103,7 @@ export default function Shuffle() {
                 boxSizing: 'content-box',
                 width: wrapperWidth,
                 height: '100%',
-                border: '1px solid red',
+                // border: '1px solid red',
                 padding: '12px 0',
                 ...style,
               }}
