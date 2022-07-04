@@ -106,7 +106,7 @@ z-index:-50;
 `;
 
 const zebra = keyframes`
-    0%   {transform: rotate(10deg);}
+  0%   {transform: rotate(10deg);}
   70% {transform: rotate(0deg);}
   100% {transform: rotate(0deg);}
 `;
