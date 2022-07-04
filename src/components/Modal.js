@@ -51,7 +51,7 @@ const Bird = styled.img`
   top: 130px;
   left: 100px;
   z-index:-39;
-  animation: ${birdanimated} 0.5s ease-out 1s alternate 8;
+  animation: ${birdanimated} 0.3s ease-out 1s alternate 6;
 `;
 
 const shareHappyAnimated = keyframes`

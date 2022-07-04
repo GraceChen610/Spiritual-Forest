@@ -6,7 +6,7 @@ import styled, { keyframes } from 'styled-components/macro';
 import { MdClose } from 'react-icons/md';
 import Swal from 'sweetalert2';
 import firebaseStores from '../firebase';
-import BgImg from './worryBoard2.png';
+import BgImg from './worryBoard.png';
 import groundhog from './groundhog.png';
 import deer from './deer.png';
 
