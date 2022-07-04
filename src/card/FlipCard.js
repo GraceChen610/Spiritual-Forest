@@ -23,7 +23,9 @@ const CardControl = styled.div`
     }
 `;
 
-function FlipCard({ setfun, item, flipped }) {
+function FlipCard({
+  setfun, item, flipped, innerRef, style,
+}) {
 // console.log(flipped)
 
   const { transform, opacity, background } = useSpring({
@@ -34,9 +36,11 @@ function FlipCard({ setfun, item, flipped }) {
   });
 
   return (
-    <div onClick={setfun}>
+    <div onClick={setfun} ref={innerRef} style={style}>
       <a.div
-        style={{ opacity: opacity.to((o) => 1 - o), transform, backgroundColor: 'red' }}
+        style={{
+          opacity: opacity.to((o) => 1 - o), transform, backgroundColor: 'black', position: 'relative', height: '245px', 'border-radius': '10px', margin: '5px',
+        }}
       >
         <CardControl />
       </a.div>
@@ -45,8 +49,9 @@ function FlipCard({ setfun, item, flipped }) {
           opacity,
           transform,
           background,
+          position: 'relative',
+          top: '-265px',
         }}
-        // onClick={setfun}
       >
         <CardControl>
           <p>{item.title}</p>
