@@ -2,12 +2,10 @@ import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Quiz from './pages/quiz';
 import MapApp from './pages/mapApp';
-import Card from './pages/card';
-// import NewCard from './cardjs/newcard';
 import Home from './pages/home';
-// import Canvas from './pages/canvas';
 import Record from './pages/record';
-// import Todos from './components/todo';
+import Shuffle from './card';
+import Login from './pages/login';
 
 function App() {
   return (
@@ -19,8 +17,9 @@ function App() {
         <Route path="map?search=restaurant" element={<MapApp />} />
         <Route path="map?search=park" element={<MapApp />} />
         <Route path="map?search=movie" element={<MapApp />} />
-        <Route path="card" element={<Card />} />
+        <Route path="card" element={<Shuffle />} />
         <Route path="record" element={<Record />} />
+        <Route path="login" element={<Login />} />
       </Routes>
     </Router>
   );
