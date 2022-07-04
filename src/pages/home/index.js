@@ -1,3 +1,6 @@
+/* eslint-disable import/no-named-as-default */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
 import styled, { keyframes } from 'styled-components';
@@ -6,6 +9,7 @@ import { Link } from 'react-router-dom';
 import firebaseStores from '../../firebase';
 import Modal from '../../components/Modal';
 import BadModal from '../../components/badModal';
+import WorryModal from '../../components/ModalWorry';
 
 const Wrapper = styled.div`
     height:100vh;
@@ -144,6 +148,13 @@ bottom:100px;
 left:20px;
 `;
 
+const Owl = styled.div`
+position: absolute;
+z-index:0;
+bottom:285px;
+left:220px;
+`;
+
 const Grass = styled(Tree)`
 z-index:0;
 bottom:0px;
@@ -214,6 +225,7 @@ export default function Home() {
   const [positive, setPositive] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [showBadModal, setShowBadModal] = useState(false);
+  const [showWorryModal, setShowWorryModal] = useState(false);
   const refTitle = useRef('');
   const refContent = useRef('');
 
@@ -223,6 +235,10 @@ export default function Home() {
 
   const openBadModal = () => {
     setShowBadModal((prev) => !prev);
+  };
+
+  const openWorryModal = () => {
+    setShowWorryModal((prev) => !prev);
   };
 
   useEffect(() => {
@@ -328,6 +344,15 @@ export default function Home() {
       <Giraffe>
         <img src="/img/giraffe.png" alt="turf" width="60%" />
       </Giraffe>
+      <Owl type="button" onClick={() => openWorryModal()}>
+        <img src="/img/owl2.png" alt="owl" width="60%" />
+      </Owl>
+      <WorryModal
+        showWorryModal={showWorryModal}
+        setShowWorryModal={setShowWorryModal}
+        refTitle={refTitle}
+        refContent={refContent}
+      />
       <Grass>
         <img src="/img/grass.png" alt="turf" width="100%" />
       </Grass>
@@ -335,7 +360,7 @@ export default function Home() {
       <img src="/img/signs.png" alt="turf" width="10%" style={signLStyle} />
       <Sign>
         <Link to="/post">
-          ＜前往草坪
+          ＜登入
         </Link>
       </Sign>
 

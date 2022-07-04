@@ -6,15 +6,15 @@ import styled from 'styled-components';
 import { MdClose } from 'react-icons/md';
 import Swal from 'sweetalert2';
 import firebaseStores from '../firebase';
-import BgImg from './happyBoard.png';
+import BgImg from './worryBoard.png';
 
 const Background = styled.div`
   width: 100vw;
   height: 100vh;
   background: rgba(0, 0, 0, 0.8);
   position: fixed;
-  bottom:-450px;
-    left:-990px;
+  bottom:0px;
+    left:0px;
   z-index:3;
   display: flex;
   justify-content: center;
@@ -37,18 +37,11 @@ const ModalWrapper = styled.div`
   border-radius: 10px;
 `;
 
-// const ModalImg = styled.img`
-//   width: 100%;
-//   height: 100%;
-//   border-radius: 10px 0 0 10px;
-//   background: #000;
-// `;
-
 const ModalContent = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  ${'' /* align-items: center; */}
+  align-items: center;
   line-height: 1;
   color: #141414;
   opacity: 0.8;
@@ -59,23 +52,23 @@ const ModalContent = styled.div`
   input {
     margin-bottom: 1rem;
     padding: 0.5rem;
-    width:53%;
+    width:48%;
     height:28px;
     border-radius: 10px;
     font-size:1.3rem;
     position:relative;
-    top: 80px;
-    left:-25px;
+    top: 30px;
+    left:-35px;
   }
   textarea {
     margin-bottom: 1rem;
     padding: 0.5rem;
-    width:68%;
-    height:215px;
+    width:48%;
+    height:300px;
     border-radius: 10px;
     position:relative;
-    top: 75px;
-    left:-70px;
+    top: 30px;
+    left:-35px;
   }
   button {
     padding: 10px 24px;
@@ -85,8 +78,8 @@ const ModalContent = styled.div`
     align-self:flex-start;
     border-radius: 10px;
     position:relative;
-    top: 100px;
-    left:90px;
+    top: 15px;
+    left:290px;
     cursor: pointer;
   }
 `;
@@ -102,8 +95,8 @@ const CloseModalButton = styled(MdClose)`
   z-index: 10;
 `;
 
-export default function Modal({
-  showModal, setShowModal, refTitle, refContent,
+export default function WorryModal({
+  showWorryModal, setShowWorryModal, refTitle, refContent,
 }) {
   const modalRef = useRef();
 
@@ -111,24 +104,24 @@ export default function Modal({
     config: {
       duration: 250,
     },
-    opacity: showModal ? 1 : 0,
-    transform: showModal ? 'translateY(0%)' : 'translateY(-100%)',
+    opacity: showWorryModal ? 1 : 0,
+    transform: showWorryModal ? 'translateY(0%)' : 'translateY(-100%)',
   });
 
   const closeModal = (e) => {
     if (modalRef.current === e.target) {
-      setShowModal(false);
+      setShowWorryModal(false);
     }
   };
 
   const keyPress = useCallback(
     (e) => {
-      if (e.key === 'Escape' && showModal) {
-        setShowModal(false);
+      if (e.key === 'Escape' && showWorryModal) {
+        setShowWorryModal(false);
         console.log('I pressed');
       }
     },
-    [setShowModal, showModal],
+    [setShowWorryModal, showWorryModal],
   );
 
   useEffect(
@@ -141,20 +134,20 @@ export default function Modal({
 
   return (
     <div>
-      {showModal ? (
+      {showWorryModal ? (
         <Background onClick={closeModal} ref={modalRef}>
           <animated.div style={animation}>
-            <ModalWrapper showModal={showModal}>
+            <ModalWrapper showWorryModal={showWorryModal}>
               {/* <ModalImg src={require('./modal.jpg')} alt="camera" /> */}
               <ModalContent>
                 <input type="text" placeholder="標題" ref={refTitle} />
-                <textarea placeholder="心情內容" ref={refContent} />
+                <textarea placeholder="把壞心情寫出來吧，我會保守秘密" ref={refContent} />
                 <button
                   type="button"
                   onClick={() => {
-                    setShowModal((prev) => !prev);
+                    setShowWorryModal((prev) => !prev);
                     firebaseStores.postdata(
-                      'cheerful_articles',
+                      'worries_articles',
                       { title: refTitle.current.value, content: refContent.current.value, user_id: 'a123' },
                     );
                     Swal.fire({
@@ -170,7 +163,7 @@ export default function Modal({
               </ModalContent>
               <CloseModalButton
                 aria-label="Close modal"
-                onClick={() => setShowModal((prev) => !prev)}
+                onClick={() => setShowWorryModal((prev) => !prev)}
               />
             </ModalWrapper>
           </animated.div>

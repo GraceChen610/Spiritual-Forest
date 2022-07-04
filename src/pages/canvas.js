@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable import/no-unresolved */
 /* eslint-disable no-console */
 import './tui-image-editor.css';
@@ -7,9 +9,9 @@ import {
   getStorage, ref, getDownloadURL, uploadString,
 } from 'firebase/storage';
 import styled from 'styled-components/macro';
+import Swal from 'sweetalert2';
 import firebaseStores from '../firebase';
 import baseImg from './base.png';
-import photoBg from './photoBg.png';
 
 const UploadBtn = styled.button`
     background-color: #fdba3b;
@@ -42,24 +44,14 @@ const EditBtn = styled(UploadBtn)`
     display: inline-block;
 `;
 
-const ImgBg = styled.div`
-  width: 45vw;
-  height: 75vh;
-  display:flex;
-  justify-content: center;
-  align-items: center;
-  background:  url(${photoBg}) no-repeat left top / 100% 100% ;
-  img{
-    ${'' /* margin-bottom:2rem; */}
-  }
-`;
-
-export default function Canvas() {
+// eslint-disable-next-line react/prop-types
+export default function Canvas({ setHistoryImg, setUpdataImg }) {
   const userID = 'THwS7xjxkLtR5N7t8CRA';
   const editorRef = useRef();
-  //   const [myImgUrl, setMyImgUrl] = useState();
-  const [historyImg, setHistoryImg] = useState();
+  // eslint-disable-next-line no-unused-vars
+  // const [historyImg, setHistoryImg] = useState();
   const [showUploadBtn, setShowUploadBtn] = useState(true);
+
   console.log('存入到Cloud Firestore');
 
   function removeLogo() {
@@ -78,7 +70,7 @@ export default function Canvas() {
         // `url` is the download URL for 'images/name.jpg'
         setHistoryImg(url);
       });
-  }, []);
+  }, [setHistoryImg]);
 
   // >>>>>>> 尚未重寫邏輯
   // 編輯器抓圖 > storge > 拿storge的URL > 存入Cloud Firestore
@@ -102,10 +94,16 @@ export default function Canvas() {
       console.log('Uploaded a data_url string!');
     });
 
-    // 隱藏編輯器
-    const imgEdit = document.querySelector('.tui-image-editor-container');
-    imgEdit.style.display = 'none'; // inherit
-    setShowUploadBtn(false);
+    // 更新照片
+    setUpdataImg(true);
+
+    // 提醒送出
+    Swal.fire({
+      icon: 'success',
+      showConfirmButton: false,
+      timer: 1200,
+      text: '照片已上傳',
+    });
   };
 
   const getImgUrl = () => {
@@ -139,11 +137,9 @@ export default function Canvas() {
     // firebaseStores.updateDoc(userID, { pic: '圖的url' });
   };
 
-  // , 'clip-path': 'inset(5px 5px 5px 2px round 20px 20px )'
-
   return (
     <div style={{ position: 'relative' }}>
-      <div style={{ display: 'none' }}>
+      <div>
         <ImageEditor
           includeUI={{
             loadImage: {
@@ -154,20 +150,16 @@ export default function Canvas() {
             initMenu: 'text',
             uiSize: {
               width: '980px',
-              height: '700px',
+              height: '600px',
             },
             menuBarPosition: 'bottom',
           }}
-          cssMaxHeight={500}
+          cssMaxHeight={300}
           cssMaxWidth={700}
           selectionStyle={{
             cornerSize: 20,
             rotatingPointOffset: 70,
           }}
-        // loadImage={{
-        //   path: 'URL',
-        //   name: 'SampleImage',
-        // }}
           usageStatistics
           ref={editorRef}
         />
@@ -176,13 +168,7 @@ export default function Canvas() {
           <UploadBtn show={showUploadBtn} type="submit" onClick={handleSubmit}>Upload</UploadBtn>
         </div>
       </div>
-      {/* {
-        historyImg
-        &&
-      } */}
-      <ImgBg>
-        <img src={historyImg} alt="myImg" height={380} />
-      </ImgBg>
+
     </div>
   );
 }

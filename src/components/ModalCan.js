@@ -4,17 +4,16 @@ import React, { useRef, useEffect, useCallback } from 'react';
 import { useSpring, animated } from 'react-spring';
 import styled from 'styled-components';
 import { MdClose } from 'react-icons/md';
-import Swal from 'sweetalert2';
-import firebaseStores from '../firebase';
-import BgImg from './happyBoard.png';
+// import firebaseStores from '../firebase';
+import Canvas from '../pages/canvas';
 
 const Background = styled.div`
   width: 100vw;
   height: 100vh;
   background: rgba(0, 0, 0, 0.8);
   position: fixed;
-  bottom:-450px;
-    left:-990px;
+  bottom:0px;
+    left:0px;
   z-index:3;
   display: flex;
   justify-content: center;
@@ -22,8 +21,8 @@ const Background = styled.div`
 `;
 
 const ModalWrapper = styled.div`
-  width: 800px;
-  height: 700px;
+  width: 1080px;
+  height: 650px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -31,64 +30,21 @@ const ModalWrapper = styled.div`
   background: #fff;
   color: #000;
   background: linear-gradient(130deg, #D7FFFE, #ace0f9, #ebc0fd);
-  background: url(${BgImg})  no-repeat left top / contain ;
   position: relative;
   z-index: 10;
   border-radius: 10px;
 `;
 
-// const ModalImg = styled.img`
-//   width: 100%;
-//   height: 100%;
-//   border-radius: 10px 0 0 10px;
-//   background: #000;
-// `;
-
 const ModalContent = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  ${'' /* align-items: center; */}
+  align-items: center;
   line-height: 1;
   color: #141414;
   opacity: 0.8;
   width:70%;
-  position:relative;
-
   
-  input {
-    margin-bottom: 1rem;
-    padding: 0.5rem;
-    width:53%;
-    height:28px;
-    border-radius: 10px;
-    font-size:1.3rem;
-    position:relative;
-    top: 80px;
-    left:-25px;
-  }
-  textarea {
-    margin-bottom: 1rem;
-    padding: 0.5rem;
-    width:68%;
-    height:215px;
-    border-radius: 10px;
-    position:relative;
-    top: 75px;
-    left:-70px;
-  }
-  button {
-    padding: 10px 24px;
-    background: #141414;
-    color: #fff;
-    border: none;
-    align-self:flex-start;
-    border-radius: 10px;
-    position:relative;
-    top: 100px;
-    left:90px;
-    cursor: pointer;
-  }
 `;
 
 const CloseModalButton = styled(MdClose)`
@@ -103,7 +59,8 @@ const CloseModalButton = styled(MdClose)`
 `;
 
 export default function Modal({
-  showModal, setShowModal, refTitle, refContent,
+  // eslint-disable-next-line no-unused-vars
+  showModal, setShowModal, setHistoryImg, setUpdataImg,
 }) {
   const modalRef = useRef();
 
@@ -118,6 +75,7 @@ export default function Modal({
   const closeModal = (e) => {
     if (modalRef.current === e.target) {
       setShowModal(false);
+      setUpdataImg(false);
     }
   };
 
@@ -145,28 +103,10 @@ export default function Modal({
         <Background onClick={closeModal} ref={modalRef}>
           <animated.div style={animation}>
             <ModalWrapper showModal={showModal}>
-              {/* <ModalImg src={require('./modal.jpg')} alt="camera" /> */}
               <ModalContent>
-                <input type="text" placeholder="標題" ref={refTitle} />
-                <textarea placeholder="心情內容" ref={refContent} />
-                <button
-                  type="button"
-                  onClick={() => {
-                    setShowModal((prev) => !prev);
-                    firebaseStores.postdata(
-                      'cheerful_articles',
-                      { title: refTitle.current.value, content: refContent.current.value, user_id: 'a123' },
-                    );
-                    Swal.fire({
-                      icon: 'success',
-                      showConfirmButton: false,
-                      timer: 1200,
-                      text: '心情已送出',
-                    });
-                  }}
-                >
-                  submit
-                </button>
+                {/* <input type="text" placeholder="標題" ref={refTitle} />
+                <textarea placeholder="心情內容" ref={refContent} /> */}
+                <Canvas setHistoryImg={setHistoryImg} setUpdataImg={setUpdataImg} />
               </ModalContent>
               <CloseModalButton
                 aria-label="Close modal"
