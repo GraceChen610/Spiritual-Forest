@@ -5,6 +5,7 @@ import MapApp from './pages/mapApp';
 import Home from './pages/home';
 import Record from './pages/record';
 import Shuffle from './card';
+import Login from './pages/login';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="map?search=movie" element={<MapApp />} />
         <Route path="card" element={<Shuffle />} />
         <Route path="record" element={<Record />} />
+        <Route path="login" element={<Login />} />
       </Routes>
     </Router>
   );

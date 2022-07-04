@@ -359,7 +359,7 @@ export default function Home() {
 
       <img src="/img/signs.png" alt="turf" width="10%" style={signLStyle} />
       <Sign>
-        <Link to="/post">
+        <Link to="/login">
           ＜登入
         </Link>
       </Sign>
