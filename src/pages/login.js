@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import {
-  createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged,
+  createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut,
 } from 'firebase/auth';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components/macro';
@@ -67,29 +67,42 @@ function Login() {
 
   return (
     <Wrapper>
+      <h3>註冊</h3>
       <label htmlFor="email">
-        E-mail
+        E-mail:
         <input type="text" placeholder="請輸入E-mail" name="email" id="email" required onChange={(e) => setUserEmail(e.target.value)} />
       </label>
-
+      <br />
       <label htmlFor="psw">
-        Password
+        Password:
         <input type="password" placeholder="請輸入密碼" name="psw" required onChange={(e) => setUserPassword(e.target.value)} />
       </label>
-
+      <br />
       <button type="submit" onClick={() => register(userEmail, userPassword)}>註冊</button>
-
+      <br />
+      <h3>登入</h3>
       <label htmlFor="email">
-        E-mail
+        E-mail:
         <input type="text" placeholder="請輸入E-mail" name="email" id="email" required onChange={(e) => setUserEmail(e.target.value)} />
       </label>
-
+      <br />
       <label htmlFor="psw">
-        Password
+        Password:
         <input type="password" placeholder="請輸入密碼" name="psw" required onChange={(e) => setUserPassword(e.target.value)} />
       </label>
-
+      <br />
       <button type="submit" onClick={() => logIn(userEmail, userPassword)}>登入</button>
+      <hr />
+      <button
+        type="submit"
+        onClick={() => signOut(auth).then(() => {
+          console.log('Sign-out successful.');
+        }).catch((error) => {
+          console.log(error);
+        })}
+      >
+        登出
+      </button>
     </Wrapper>
   );
 }
