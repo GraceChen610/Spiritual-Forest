@@ -1,3 +1,4 @@
+/* eslint-disable import/no-named-as-default */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable no-unused-vars */
@@ -358,7 +359,7 @@ export default function Home() {
 
       <img src="/img/signs.png" alt="turf" width="10%" style={signLStyle} />
       <Sign>
-        <Link to="/post">
+        <Link to="/login">
           ＜登入
         </Link>
       </Sign>

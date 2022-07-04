@@ -1,5 +1,7 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
 import { initializeApp } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
 import { getAnalytics } from 'firebase/analytics';
 import {
   getFirestore, doc, addDoc, getDocs, getDoc, collection, updateDoc,
@@ -18,7 +20,7 @@ export const firebaseConfig = initializeApp({
   measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
 });
 
-// const app = initializeApp(firebaseConfig);
+export const auth = getAuth(firebaseConfig);
 // eslint-disable-next-line no-unused-vars
 const analytics = getAnalytics(firebaseConfig);
 export const storage = getStorage(firebaseConfig);
