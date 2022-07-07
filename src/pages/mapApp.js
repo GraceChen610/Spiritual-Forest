@@ -114,6 +114,7 @@ function MapApp() {
     if (destiantionRef.current.value === '') {
       return;
     }
+
     // eslint-disable-next-line no-undef
     const directionsService = new google.maps.DirectionsService();
     const results = await directionsService.route({

@@ -1,11 +1,11 @@
+/* eslint-disable no-console */
 /* eslint-disable no-bitwise */
 /* eslint-disable react/prop-types */
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components/macro';
+import UserContext from '../userContext';
 import firebaseStores from '../firebase';
 // import uuid from './uuid';
-
-const collectionID = 'THwS7xjxkLtR5N7t8CRA';
 
 const ItemControl = styled.div`
   display: flex;
@@ -22,11 +22,13 @@ const Button = styled.button`
 function Item({
   id, note, deleteData, data, keyName,
 }) {
+  const User = useContext(UserContext);
+
   function deleteItem() {
     deleteData((prev) => prev.filter((item) => item.id !== id));
     // eslint-disable-next-line prefer-const
     let newdata = data.filter((item) => item.id !== id);
-    firebaseStores.updateDoc(collectionID, {
+    firebaseStores.updateDoc(User.uid, {
       [keyName]: newdata,
     });
   }
@@ -43,7 +45,7 @@ function Item({
 
 export function List({ data, deleteData, keyName }) {
   return (
-    <div style={{ overflowY: 'scroll', height: '150px', 'margin-bottom': '0.5rem' }}>
+    <div style={{ overflowY: 'scroll', height: '150px', marginBottom: '0.5rem' }}>
       {data?.map((item) => {
         const { content, id } = item;
         return (
@@ -71,6 +73,7 @@ height:1.25rem;
 `;
 
 export function Edit({ add, data, keyName }) {
+  const User = useContext(UserContext);
   const [note, setNote] = useState('');
 
   function uuidfun() {
@@ -86,17 +89,26 @@ export function Edit({ add, data, keyName }) {
   const uuid = uuidfun();
 
   function addItem(currNote) {
+    console.log(data);
     add(
-      (prevData) => [{ content: currNote, id: uuid }, ...prevData],
-      firebaseStores.updateDoc(collectionID, {
-        [keyName]: [{ content: currNote, id: uuid }, ...data],
-      }),
+      (prevData) => (
+        prevData ? ([{ content: currNote, id: uuid }, ...prevData])
+          : ([{ content: currNote, id: uuid }])
+      ),
+      data
+        ? firebaseStores.updateDoc(User.uid, {
+          [keyName]: [{ content: currNote, id: uuid }, ...data],
+        })
+        : firebaseStores.updateDoc(User.uid, {
+          [keyName]: [{ content: currNote, id: uuid }],
+        }),
+
     );
     setNote('');
   }
 
   return (
-    <div style={{ display: 'flex', 'justify-content': 'space-between', 'align-items': 'center' }}>
+    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
       <Input type="text" value={note} onChange={(e) => setNote(e.target.value)} />
       <Button onClick={() => addItem(note)}>
         ＋
@@ -113,13 +125,17 @@ export const Title = styled.span`
 `;
 
 export default function Todos() {
+  const User = useContext(UserContext);
+
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    firebaseStores.getOneDoc('users', collectionID)
-      .then((res) => res.data())
-      .then((resdata) => setData(resdata.goals));
-  }, []);
+    if (User) {
+      firebaseStores.getOneDoc('users', User.uid)
+        .then((res) => res.data())
+        .then((resdata) => setData(resdata.goals));
+    }
+  }, [User]);
 
   return (
     <div>

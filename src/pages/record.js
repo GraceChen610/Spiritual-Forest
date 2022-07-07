@@ -3,7 +3,8 @@
 /* eslint-disable no-console */
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import UserContext from '../userContext';
 import Todos, { List, Edit, Title } from '../components/todo';
 import bg from './recordBg.png';
 import listBg from './listBg2.png';
@@ -67,7 +68,10 @@ const ImgBg = styled.div`
 `;
 
 export default function Record() {
-  const collectionID = 'THwS7xjxkLtR5N7t8CRA';
+  const User = useContext(UserContext);
+  console.log(User);
+
+  // const collectionID = User.uid;
   const [data, setData] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [historyImg, setHistoryImg] = useState();
@@ -78,19 +82,23 @@ export default function Record() {
   };
 
   useEffect(() => {
-    firebaseStores.getOneDoc('users', collectionID)
-      .then((res) => res.data())
-      .then((res) => setData(res.gratitude))
-      .catch((e) => console.log(e));
-  }, []);
+    if (User) {
+      firebaseStores.getOneDoc('users', User.uid)
+        .then((res) => {
+          setData(res.data().gratitude);
+          setHistoryImg(res.data().pic);
+        })
+        .catch((e) => console.log(e));
+    }
+  }, [User, updataImg, historyImg]);
 
-  useEffect(() => {
-    firebaseStores.getOneDoc('users', collectionID)
-      .then((res) => setHistoryImg(res.data().pic))
-      .catch((e) => console.log(e));
+  // useEffect(() => {
+  //   firebaseStores.getOneDoc('users', User.uid)
+  //     .then((res) => setHistoryImg(res.data().pic))
+  //     .catch((e) => console.log(e));
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [updataImg, historyImg]);
+  // // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [updataImg, historyImg]);
 
   return (
     <Wrapper>
