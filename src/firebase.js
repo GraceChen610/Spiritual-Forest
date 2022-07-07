@@ -4,7 +4,7 @@ import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getAnalytics } from 'firebase/analytics';
 import {
-  getFirestore, doc, addDoc, getDocs, getDoc, collection, updateDoc,
+  getFirestore, doc, addDoc, getDocs, getDoc, collection, updateDoc, setDoc,
 } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 
@@ -54,6 +54,12 @@ const firebaseStores = {
       content,
     });
     console.log('Document written with ID: ', docRef.id);
+  },
+
+  addUser(uid, content) {
+    setDoc(doc(db, 'users', uid), {
+      content,
+    });
   },
 
   // 寫入資料

@@ -4,8 +4,12 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
 import styled, { keyframes } from 'styled-components';
-import { useEffect, useState, useRef } from 'react';
+import {
+  useEffect, useState, useRef, useContext,
+} from 'react';
 import { Link } from 'react-router-dom';
+import { GiChainedHeart } from 'react-icons/gi';
+import UserContext from '../../userContext';
 import firebaseStores from '../../firebase';
 import Modal from '../../components/Modal';
 import BadModal from '../../components/badModal';
@@ -228,6 +232,7 @@ export default function Home() {
   const [showWorryModal, setShowWorryModal] = useState(false);
   const refTitle = useRef('');
   const refContent = useRef('');
+  const User = useContext(UserContext);
 
   const openModal = () => {
     setShowModal((prev) => !prev);
@@ -303,7 +308,11 @@ export default function Home() {
       </Zebra>
       <Qusition>
         <span>
-          親愛的~
+          親愛的
+          {' '}
+          {User ? (User.userData.user_name) : '~'}
+          {' '}
+          {User ? <GiChainedHeart /> : null}
           <br />
           <span>今天感覺如何?</span>
         </span>

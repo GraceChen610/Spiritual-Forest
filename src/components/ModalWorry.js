@@ -1,10 +1,13 @@
 /* eslint-disable no-console */
 /* eslint-disable react/prop-types */
-import React, { useRef, useEffect, useCallback } from 'react';
+import React, {
+  useRef, useEffect, useCallback, useContext,
+} from 'react';
 import { useSpring, animated } from 'react-spring';
 import styled from 'styled-components';
 import { MdClose } from 'react-icons/md';
 import Swal from 'sweetalert2';
+import UserContext from '../userContext';
 import firebaseStores from '../firebase';
 import BgImg from './worryBoard.png';
 
@@ -98,6 +101,7 @@ const CloseModalButton = styled(MdClose)`
 export default function WorryModal({
   showWorryModal, setShowWorryModal, refTitle, refContent,
 }) {
+  const User = useContext(UserContext);
   const modalRef = useRef();
 
   const animation = useSpring({
@@ -148,7 +152,11 @@ export default function WorryModal({
                     setShowWorryModal((prev) => !prev);
                     firebaseStores.postdata(
                       'worries_articles',
-                      { title: refTitle.current.value, content: refContent.current.value, user_id: 'a123' },
+                      {
+                        title: refTitle.current.value,
+                        content: refContent.current.value,
+                        user_id: User.uid,
+                      },
                     );
                     Swal.fire({
                       icon: 'success',
