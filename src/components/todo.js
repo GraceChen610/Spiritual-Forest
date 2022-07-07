@@ -91,11 +91,10 @@ export function Edit({ add, data, keyName }) {
   function addItem(currNote) {
     console.log(data);
     add(
-      (prevData) => {
-        console.log(prevData);
-        return (
-          [{ content: currNote, id: uuid }, ...prevData]);
-      },
+      (prevData) => (
+        prevData ? ([{ content: currNote, id: uuid }, ...prevData])
+          : ([{ content: currNote, id: uuid }])
+      ),
       data
         ? firebaseStores.updateDoc(User.uid, {
           [keyName]: [{ content: currNote, id: uuid }, ...data],

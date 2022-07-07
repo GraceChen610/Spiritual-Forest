@@ -66,25 +66,23 @@ function Login() {
 
   return (
     <Wrapper>
-      <form>
-        <h3>註冊</h3>
-        <label htmlFor="name">
-          暱稱:
-          <input type="text" placeholder="請輸入暱稱" name="name" required onChange={(e) => setUserName(e.target.value)} />
-        </label>
-        <br />
-        <label htmlFor="email">
-          E-mail:
-          <input type="text" placeholder="請輸入E-mail" name="email" required onChange={(e) => setUserEmail(e.target.value)} />
-        </label>
-        <br />
-        <label htmlFor="psw">
-          Password:
-          <input type="password" placeholder="請輸入密碼" name="psw" required onChange={(e) => setUserPassword(e.target.value)} />
-        </label>
-        <br />
-        <button type="submit" onClick={() => register(userEmail, userPassword)}>註冊</button>
-      </form>
+      <h3>註冊</h3>
+      <label htmlFor="name">
+        暱稱:
+        <input type="text" placeholder="請輸入暱稱" name="name" required onChange={(e) => setUserName(e.target.value)} />
+      </label>
+      <br />
+      <label htmlFor="email">
+        E-mail:
+        <input type="text" placeholder="請輸入E-mail" name="email" required onChange={(e) => setUserEmail(e.target.value)} />
+      </label>
+      <br />
+      <label htmlFor="psw">
+        Password:
+        <input type="password" placeholder="請輸入密碼" name="psw" required onChange={(e) => setUserPassword(e.target.value)} />
+      </label>
+      <br />
+      <button type="submit" onClick={() => register(userEmail, userPassword)}>註冊</button>
 
       <h3>登入</h3>
       <label htmlFor="email">
