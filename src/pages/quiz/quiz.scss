@@ -1,6 +1,7 @@
 $color-purple: #8B5CF6;
 $color-pink: #EC4899;
 $color-gray: #9CA3AF;
+// $color-gray: #9fb89d;
 $color-black: #1F2937;
 $card-size: 23rem;
 
@@ -11,7 +12,14 @@ $card-size: 23rem;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background-image: linear-gradient(45deg, $color-purple, $color-pink);
+  // background-image: linear-gradient(45deg, $color-purple, $color-pink);
+  // background: url(https://img.freepik.com/free-vector/nature-forest-landscape-night-scene_1308-60924.jpg?w=1380&t=st=1657196360~exp=1657196960~hmac=c6db902d5241988f4cdc1ca801563031cc43351daf69bb792a3c79e9f6b7e0b5) no-repeat 0 30% / cover
+  // background: url(https://img.freepik.com/free-vector/nature-forest-landscape-night-scene_1308-60557.jpg) no-repeat 0 30% / cover
+  // background: url(https://img.freepik.com/free-vector/nature-forest-landscape-night-scene_1308-58786.jpg?w=1380) no-repeat 0 0 / cover
+  // background: url(https://img.freepik.com/premium-vector/landscape-forest-river-daytime_46176-156.jpg?w=1380) no-repeat 0 bottom / cover
+  // background: url(https://img.freepik.com/premium-vector/vector-images-forest-daytime_46176-155.jpg?w=1380) no-repeat 0 0 / cover
+  background: url(../../../public/img/quizBg.png) no-repeat right 40% / cover
+  ;
   font-family: 'Montserrat', sans-serif;
   box-sizing: border-box;
 }
@@ -41,12 +49,12 @@ $card-size: 23rem;
   transition: all 0.3s ease-out;
   
 }
-
 .card {
   width: 100%;
   height: 100%;
   padding: 2rem;
-  background-color: hsl(280deg, 40%, calc(100% - var(--abs-offset) * 50%));
+  // background-color: hsl(280deg, 40%, calc(100% - var(--abs-offset) * 50%));
+  background-color: hsl(116deg, 16%, calc(100% - var(--abs-offset) * 50%));
   border-radius: 1rem;
   color: $color-gray;
   text-align: justify;
