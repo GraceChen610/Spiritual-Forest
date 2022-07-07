@@ -4,12 +4,48 @@ import React, {
   useRef, useEffect, useCallback, useContext,
 } from 'react';
 import { useSpring, animated } from 'react-spring';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components/macro';
 import { MdClose } from 'react-icons/md';
 import Swal from 'sweetalert2';
 import UserContext from '../userContext';
 import firebaseStores from '../firebase';
 import BgImg from './worryBoard.png';
+import groundhog from './groundhog.png';
+import deer from './deer.png';
+
+const deerAnimated = keyframes`
+0%   { transform: translate(100px, -50px);}
+100% {transform: translate(0, 0px); opacity: 1;}
+`;
+
+const Deer = styled.img`
+  width: 40%;
+  height: auto;
+  position: absolute;
+  bottom: 00px;
+  left: 460px;
+  z-index:1;
+  opacity: 0;
+  animation: ${deerAnimated} 1.5s ease 1s alternate 1 forwards;
+
+`;
+
+const groundhogAnimated = keyframes`
+0%   { transform: translate(0, 10px);opacity: 1;}
+100% {transform: translate(0, 0px); opacity: 1;}
+`;
+
+const Groundhog = styled.img`
+  width: 10%;
+  height: auto;
+  position: absolute;
+  bottom: 10px;
+  left: 60px;
+  z-index:-40;
+  opacity: 0;
+  animation: ${groundhogAnimated} 0.3s ease 3s alternate 8 forwards;
+
+`;
 
 const Background = styled.div`
   width: 100vw;
@@ -25,7 +61,7 @@ const Background = styled.div`
 `;
 
 const ModalWrapper = styled.div`
-  width: 800px;
+  width: 755px;
   height: 700px;
   display: flex;
   justify-content: center;
@@ -61,7 +97,7 @@ const ModalContent = styled.div`
     font-size:1.3rem;
     position:relative;
     top: 30px;
-    left:-35px;
+    left:-20px;
   }
   textarea {
     margin-bottom: 1rem;
@@ -71,7 +107,7 @@ const ModalContent = styled.div`
     border-radius: 10px;
     position:relative;
     top: 30px;
-    left:-35px;
+    left:-20px;
   }
   button {
     padding: 10px 24px;
@@ -82,7 +118,7 @@ const ModalContent = styled.div`
     border-radius: 10px;
     position:relative;
     top: 15px;
-    left:290px;
+    left:285px;
     cursor: pointer;
   }
 `;
@@ -142,7 +178,8 @@ export default function WorryModal({
         <Background onClick={closeModal} ref={modalRef}>
           <animated.div style={animation}>
             <ModalWrapper showWorryModal={showWorryModal}>
-              {/* <ModalImg src={require('./modal.jpg')} alt="camera" /> */}
+              <Groundhog src={groundhog} alt="groundhog" />
+              <Deer src={deer} alt="deer" />
               <ModalContent>
                 <input type="text" placeholder="標題" ref={refTitle} />
                 <textarea placeholder="把壞心情寫出來吧，我會保守秘密" ref={refContent} />

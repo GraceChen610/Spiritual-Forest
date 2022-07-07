@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
 /* eslint-disable react/prop-types */
+
 import React, {
   useRef, useEffect, useCallback, useState,
 } from 'react';
@@ -163,7 +164,6 @@ export default function Modal({
                       </button>
                     </Link>
                   )}
-
               </ModalContent>
               <CloseModalButton
                 aria-label="Close modal"
@@ -173,11 +173,13 @@ export default function Modal({
           </animated.div>
         </Background>
       ) : null}
+
       <MapModal
         showModal={showMapModal}
         setShowModal={setShowMapModal}
         content={<MapApp />}
       />
+
     </div>
   );
 }
