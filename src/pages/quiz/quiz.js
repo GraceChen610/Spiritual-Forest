@@ -1,8 +1,8 @@
 /* eslint-disable import/no-unresolved */
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import firebaseStores from '../firebase';
-import MapApp from './mapApp';
+import firebaseStores from '../../firebase';
+import MapApp from '../mapApp';
 
 const QuizWapper = styled.div`
 display:flex;
