@@ -1,0 +1,114 @@
+$color-purple: #8B5CF6;
+$color-pink: #EC4899;
+$color-gray: #9CA3AF;
+$color-black: #1F2937;
+$card-size: 23rem;
+
+.wrapping {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-image: linear-gradient(45deg, $color-purple, $color-pink);
+  font-family: 'Montserrat', sans-serif;
+  box-sizing: border-box;
+}
+
+.carousel {
+  position: relative;
+  width: $card-size;
+  height: $card-size;
+  perspective: 500px;
+  transform-style: preserve-3d;
+  box-sizing: border-box;
+}
+
+.card-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  transform: 
+    rotateY(calc(var(--offset) * 50deg)) 
+    scaleY(calc(1 + var(--abs-offset) * -0.4))
+    // translate3d( (calc(var(--offset) / var(--abs-offset) * -5rem)), 0,(calc(var(--abs-offset) * -30rem)))
+    translateZ(calc(var(--abs-offset) * -30rem))
+    translateX(calc(var(--offset) / var(--abs-offset) * -5rem))
+    ;
+  filter: blur(calc(var(--abs-offset) * 1rem));
+  transition: all 0.3s ease-out;
+  
+}
+
+.card {
+  width: 100%;
+  height: 100%;
+  padding: 2rem;
+  background-color: hsl(280deg, 40%, calc(100% - var(--abs-offset) * 50%));
+  border-radius: 1rem;
+  color: $color-gray;
+  text-align: justify;
+  transition: all 0.3s ease-out;
+  display:flex;
+  flex-direction: column;
+  box-sizing: border-box;
+
+  h3 {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 1em 0 0.7em;
+    color: $color-black;
+  }
+  
+  span, h3 {
+    transition: all 0.3s ease-out;
+    opacity: var(--active);
+  }
+
+  span{
+    text-align: right;
+  }
+
+  .options{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    height: 60%;
+    letter-spacing:3px
+  }
+}
+
+.nav {
+  color: white;
+  font-size: 5rem;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 50%;
+  z-index: 2;
+  cursor: pointer;
+  user-select: none;
+  background: unset;
+  border: unset;
+  box-sizing: border-box;
+  
+  &.left {
+    transform: translateX(-100%) translatey(-50%);
+  }
+  
+  &.right {
+    right: 0;
+    transform: translateX(100%) translatey(-50%);
+  }
+
+  &.finish {
+    color: rgb(227, 227, 132);
+    right: -10px;
+    transform: translateX(100%) translatey(-50%);
+  }
+}

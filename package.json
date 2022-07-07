@@ -19,6 +19,7 @@
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
     "react-spring": "^9.4.5",
+    "react-spring-3d-carousel": "^1.2.1",
     "styled-components": "^5.3.5",
     "sweetalert2": "^11.4.19",
     "swiper": "^8.2.6",
@@ -66,7 +67,12 @@
   "settings": {
     "import/resolver": {
       "node": {
-        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+        "extensions": [
+          ".js",
+          ".jsx",
+          ".ts",
+          ".tsx"
+        ]
       }
     }
   }
