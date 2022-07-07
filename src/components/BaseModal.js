@@ -1,24 +1,17 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-console */
 /* eslint-disable react/prop-types */
-import React, {
-  useRef, useEffect, useCallback, useState,
-} from 'react';
-import { Link } from 'react-router-dom';
+import React, { useRef, useEffect, useCallback } from 'react';
 import { useSpring, animated } from 'react-spring';
-import styled, { keyframes } from 'styled-components/macro';
+import styled from 'styled-components';
 import { MdClose } from 'react-icons/md';
-import BgImg from './happyBoard.png';
-import MapModal from './BaseModal';
-import MapApp from '../pages/mapApp';
+// import Swal from 'sweetalert2';
 
 const Background = styled.div`
   width: 100vw;
   height: 100vh;
   background: rgba(0, 0, 0, 0.8);
   position: fixed;
-  top: 0%;
-  left: 0%;
+  top:0;
+  left:0;
   z-index:3;
   display: flex;
   justify-content: center;
@@ -26,8 +19,8 @@ const Background = styled.div`
 `;
 
 const ModalWrapper = styled.div`
-  width: 500px;
-  height: 500px;
+  width: 800px;
+  height: 700px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -37,50 +30,19 @@ const ModalWrapper = styled.div`
   background: linear-gradient(130deg, #D7FFFE, #ace0f9, #ebc0fd);
   position: relative;
   z-index: 10;
-  border-radius: 20px;
+  border-radius: 10px;
 `;
 
 const ModalContent = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  box-sizing: border-box;
-  width: 100%;
-  height: 100%;
-  padding: 2rem 3rem;
-  background-color: hsl(280deg, 40%, calc(100% - var(--abs-offset) * 50%));
-  border-radius: 1rem;
-  color: $color-gray;
-  text-align: justify;
-  transition: all 0.3s ease-out;
-
-  h3 {
-    text-align: center;
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin: 1em 0 0.7em;
-    color: $color-black;
-  }
-  
-  h3 , p {
-    transition: all 0.3s ease-out;
-    opacity: var(--active);
-  }
-
-  p{
-    line-height: 1.5rem;
-    margin-top: 0;
-  }
-
-  button {
-    padding: 10px 24px;
-    background: #141414;
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    width:100%;
-    cursor: pointer;
-  }
+  justify-content: center;
+  line-height: 1;
+  color: #141414;
+  opacity: 0.8;
+  width:100%;
+  height:100%;
+  position:relative;
 `;
 
 const CloseModalButton = styled(MdClose)`
@@ -95,13 +57,9 @@ const CloseModalButton = styled(MdClose)`
 `;
 
 export default function Modal({
-  showModal, setShowModal, myQuizScore, myQuizResult,
+  showModal, setShowModal, content,
 }) {
   const modalRef = useRef();
-  const [showMapModal, setShowMapModal] = useState(false);
-  const openModal = () => {
-    setShowMapModal((prev) => !prev);
-  };
 
   const animation = useSpring({
     config: {
@@ -142,28 +100,7 @@ export default function Modal({
           <animated.div style={animation}>
             <ModalWrapper showModal={showModal}>
               <ModalContent>
-                <h3>
-                  親愛的~ 測驗結果為
-                  {myQuizScore}
-                  分
-                </h3>
-                <p>
-                  {myQuizResult}
-                </p>
-                {myQuizScore > 18
-                  ? (
-                    <button type="button" onClick={() => openModal()}>
-                      前往諮詢
-                    </button>
-                  )
-                  : (
-                    <Link to="../card">
-                      <button type="button">
-                        抽卡放鬆
-                      </button>
-                    </Link>
-                  )}
-
+                {content}
               </ModalContent>
               <CloseModalButton
                 aria-label="Close modal"
@@ -173,11 +110,6 @@ export default function Modal({
           </animated.div>
         </Background>
       ) : null}
-      <MapModal
-        showModal={showMapModal}
-        setShowModal={setShowMapModal}
-        content={<MapApp />}
-      />
     </div>
   );
 }

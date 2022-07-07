@@ -8,7 +8,7 @@ import Home from './pages/home';
 import Record from './pages/record';
 import Shuffle from './card';
 import Login from './pages/login';
-import QuizApp from './pages/quiz';
+import QuizApp from './pages/quiz/index';
 
 function App() {
   return (

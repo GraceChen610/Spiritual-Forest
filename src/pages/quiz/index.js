@@ -186,6 +186,8 @@ export default function QuizApp() {
       <Modal
         showModal={showModal}
         setShowModal={setShowModal}
+        myQuizResult={myQuizResult}
+        myQuizScore={myQuizScore}
       />
     </div>
   );
