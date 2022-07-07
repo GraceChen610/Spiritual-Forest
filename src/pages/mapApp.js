@@ -33,14 +33,15 @@ z-index:0;
 const Flex = styled.div`
   display:flex;
   flex-direction:column;
-  height:100vh;
-  width:100vw;
   align-items:center;
+  height:100%;
+  width:100%;
 `;
 
 const SearchBar = styled.div`
   background-color: white;
-  width:600px;
+  padding:10px;
+  border-radius: 15px;
   z-index : 1;
   display:flex;
   flex-direction:column;

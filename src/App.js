@@ -1,3 +1,5 @@
+/* eslint-disable import/no-unresolved */
+/* eslint-disable import/extensions */
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 // import Quiz from './pages/quiz';
@@ -6,7 +8,7 @@ import Home from './pages/home';
 import Record from './pages/record';
 import Shuffle from './card';
 import Login from './pages/login';
-import QuizApp from './pages/quiz';
+import QuizApp from './pages/quiz/index';
 
 function App() {
   return (
