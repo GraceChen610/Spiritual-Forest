@@ -2,11 +2,13 @@
 /* eslint-disable react/prop-types */
 import React, { useRef, useEffect, useCallback } from 'react';
 import { useSpring, animated } from 'react-spring';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { MdClose } from 'react-icons/md';
 import Swal from 'sweetalert2';
 import firebaseStores from '../firebase';
 import BgImg from './happyBoard.png';
+import bird from './bird.png';
+import sharehappy from './sharehappy.png';
 
 const Background = styled.div`
   width: 100vw;
@@ -37,12 +39,37 @@ const ModalWrapper = styled.div`
   border-radius: 10px;
 `;
 
-// const ModalImg = styled.img`
-//   width: 100%;
-//   height: 100%;
-//   border-radius: 10px 0 0 10px;
-//   background: #000;
-// `;
+const birdanimated = keyframes`
+0%   { transform: translate(0, 0px);}
+100% {transform: translate(0, -25px);}
+`;
+
+const Bird = styled.img`
+  width: 8%;
+  height: auto;
+  position: absolute;
+  top: 130px;
+  left: 100px;
+  z-index:-39;
+  animation: ${birdanimated} 0.3s ease-out 1s alternate 6;
+`;
+
+const shareHappyAnimated = keyframes`
+0%   { transform: translate(0, 0px) scale(0.7);}
+100% {transform: translate(0, 0px) scale(1);opacity: 1;}
+`;
+
+const ShareHappy = styled.img`
+  width: 25%;
+  height: auto;
+  position: absolute;
+  top: 20px;
+  left: 10px;
+  z-index:-40;
+  opacity: 0;
+  animation: ${shareHappyAnimated} 2s ease 3s alternate infinite;
+
+`;
 
 const ModalContent = styled.div`
   display: flex;
@@ -145,7 +172,8 @@ export default function Modal({
         <Background onClick={closeModal} ref={modalRef}>
           <animated.div style={animation}>
             <ModalWrapper showModal={showModal}>
-              {/* <ModalImg src={require('./modal.jpg')} alt="camera" /> */}
+              <Bird src={bird} alt="bird" />
+              <ShareHappy src={sharehappy} alt="sharehappybubble" />
               <ModalContent>
                 <input type="text" placeholder="標題" ref={refTitle} />
                 <textarea placeholder="心情內容" ref={refContent} />
