@@ -4,13 +4,13 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useState, useEffect, useContext } from 'react';
-import UserContext from '../userContext';
-import Todos, { List, Edit, Title } from '../components/todo';
+import UserContext from '../../userContext';
+import Todos, { List, Edit, Title } from '../../components/todo';
 import bg from './recordBg.png';
 import listBg from './listBg2.png';
 import backfrog from './frog.png';
-import firebaseStores from '../firebase';
-import Modal from '../components/ModalCan';
+import firebaseStores from '../../firebase';
+import Modal from '../../components/ModalCan';
 import photoBg from './photoBg.png';
 import baseImg from './base2.png';
 
@@ -92,21 +92,12 @@ export default function Record() {
     }
   }, [User, updataImg, historyImg]);
 
-  // useEffect(() => {
-  //   firebaseStores.getOneDoc('users', User.uid)
-  //     .then((res) => setHistoryImg(res.data().pic))
-  //     .catch((e) => console.log(e));
-
-  // // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [updataImg, historyImg]);
-
   return (
     <Wrapper>
       <Link to="/">
         <Backfrog src={backfrog} />
       </Link>
       <LeftControl>
-        {/* <Canvas /> */}
         <ImgBg>
           {
             historyImg
