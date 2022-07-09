@@ -10,9 +10,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
   overflow-y: hidden;
-  position:relative;
+  position:absolute;
   cursor: pointer;
   background: white;
  border-radius: 10px;
