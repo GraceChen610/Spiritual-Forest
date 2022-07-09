@@ -4,8 +4,7 @@ import React, { useRef, useEffect, useCallback } from 'react';
 import { useSpring, animated } from 'react-spring';
 import styled from 'styled-components';
 import { MdClose } from 'react-icons/md';
-// import firebaseStores from '../firebase';
-import Canvas from '../pages/canvas';
+import Canvas from '../pages/record/canvas';
 
 const Background = styled.div`
   width: 100vw;
@@ -104,8 +103,6 @@ export default function Modal({
           <animated.div style={animation}>
             <ModalWrapper showModal={showModal}>
               <ModalContent>
-                {/* <input type="text" placeholder="標題" ref={refTitle} />
-                <textarea placeholder="心情內容" ref={refContent} /> */}
                 <Canvas setHistoryImg={setHistoryImg} setUpdataImg={setUpdataImg} />
               </ModalContent>
               <CloseModalButton

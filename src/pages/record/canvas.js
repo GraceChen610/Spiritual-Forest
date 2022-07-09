@@ -4,13 +4,16 @@
 /* eslint-disable no-console */
 import './tui-image-editor.css';
 import ImageEditor from '@toast-ui/react-image-editor';
-import { useEffect, useState, useRef } from 'react';
+import {
+  useEffect, useState, useRef, useContext,
+} from 'react';
 import {
   getStorage, ref, getDownloadURL, uploadString,
 } from 'firebase/storage';
 import styled from 'styled-components/macro';
 import Swal from 'sweetalert2';
-import firebaseStores from '../firebase';
+import UserContext from '../../userContext';
+import firebaseStores from '../../firebase';
 import baseImg from './base.png';
 
 const UploadBtn = styled.button`
@@ -46,10 +49,8 @@ const EditBtn = styled(UploadBtn)`
 
 // eslint-disable-next-line react/prop-types
 export default function Canvas({ setHistoryImg, setUpdataImg }) {
-  const userID = 'THwS7xjxkLtR5N7t8CRA';
+  const User = useContext(UserContext);
   const editorRef = useRef();
-  // eslint-disable-next-line no-unused-vars
-  // const [historyImg, setHistoryImg] = useState();
   const [showUploadBtn, setShowUploadBtn] = useState(true);
 
   console.log('存入到Cloud Firestore');
@@ -83,7 +84,7 @@ export default function Canvas({ setHistoryImg, setUpdataImg }) {
     const dataURL = editorInstance.toDataURL();
 
     // 暫存入Cloud >>>>後續要刪除這段
-    firebaseStores.updateDoc(userID, { pic: dataURL });
+    firebaseStores.updateDoc(User.uid, { pic: dataURL });
 
     // 存圖到storage
     const storage = getStorage();
@@ -108,7 +109,7 @@ export default function Canvas({ setHistoryImg, setUpdataImg }) {
 
   const getImgUrl = () => {
     // 從Cloud 拿歷史圖的網址，顯示出來
-    firebaseStores.getOneDoc('users', userID)
+    firebaseStores.getOneDoc('users', User.uid)
       .then((res) => setHistoryImg(res.data().pic))
       .catch((e) => console.log(e));
 
@@ -134,7 +135,7 @@ export default function Canvas({ setHistoryImg, setUpdataImg }) {
       });
 
     // 正確流程 >>>> 把storage的圖片url再存入firebase
-    // firebaseStores.updateDoc(userID, { pic: '圖的url' });
+    // firebaseStores.updateDoc(User.uid, { pic: '圖的url' });
   };
 
   return (
