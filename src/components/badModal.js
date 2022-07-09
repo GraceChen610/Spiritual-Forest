@@ -3,45 +3,40 @@
 import React, { useRef, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { useSpring, animated } from 'react-spring';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { MdClose } from 'react-icons/md';
 
 const Background = styled.div`
   width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.8);
+  height: 100vh;  
+  ${'' /* backdrop-filter: blur(10px); */}
+  ${'' /* background: rgba(0, 0, 0, 0.8); */}
+  background: rgba(255, 255, 255, 0.8);
   position: fixed;
   bottom:-450px;
     left:-990px;
-  z-index:3;
+  z-index:0;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 
 const ModalWrapper = styled.div`
-  width: 800px;
-  height: 600px;
+  width: 100vw;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   box-shadow: 0 5px 16px rgba(0, 0, 0, 0.2);
   background: #fff;
   color: #000;
-  background: linear-gradient(130deg, #D7FFFE, #ace0f9, #ebc0fd);
+  background: linear-gradient(130deg, #D7FFFE, #ace0f9, #ace0c1);
   ${'' /* display: grid;
   grid-template-columns: 8fr 1fr; */}
   position: relative;
   z-index: 10;
   border-radius: 10px;
 `;
-
-// const ModalImg = styled.img`
-//   width: 100%;
-//   height: 100%;
-//   border-radius: 10px 0 0 10px;
-//   background: #000;
-// `;
 
 const ModalContent = styled.div`
   display: flex;
@@ -50,17 +45,35 @@ const ModalContent = styled.div`
   line-height: 1;
   color: #141414;
   opacity: 0.8;
-  width:70%;
+  width:80vw;
 
-  button {
-    padding: 10px 24px;
-    background: #141414;
-    color: #fff;
-    border: none;
-    align-self:flex-end;
-    ${'' /* margin-right:15%; */}
-    border-radius: 10px;
-  } 
+  .index-quiz{
+    &:after{
+    ${'' /* content:"心情檢測"; */}
+    position:absolute;
+    top: 0px;
+    left: 0px;
+    color: brown;
+    width: 100px;
+  }
+  }
+
+  .index-card{
+    &:after{
+    ${'' /* content:"抽卡放鬆"; */}
+    position: relative;
+    top: -220px;
+    left: 0px;
+    color: brown;
+    width: 100px;
+padding:0;
+  }
+  }
+`;
+
+const Rside = styled.img`
+  width: 300px;
+
 `;
 
 const CloseModalButton = styled(MdClose)`
@@ -117,27 +130,24 @@ export default function BadModal({
         <Background onClick={closeModal} ref={modalRef}>
           <animated.div style={animation}>
             <ModalWrapper showModal={showBadModal}>
-              {/* <ModalImg src={require('./modal.jpg')} alt="" /> */}
               <ModalContent>
-                <Link to="/quiz">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setShowBadModal((prev) => !prev);
-                    }}
-                  >
-                    心情檢測
-                  </button>
+                <Link
+                  to="/quiz"
+                  className="index-quiz"
+                  onClick={() => {
+                    setShowBadModal((prev) => !prev);
+                  }}
+                >
+                  <Rside src="img/signBorderR.png" alt="r" />
                 </Link>
-                <Link to="/card">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setShowBadModal((prev) => !prev);
-                    }}
-                  >
-                    抽卡活動
-                  </button>
+                <Link
+                  to="/card"
+                  className="index-card"
+                  onClick={() => {
+                    setShowBadModal((prev) => !prev);
+                  }}
+                >
+                  <Rside src="img/signBorderL2.png" alt="r" />
                 </Link>
               </ModalContent>
               <CloseModalButton
