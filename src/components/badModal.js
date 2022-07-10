@@ -13,9 +13,9 @@ const Background = styled.div`
   ${'' /* background: rgba(0, 0, 0, 0.8); */}
   background: rgba(255, 255, 255, 0.8);
   position: fixed;
-  bottom:-450px;
-    left:-990px;
-  z-index:0;
+  bottom: 0px;
+    left: 0px;
+  z-index:5;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -66,8 +66,14 @@ const ModalContent = styled.div`
     left: 0px;
     color: brown;
     width: 100px;
-padding:0;
+    padding:0;
+    }
   }
+  img{
+    :hover{
+    transform: scale(1.2);
+    cursor: pointer;
+    }
   }
 `;
 

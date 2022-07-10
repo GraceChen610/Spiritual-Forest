@@ -14,10 +14,11 @@
   overflow-y: hidden;
   position:relative;
   cursor: pointer;
-  background: white;
+  background: #491818;
  border-radius: 10px;
  border: 1px solid;
  text-align:center ;
+ font-weight: bold;
 margin: 5px;
 opacity: 0.5;
 }

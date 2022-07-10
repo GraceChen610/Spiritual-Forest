@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import {
-  createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut,
+  createUserWithEmailAndPassword, signInWithEmailAndPassword,
   setPersistence, browserSessionPersistence,
 } from 'firebase/auth';
 // eslint-disable-next-line no-unused-vars
@@ -10,6 +10,55 @@ import firebaseStores, { auth } from '../firebase';
 
 const Wrapper = styled.div`
   `;
+
+const ControlR = styled.div`
+ position: absolute;
+ left: 500px;
+ top: 255px;
+
+ input{
+  margin-bottom:2.3rem;
+  width: 175px;
+  border-radius: 5px;
+ }
+
+ span{
+  position: absolute;
+  top: 220px;
+  left: 15px;
+  width: 70px;
+  height:35px;
+  opacity: 0;
+  border: 1px solid;
+  cursor: pointer;
+ }
+ `;
+
+const ControlL = styled.div`
+
+width: 300px;
+    position: absolute;
+    left: 111px;
+    top: 369px;
+    
+
+  input{
+  margin-bottom:2.9rem;
+  width: 175px;
+  border-radius: 5px;
+ }
+
+ span{
+  position: absolute;
+  top: 150px;
+  left: 55px;
+  width: 70px;
+  height:35px;
+  opacity: 0;
+  border: 1px solid;
+  cursor: pointer;
+ }
+ `;
 
 function Login() {
   const [userEmail, setUserEmail] = useState('');
@@ -66,48 +115,18 @@ function Login() {
 
   return (
     <Wrapper>
-      <h3>註冊</h3>
-      <label htmlFor="name">
-        暱稱:
+      <ControlR>
         <input type="text" placeholder="請輸入暱稱" name="name" required onChange={(e) => setUserName(e.target.value)} />
-      </label>
-      <br />
-      <label htmlFor="email">
-        E-mail:
         <input type="text" placeholder="請輸入E-mail" name="email" required onChange={(e) => setUserEmail(e.target.value)} />
-      </label>
-      <br />
-      <label htmlFor="psw">
-        Password:
         <input type="password" placeholder="請輸入密碼" name="psw" required onChange={(e) => setUserPassword(e.target.value)} />
-      </label>
-      <br />
-      <button type="submit" onClick={() => register(userEmail, userPassword)}>註冊</button>
+        <span role="button" tabIndex={0} aria-hidden="true" onClick={() => register(userEmail, userPassword)}>註冊</span>
+      </ControlR>
 
-      <h3>登入</h3>
-      <label htmlFor="email">
-        E-mail:
+      <ControlL>
         <input type="text" placeholder="請輸入E-mail" name="email" id="email" required onChange={(e) => setUserEmail(e.target.value)} />
-      </label>
-      <br />
-      <label htmlFor="psw">
-        Password:
         <input type="password" placeholder="請輸入密碼" name="psw" required onChange={(e) => setUserPassword(e.target.value)} />
-      </label>
-      <br />
-      <button type="submit" onClick={() => logIn(userEmail, userPassword)}>登入</button>
-
-      <hr />
-      <button
-        type="submit"
-        onClick={() => signOut(auth).then(() => {
-          console.log('Sign-out successful.');
-        }).catch((error) => {
-          console.log(error);
-        })}
-      >
-        登出
-      </button>
+        <span role="button" tabIndex={0} aria-hidden="true" onClick={() => logIn(userEmail, userPassword)}>登入</span>
+      </ControlL>
     </Wrapper>
   );
 }

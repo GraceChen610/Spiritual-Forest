@@ -92,9 +92,9 @@ const ModalContent = styled.div`
     margin-bottom: 1rem;
     padding: 0.5rem;
     width:48%;
-    height:28px;
+    height:20px;
     border-radius: 10px;
-    font-size:1.3rem;
+    font-size:1.05rem;
     position:relative;
     top: 30px;
     left:-20px;
@@ -103,10 +103,10 @@ const ModalContent = styled.div`
     margin-bottom: 1rem;
     padding: 0.5rem;
     width:48%;
-    height:300px;
+    height:310px;
     border-radius: 10px;
     position:relative;
-    top: 30px;
+    top: 25px;
     left:-20px;
   }
   button {

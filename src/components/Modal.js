@@ -18,8 +18,8 @@ const Background = styled.div`
   height: 100vh;
   background: rgba(0, 0, 0, 0.8);
   position: fixed;
-  bottom:-450px;
-    left:-990px;
+  bottom: 0px;
+    left: 0px;
   z-index:3;
   display: flex;
   justify-content: center;
@@ -27,7 +27,7 @@ const Background = styled.div`
 `;
 
 const ModalWrapper = styled.div`
-  width: 800px;
+  width: 780px;
   height: 700px;
   display: flex;
   justify-content: center;
@@ -90,9 +90,9 @@ const ModalContent = styled.div`
     margin-bottom: 1rem;
     padding: 0.5rem;
     width:53%;
-    height:28px;
+    height:20px;
     border-radius: 10px;
-    font-size:1.3rem;
+    font-size:1.05rem;
     position:relative;
     top: 80px;
     left:-25px;
