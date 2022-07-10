@@ -4,7 +4,7 @@ import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getAnalytics } from 'firebase/analytics';
 import {
-  getFirestore, doc, addDoc, getDocs, getDoc, collection, updateDoc, setDoc,
+  getFirestore, doc, addDoc, getDocs, getDoc, collection, updateDoc, setDoc, query, where,
 } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 
@@ -24,7 +24,7 @@ export const auth = getAuth(firebaseConfig);
 // eslint-disable-next-line no-unused-vars
 const analytics = getAnalytics(firebaseConfig);
 export const storage = getStorage(firebaseConfig);
-const db = getFirestore(firebaseConfig);
+export const db = getFirestore(firebaseConfig);
 
 const firebaseStores = {
   // 讀取資料集
@@ -50,9 +50,10 @@ const firebaseStores = {
 
   // 新增資料集
   async postdata(collectionName, content) {
-    const docRef = await addDoc(collection(db, collectionName), {
+    const docRef = await addDoc(
+      collection(db, collectionName),
       content,
-    });
+    );
     console.log('Document written with ID: ', docRef.id);
   },
 
@@ -66,6 +67,17 @@ const firebaseStores = {
   updateDoc(userId, contentObj) {
     const washingtonRef = doc(db, 'users', userId);
     updateDoc(washingtonRef, contentObj);
+  },
+
+  // 搜尋資料
+  async getArticles(collect, uid) {
+    const q = query(
+      collection(db, collect),
+      where('user_id', '==', uid),
+    );
+    const querySnapshot = await getDocs(q);
+    const myArticles = querySnapshot.docs.map((articlesdoc) => articlesdoc.data());
+    return myArticles;
   },
 };
 

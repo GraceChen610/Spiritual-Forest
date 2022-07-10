@@ -8,7 +8,7 @@ import { MdClose } from 'react-icons/md';
 const Background = styled.div`
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.8);
+  background: ${(props) => props.bkc || 'rgba(0, 0, 0, 0.8)'};
   position: fixed;
   top:0;
   left:0;
@@ -19,8 +19,8 @@ const Background = styled.div`
 `;
 
 const ModalWrapper = styled.div`
-  width: 800px;
-  height: 700px;
+  width: ${(props) => props.width || '800px'};
+  height: ${(props) => props.height || '700px'};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -57,7 +57,7 @@ const CloseModalButton = styled(MdClose)`
 `;
 
 export default function Modal({
-  showModal, setShowModal, content,
+  showModal, setShowModal, content, bkc, width, height,
 }) {
   const modalRef = useRef();
 
@@ -96,9 +96,9 @@ export default function Modal({
   return (
     <div>
       {showModal ? (
-        <Background onClick={closeModal} ref={modalRef}>
+        <Background onClick={closeModal} ref={modalRef} bkc={bkc}>
           <animated.div style={animation}>
-            <ModalWrapper showModal={showModal}>
+            <ModalWrapper showModal={showModal} width={width} height={height}>
               <ModalContent>
                 {content}
               </ModalContent>

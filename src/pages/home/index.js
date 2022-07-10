@@ -368,8 +368,8 @@ export default function Home() {
 
       <img src="/img/signs.png" alt="turf" width="10%" style={signLStyle} />
       <Sign>
-        <Link to="/login">
-          ＜登入
+        <Link to="/truf">
+          ＜前往草坪
         </Link>
       </Sign>
 

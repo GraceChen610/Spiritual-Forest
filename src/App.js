@@ -3,7 +3,6 @@
 /* eslint-disable import/extensions */
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-// import Quiz from './pages/quiz';
 import { useEffect, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import firebaseStores, { auth } from './firebase';
@@ -14,6 +13,7 @@ import Shuffle from './card';
 import Login from './pages/login';
 import QuizApp from './pages/quiz/index';
 import UserContext from './userContext';
+import Truf from './pages/truf';
 
 function App() {
   // eslint-disable-next-line no-unused-vars
@@ -54,6 +54,7 @@ function App() {
           <Route path="card" element={<Shuffle />} />
           <Route path="record" element={<Record />} />
           <Route path="login" element={<Login />} />
+          <Route path="truf" element={<Truf />} />
         </Routes>
       </UserContext.Provider>
     </Router>
