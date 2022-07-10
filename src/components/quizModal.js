@@ -9,7 +9,6 @@ import { Link } from 'react-router-dom';
 import { useSpring, animated } from 'react-spring';
 import styled, { keyframes } from 'styled-components/macro';
 import { MdClose } from 'react-icons/md';
-import BgImg from './happyBoard.png';
 import MapModal from './BaseModal';
 import MapApp from '../pages/mapApp';
 
