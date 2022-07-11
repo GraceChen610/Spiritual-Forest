@@ -1,29 +1,13 @@
 /* eslint-disable no-console */
 /* eslint-disable max-len */
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { IoArrowBackCircle } from 'react-icons/io5';
 import { ReactMixitup } from 'react-mixitup';
 import { shuffle, range } from 'lodash';
 // import styled from 'styled-components/macro';
 import firebaseStores from '../firebase';
 import FlipCard from './FlipCard';
-import cardPageBg from './cardPageBg2.gif';
-
-// const CardControl = styled.div`
-//     display: flex;
-//     flex-direction: column;
-//     justify-content: center;
-//     align-items: center;
-//     border-radius: 10px;
-//     border: black 1px solid;
-//     margin:1rem;
-//     padding:1rem;
-//     font-size:14px;
-//     width:20px;
-//     min-width: 200px;
-//     a{
-//       color: black;
-//     }
-// `;
 
 export default function Shuffle() {
   // card
@@ -70,6 +54,7 @@ export default function Shuffle() {
   return (
     <div>
       {/* <button type="button" onClick={goShuffle}>Shuffle</button> */}
+      <Link to="/" title="back"><IoArrowBackCircle className="nav back" style={{ left: '20px', bottom: '25px' }} /></Link>
       {}
       <ReactMixitup
         keys={keys}
@@ -106,7 +91,7 @@ export default function Shuffle() {
               width: '100vw',
               height: '100vh',
               // border: '1px solid red',
-              background: `url(${cardPageBg})`,
+              background: 'url(/img/cardBg.png) no-repeat right top / 100% 100%',
               padding: '0',
               ...style,
             }}
