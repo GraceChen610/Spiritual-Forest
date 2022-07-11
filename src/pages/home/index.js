@@ -1,7 +1,3 @@
-/* eslint-disable import/no-named-as-default */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-/* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
 import styled, { keyframes } from 'styled-components';
 import {
@@ -9,11 +5,14 @@ import {
 } from 'react';
 import { Link } from 'react-router-dom';
 import { GiChainedHeart } from 'react-icons/gi';
+import { signOut } from 'firebase/auth';
 import UserContext from '../../userContext';
-import firebaseStores from '../../firebase';
+import firebaseStores, { auth } from '../../firebase';
 import Modal from '../../components/Modal';
 import BadModal from '../../components/badModal';
 import WorryModal from '../../components/ModalWorry';
+import LoginModal from '../../components/BaseModal';
+import Login from '../login';
 
 const Wrapper = styled.div`
     height:100vh;
@@ -66,7 +65,7 @@ const Cloud3 = styled(Cloud)`
 const Tree = styled.div`
     position: absolute;
     z-index:-45;
-    bottom:100px;
+    bottom:170px;
     left:-10px;
 `;
 
@@ -87,7 +86,7 @@ const Butterfly = styled(Tree)`
     animation: ${butterfly} 20s linear 0s infinite;
     bottom:120px;
     left:500px;
-    z-index:-42;
+    z-index:-40;
 `;
 
 const bear = keyframes`
@@ -125,7 +124,7 @@ const Zebra = styled(Board)`
 
 const bubble = keyframes`
     0%   { transform: rotateX(90deg);  opacity: 0;}
-  100% {  transform: rotateX(0deg);  opacity: 1;}
+  100% {  transform: rotateX(0deg);  opacity: 0.9;}
 `;
 const Bubble = styled(Board)`
 opacity: 0;
@@ -134,6 +133,9 @@ opacity: 0;
     bottom:380px;
     left:970px;
     z-index:0;
+  img{
+    filter: drop-shadow(5px 5px 0.5rem #2c4919);
+  }
 `;
 
 const Lion = styled(Tree)`
@@ -155,8 +157,14 @@ left:20px;
 const Owl = styled.div`
 position: absolute;
 z-index:0;
-bottom:285px;
-left:220px;
+bottom:520px;
+left:350px;
+img{ 
+  :hover{
+    transform: scale(1.2);
+    cursor: pointer;
+  }
+}
 `;
 
 const Grass = styled(Tree)`
@@ -176,6 +184,11 @@ width:150px;
 text-align:center;
 color: white;
 text-shadow: black 0.1em 0.1em 0.2em;
+font-size:1.2rem;
+:hover{
+  transform: scale(1.17);
+  cursor: pointer;
+}
 `;
 
 const SignR = styled(Sign)`
@@ -183,15 +196,30 @@ right:30px;
 left: initial;
 `;
 
+const SignLog = styled(Sign)`
+bottom:415px;
+left:430px;
+`;
+
 const Title = styled.div`
     position: absolute;
     z-index:-40;
     bottom:100px;
-    left:450px;
-    width:400px;
+    left:440px;
+    width:415px;
     height:200px;
+    display: flex;
+    align-items: center;
     ${'' /* border: black solid 1px; */}
     ${'' /* overflow-x: scroll; */}
+
+    span{
+    text-align: justify;
+    color:#491818;
+    vertical-align: middle;
+    font-size:1.4rem;
+    font-weight: bold;
+    }
 `;
 
 const qusition = keyframes`
@@ -215,14 +243,38 @@ const Qusition = styled.div`
     display:flex;
     flex-direction: column;
     padding:0.5rem;
-
+  span{
+    color:#491818;
+  }
 `;
 
 const ButtonControl = styled.div`
-    margin-top:1rem;
+    margin-top:0.6rem;
     display:flex;
     justify-content: space-around;
-    ${'' /* border: black solid 1px; */}
+    button {
+    background-color: #efddc5;
+    border-radius: 100px;
+    box-shadow: rgba(243, 158, 91, .2) 0 -25px 18px -14px inset,rgba(243, 158, 91, .15) 0 1px 2px,rgba(243, 158, 91, .15) 0 2px 4px,rgba(243, 158, 91, .15) 0 4px 8px,rgba(243, 158, 91, .15) 0 8px 16px,rgba(243, 158, 91, .15) 0 16px 32px;
+    color: #491818;
+    cursor: pointer;
+    display: inline-block;
+    padding: 7px 20px;
+    text-align: center;
+    text-decoration: none;
+    transition: all 250ms;
+    border: 0;
+    font-size: 16px;
+    font-weight: bold;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+  :hover {
+    box-shadow: rgba(243, 158, 91,.35) 0 -25px 18px -14px inset,rgba(243, 158, 91,.25) 0 1px 2px,rgba(243, 158, 91,.25) 0 2px 4px,rgba(243, 158, 91,.25) 0 4px 8px,rgba(243, 158, 91,.25) 0 8px 16px,rgba(243, 158, 91,.25) 0 16px 32px;
+    transform: scale(1.05) rotate(-1deg);
+    }
+}
+
 `;
 
 export default function Home() {
@@ -230,6 +282,7 @@ export default function Home() {
   const [showModal, setShowModal] = useState(false);
   const [showBadModal, setShowBadModal] = useState(false);
   const [showWorryModal, setShowWorryModal] = useState(false);
+  const [loginModal, setLoginModal] = useState(false);
   const refTitle = useRef('');
   const refContent = useRef('');
   const User = useContext(UserContext);
@@ -246,10 +299,18 @@ export default function Home() {
     setShowWorryModal((prev) => !prev);
   };
 
+  const openLoginModal = () => {
+    setLoginModal((prev) => !prev);
+  };
+
+  function getRandom(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
   useEffect(() => {
     firebaseStores.getData('all_positives')
       .then((res) => res[0].data())
-      .then((data) => setPositive(data.positives[10]));
+      .then((data) => setPositive(data.positives[getRandom(0, 40)]));
   }, []);
 
   const signLStyle = {
@@ -284,7 +345,7 @@ export default function Home() {
         <img src="/img/cloud.png" alt="Cloud" width="20%" />
       </Cloud3>
       <Tree>
-        <img src="/img/tree.png" alt="tree" width="55%" />
+        <img src="/img/tree2.png" alt="tree" width="80%" />
       </Tree>
       <Bear>
         <img src="/img/bear.png" alt="board" width="60%" />
@@ -294,7 +355,7 @@ export default function Home() {
       </Board>
 
       <Title>
-        <h2>{positive}</h2>
+        <span>{positive}</span>
       </Title>
 
       <Butterfly>
@@ -317,25 +378,12 @@ export default function Home() {
           <span>今天感覺如何?</span>
         </span>
         <ButtonControl>
-
           <button type="button" onClick={() => openModal()}>
-            很棒
+            很 棒
           </button>
-          <Modal
-            showModal={showModal}
-            setShowModal={setShowModal}
-            refTitle={refTitle}
-            refContent={refContent}
-          />
 
-          <BadModal
-            showBadModal={showBadModal}
-            setShowBadModal={setShowBadModal}
-            refTitle={refTitle}
-            refContent={refContent}
-          />
           <button type="button" onClick={() => openBadModal()}>
-            不好
+            不 好
           </button>
 
         </ButtonControl>
@@ -351,10 +399,10 @@ export default function Home() {
         <img src="/img/red-panda.png" alt="turf" width="60%" />
       </RedPanda>
       <Giraffe>
-        <img src="/img/giraffe.png" alt="turf" width="60%" />
+        {/* <img src="/img/giraffe.png" alt="turf" width="60%" /> */}
       </Giraffe>
       <Owl type="button" onClick={() => openWorryModal()}>
-        <img src="/img/owl2.png" alt="owl" width="60%" />
+        <img src="/img/owl.png" alt="owl" title="讓我替你分憂吧~" width="25%" />
       </Owl>
       <WorryModal
         showWorryModal={showWorryModal}
@@ -379,6 +427,46 @@ export default function Home() {
           紀錄今天＞
         </Link>
       </SignR>
+
+      {User
+        ? (
+          <SignLog onClick={() => signOut(auth).then(() => {
+            console.log('Sign-out successful.');
+          }).catch((error) => {
+            console.log(error);
+          })}
+          >
+            登
+            {'　'}
+            出
+          </SignLog>
+        )
+        : (
+          <SignLog onClick={() => openLoginModal()}>
+            登入/註冊
+          </SignLog>
+        )}
+      <LoginModal
+        showModal={loginModal}
+        setShowModal={setLoginModal}
+        bg="url(/img/loginBg.png) no-repeat left top / 100% 100% "
+        bkc="linear-gradient(130deg, #D7FFFE, #ace0f9, #ace0c1)"
+        content={<Login />}
+      />
+
+      <Modal
+        showModal={showModal}
+        setShowModal={setShowModal}
+        refTitle={refTitle}
+        refContent={refContent}
+      />
+
+      <BadModal
+        showBadModal={showBadModal}
+        setShowBadModal={setShowBadModal}
+        refTitle={refTitle}
+        refContent={refContent}
+      />
     </Wrapper>
   );
 }

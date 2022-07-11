@@ -62,17 +62,6 @@ const CardBack = styled.div`
   background: url(${cardBg}) no-repeat right top / contain ;
 `;
 
-// eslint-disable-next-line no-unused-vars
-const cardBgStyle = {
-  opacity: 'opacity.to((o) => 1 - o)',
-  position: 'relative',
-  height: '336px',
-  width: '245px',
-  // borderRadius: '10px',
-  margin: '5px',
-  background: `url(${cardBg}) no-repeat right top / contain`,
-};
-
 function FlipCard({
   setfun, item, flipped, innerRef, style,
 }) {
@@ -99,7 +88,7 @@ function FlipCard({
           transform,
           background,
           position: 'relative',
-          top: '-326px',
+          top: '-311px',
         }}
       >
         <CardControl>

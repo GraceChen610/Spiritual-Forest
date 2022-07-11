@@ -1,5 +1,6 @@
 import styled, { keyframes } from 'styled-components/macro';
 import { useEffect, useState, useContext } from 'react';
+import { Link } from 'react-router-dom';
 import UserContext from '../../userContext';
 import firebaseStores from '../../firebase';
 import MessageModal from '../../components/BaseModal';
@@ -101,7 +102,7 @@ const Articles = styled.div`
     background: linear-gradient(130deg, #D7FFFE, #ace0f9, #ace0c1);
 
     span{
-      font-size: 1.2rem;
+      font-size: 1.4rem;
       font-weight: bold;
       color: #683F39;
       margin-bottom: 1rem;
@@ -109,7 +110,8 @@ const Articles = styled.div`
 
     p{
       text-align: justify;
-      line-height: 1.2rem;
+      line-height: 1.8rem;
+      font-size: 1.1rem;
     }
 `;
 
@@ -129,6 +131,68 @@ function getRandom(min, max) {
 //   }
 //   getRound(getRandom(0, 10), getRandom(0, 10), 25);
 
+const SignBack = styled.img`
+  position: absolute;
+  width: 140px;
+  bottom: 50px;
+  right: 50px;
+  ${'' /* transform: rotateY(180deg); */}
+`;
+
+const Back = styled.span`
+position: absolute;
+width: 120px;
+bottom: 140px;
+right: 50px;
+font-size: 1.2rem;
+${'' /* border: 1px solid; */}
+text-align:center ;
+letter-spacing: 3px;
+text-shadow: black 0.1em 0.1em 0.2em;
+:hover{
+  transform: scale(1.15);
+  cursor: pointer;
+}
+
+`;
+
+const sun = keyframes`
+  0%   {transform: rotate(0deg);}
+  100% {transform: rotate(360deg);}
+`;
+
+const Sun = styled.img`
+  position: absolute;
+  top: 40px;
+  left: 80px;
+  width: 140px;
+  height: auto;
+  animation: ${sun} 25s linear 0s infinite;
+`;
+
+const Sunface = styled.img`
+position: absolute;
+top: 105px;
+left: 125px;
+width: 60px;
+height: auto;
+z-index: 2;
+`;
+
+// eslint-disable-next-line no-unused-vars
+const Suneye = styled.div`
+  position: absolute;
+    top: 100px ;
+    left:130px;
+    z-index: 2;
+    width: 10px;
+    height: 10px;
+    padding-bottom: 0.5%;
+    border-radius: 50%;
+    background: black;
+    ${'' /* animation: blink 1s ease-in-out 0s infinite alternate forwards; */}
+`;
+
 export default function Truf() {
   const User = useContext(UserContext);
   const [worriesArticles, setWorriesArticles] = useState([]);
@@ -144,18 +208,32 @@ export default function Truf() {
   useEffect(() => {
     if (User) {
       firebaseStores.getArticles('cheerful_articles', User.uid)
-        .then((res) => setCheerfulArticles(res));
+        .then((res) => setCheerfulArticles(
+          (res.map((item) => ({ ...item, bottom: getRandom(0, 100), left: getRandom(0, 1300) }))),
+        ));
       firebaseStores.getArticles('worries_articles', User.uid)
-        .then((res) => setWorriesArticles(res));
+        .then((res) => setWorriesArticles(
+          (res.map((item) => ({ ...item, bottom: getRandom(0, 100), left: getRandom(0, 1300) }))),
+        ));
     } else {
-      alert('請登入以解鎖更多互動功能~');
+      // alert('請登入以解鎖更多互動功能~');
     }
   }, [User]);
 
   return (
     <Wrapper>
+      <Sun src="/img/sun.png" />
+      <Sunface src="/img/sunface.png" />
+      <SignBack src="/img/sign.png" />
+      <Link to="/">
+        <Back>
+          Back
+          {' >'}
+        </Back>
+      </Link>
+
       {worriesArticles?.map((item) => (
-        <Control bottom={getRandom(0, 100)} left={getRandom(0, 1400)}>
+        <Control bottom={item.bottom} left={item.left} key={item.id}>
           <Message>{item.title}</Message>
           <Grass
             src="/img/singleGrass.png"
@@ -169,7 +247,7 @@ export default function Truf() {
         </Control>
       ))}
       {cheerfulArticles?.map((item) => (
-        <Control bottom={getRandom(0, 100)} left={getRandom(0, 1400)}>
+        <Control bottom={item.bottom} left={item.left} key={item.id}>
           <Message>{item.title}</Message>
           <Flower
             src="/img/flower.png"

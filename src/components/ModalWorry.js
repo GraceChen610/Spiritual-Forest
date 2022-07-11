@@ -7,6 +7,7 @@ import { useSpring, animated } from 'react-spring';
 import styled, { keyframes } from 'styled-components/macro';
 import { MdClose } from 'react-icons/md';
 import Swal from 'sweetalert2';
+import { v4 as uuidv4 } from 'uuid';
 import UserContext from '../userContext';
 import firebaseStores from '../firebase';
 import BgImg from './worryBoard.png';
@@ -92,21 +93,22 @@ const ModalContent = styled.div`
     margin-bottom: 1rem;
     padding: 0.5rem;
     width:48%;
-    height:28px;
+    height:20px;
     border-radius: 10px;
-    font-size:1.3rem;
+    font-size:1.2rem;
     position:relative;
     top: 30px;
     left:-20px;
   }
   textarea {
     margin-bottom: 1rem;
+    font-size: 1.05rem;
     padding: 0.5rem;
     width:48%;
-    height:300px;
+    height:310px;
     border-radius: 10px;
     position:relative;
-    top: 30px;
+    top: 25px;
     left:-20px;
   }
   button {
@@ -193,6 +195,7 @@ export default function WorryModal({
                         title: refTitle.current.value,
                         content: refContent.current.value,
                         user_id: User.uid,
+                        id: uuidv4(),
                       },
                     );
                     Swal.fire({

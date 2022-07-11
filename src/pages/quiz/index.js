@@ -2,7 +2,9 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { TiChevronLeftOutline, TiChevronRightOutline, TiTickOutline } from 'react-icons/ti';
+import { IoArrowBackCircle } from 'react-icons/io5';
 import firebaseStores from '../../firebase';
 import './quiz.css';
 import Modal from '../../components/quizModal';
@@ -177,6 +179,7 @@ export default function QuizApp() {
 
   return (
     <div className="wrapping">
+      <Link to="/" title="back"><IoArrowBackCircle className="nav back" /></Link>
       <Carousel handleQuizResults={handleQuizResults}>
         {[...new Array(CARDS)].map((_, i) => (
           <Card title={quiz[i].content} id={quiz[i].id} key={quiz[i].id} content={`題目 ${i + 1}/18`} handleScore={handleScore} />

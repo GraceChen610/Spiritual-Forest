@@ -7,6 +7,7 @@ import { useSpring, animated } from 'react-spring';
 import styled, { keyframes } from 'styled-components';
 import { MdClose } from 'react-icons/md';
 import Swal from 'sweetalert2';
+import { v4 as uuidv4 } from 'uuid';
 import UserContext from '../userContext';
 import firebaseStores from '../firebase';
 import BgImg from './happyBoard.png';
@@ -18,8 +19,8 @@ const Background = styled.div`
   height: 100vh;
   background: rgba(0, 0, 0, 0.8);
   position: fixed;
-  bottom:-450px;
-    left:-990px;
+  bottom: 0px;
+    left: 0px;
   z-index:3;
   display: flex;
   justify-content: center;
@@ -27,7 +28,7 @@ const Background = styled.div`
 `;
 
 const ModalWrapper = styled.div`
-  width: 800px;
+  width: 780px;
   height: 700px;
   display: flex;
   justify-content: center;
@@ -90,15 +91,16 @@ const ModalContent = styled.div`
     margin-bottom: 1rem;
     padding: 0.5rem;
     width:53%;
-    height:28px;
+    height:20px;
     border-radius: 10px;
-    font-size:1.3rem;
+    font-size:1.2rem;
     position:relative;
     top: 80px;
     left:-25px;
   }
   textarea {
     margin-bottom: 1rem;
+    font-size: 1.05rem;
     padding: 0.5rem;
     width:68%;
     height:215px;
@@ -191,6 +193,7 @@ export default function Modal({
                         title: refTitle.current.value,
                         content: refContent.current.value,
                         user_id: User.uid,
+                        id: uuidv4(),
                       },
                     );
                     Swal.fire({

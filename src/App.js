@@ -37,6 +37,7 @@ function App() {
         // User is signed out
         // ...
         console.log('User is signed out');
+        setUser();
       }
     });
   }, []);

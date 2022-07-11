@@ -27,7 +27,7 @@ const ModalWrapper = styled.div`
   box-shadow: 0 5px 16px rgba(0, 0, 0, 0.2);
   background: #fff;
   color: #000;
-  background: linear-gradient(130deg, #D7FFFE, #ace0f9, #ace0c1);
+  background: ${(props) => props.bg || 'linear-gradient(130deg, #D7FFFE, #ace0f9, #ace0c1)'};
   position: relative;
   z-index: 10;
   border-radius: 10px;
@@ -57,7 +57,7 @@ const CloseModalButton = styled(MdClose)`
 `;
 
 export default function Modal({
-  showModal, setShowModal, content, bkc, width, height,
+  showModal, setShowModal, content, bkc, width, height, bg,
 }) {
   const modalRef = useRef();
 
@@ -98,7 +98,7 @@ export default function Modal({
       {showModal ? (
         <Background onClick={closeModal} ref={modalRef} bkc={bkc}>
           <animated.div style={animation}>
-            <ModalWrapper showModal={showModal} width={width} height={height}>
+            <ModalWrapper showModal={showModal} width={width} height={height} bg={bg}>
               <ModalContent>
                 {content}
               </ModalContent>

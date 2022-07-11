@@ -19,8 +19,8 @@
 
 .carousel {
   position: relative;
-  width: 23rem;
-  height: 23rem;
+  width: 27rem;
+  height: 27rem;
   -webkit-perspective: 500px;
           perspective: 500px;
   -webkit-transform-style: preserve-3d;
@@ -142,5 +142,18 @@
   right: -10px;
   -webkit-transform: translateX(100%) translatey(-50%);
           transform: translateX(100%) translatey(-50%);
+}
+
+.nav.back {
+  font-size: 3.5rem;
+  top: initial;
+  left: 40px;
+  bottom: 40px;
+}
+
+.nav.back :hover {
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1);
+  cursor: pointer;
 }
 /*# sourceMappingURL=quiz.css.map */

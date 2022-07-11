@@ -3,7 +3,7 @@ $color-pink: #EC4899;
 $color-gray: #9CA3AF;
 // $color-gray: #9fb89d;
 $color-black: #1F2937;
-$card-size: 23rem;
+$card-size: 27rem;
 
 .wrapping {
   width: 100vw;
@@ -119,5 +119,16 @@ $card-size: 23rem;
     color: rgb(227, 227, 132);
     right: -10px;
     transform: translateX(100%) translatey(-50%);
+  }
+
+  &.back{
+    font-size: 3.5rem;
+    top: initial;
+    left: 40px;
+    bottom: 40px;
+    :hover{
+      transform: scale(1.1);
+      cursor: pointer;
+    }
   }
 }

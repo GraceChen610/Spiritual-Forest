@@ -1,10 +1,12 @@
+/* eslint-disable no-shadow */
 /* eslint-disable no-console */
-/* eslint-disable max-len */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-use-before-define */
 /* eslint-disable no-alert */
-/* eslint-disable no-shadow */
-import styled from 'styled-components';
+import { AiOutlineCar } from 'react-icons/ai';
+import { GiPathDistance } from 'react-icons/gi';
+import { MdOutlineMyLocation } from 'react-icons/md';
+import styled from 'styled-components/macro';
 
 import {
   useJsApiLoader,
@@ -17,24 +19,38 @@ import { useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 const Box = styled.div`
-  background-color: white;
   display:flex;
   justify-content: space-between;
+  align-items: center;
+  span{
+    display: flex;
+    align-items: center;
+    svg{
+      margin-right: 10px;
+    }
 
+  }
 `;
+
 const MapWapper = styled.div`
-position:absolute; 
+${'' /* position:absolute;  */}
 left:0; 
 top:0 ; 
-height:100%;
-width:100%;
+height: 80%;
+width:  80%;
 z-index:0;
+div {
+  border-radius: 20px;
+}
 `;
+
 const Flex = styled.div`
   display:flex;
   flex-direction:column;
   align-items:center;
-  height:100%;
+  justify-content: space-evenly;
+  background: url(/img/mapBg.png) no-repeat 0% 15% / 100% 100% ;
+  height:100vh;
   width:100%;
 `;
 
@@ -45,13 +61,59 @@ const SearchBar = styled.div`
   z-index : 1;
   display:flex;
   flex-direction:column;
+  font-size: 1.2rem;
+  color:#491818;
+
+  input{
+    line-height: 1.3rem;
+    font-size: 1rem;
+    border-radius: 5px;
+    margin: 0 10px;
+    border: none;
+    background:rgba(44, 187, 99, .2);
+    padding:5px 8px;
+    :focus{
+    outline: none;
+    }
+  }
+
+  svg{
+    margin-top: 5px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color:#491818;
+  }
+
+  span{
+    align-items: flex-end;
+  }
 `;
 
 const Button = styled.button`
+  background-color: #c2fbd7;
+  border-radius: 10px;
+  box-shadow: rgba(44, 187, 99, .2) 0 -25px 18px -14px inset,rgba(44, 187, 99, .15) 0 1px 2px,rgba(44, 187, 99, .15) 0 2px 4px,rgba(44, 187, 99, .15) 0 4px 8px,rgba(44, 187, 99, .15) 0 8px 16px,rgba(44, 187, 99, .15) 0 16px 32px;
+  color: green;
+  cursor: pointer;
+  display: inline-block;
+  padding: 7px 14px;
+  margin: 0px 5px 10px 10px ;
+  text-align: center;
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 250ms;
+  border: 0;
+  font-size: 16px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+
+  :hover {
+    box-shadow: rgba(44,187,99,.35) 0 -25px 18px -14px inset,rgba(44,187,99,.25) 0 1px 2px,rgba(44,187,99,.25) 0 2px 4px,rgba(44,187,99,.25) 0 4px 8px,rgba(44,187,99,.25) 0 8px 16px,rgba(44,187,99,.25) 0 16px 32px;
+    transform: scale(1.05) rotate(-1deg);
+  }
 `;
 
-const Input = styled.input`
-`;
 const center = { lat: 25.038489, lng: 121.532369 };
 function MapApp() {
   const [libraries] = useState(['places']);
@@ -88,7 +150,7 @@ function MapApp() {
   useEffect(() => {
     // 定位
     gettingPosition()
-      .then((position) => successCallback(position))
+      .then((myposition) => successCallback(myposition))
       .catch((error) => errorCallback(error));
   }, []);
 
@@ -166,42 +228,16 @@ function MapApp() {
 
   return (
     <Flex>
-      <MapWapper>
-        {/* Google Map Box */}
-        <GoogleMap
-          center={center}
-          zoom={15}
-          mapContainerStyle={{ width: '100%', height: '100%' }}
-          // options={{
-          //   zoomControl: false,
-          //   streetViewControl: false,
-          //   mapTypeControl: false,
-          //   fullscreenControl: false,
-          // }}
-          onLoad={(map) => setMap(map)}
-        >
-          <Marker position={position} title="U are Here ~" />
-          {allStore.map((e) => (
-            <Marker position={e.geometry.location} title={e.name} onClick={() => goToMarker(e.name)} />
-          ))}
-          ;
-          {directionsResponse && (
-          <DirectionsRenderer directions={directionsResponse} />
-          )}
-        </GoogleMap>
-      </MapWapper>
       <SearchBar>
         <Box>
-          <Box>
-            前往目的地：
-            <Autocomplete>
-              <Input
-                type="text"
-                placeholder="Destination"
-                ref={destiantionRef}
-              />
-            </Autocomplete>
-          </Box>
+          目的地：
+          <Autocomplete>
+            <input
+              type="text"
+              placeholder="請輸入目的地"
+              ref={destiantionRef}
+            />
+          </Autocomplete>
 
           <Box>
             <Button colorScheme="pink" type="submit" onClick={() => calculateRoute()}>
@@ -218,14 +254,18 @@ function MapApp() {
         </Box>
         <Box>
           <span>
-            距離：
+            <GiPathDistance title="距離" />
             {distance}
           </span>
           <span>
-            開車時間：
+            <AiOutlineCar title="開車時間" />
+            {' '}
             {duration}
           </span>
-          <Button
+          {/* <Button></Button> */}
+          <MdOutlineMyLocation
+            type="button"
+            title="我的位置"
             onClick={() => {
               gettingPosition()
                 .then((position) => successCallback(position))
@@ -234,11 +274,39 @@ function MapApp() {
               map.setZoom(15);
               getStore();
             }}
-          >
-            我的位置
-          </Button>
+          />
+
         </Box>
       </SearchBar>
+
+      <MapWapper>
+        {/* Google Map Box */}
+        <GoogleMap
+          center={center}
+          zoom={15}
+          mapContainerStyle={{ width: '100%', height: '100%' }}
+          // options={{
+          //   zoomControl: false,
+          //   streetViewControl: false,
+          //   mapTypeControl: false,
+          //   fullscreenControl: false,
+          // }}
+          onLoad={(map) => setMap(map)}
+        >
+          <Marker position={position} title="U are Here ~" />
+          {allStore.map((e) => (
+            <Marker
+              position={e.geometry.location}
+              title={e.name}
+              onClick={() => goToMarker(e.name)}
+            />
+          ))}
+          ;
+          {directionsResponse && (
+          <DirectionsRenderer directions={directionsResponse} />
+          )}
+        </GoogleMap>
+      </MapWapper>
     </Flex>
   );
 }
