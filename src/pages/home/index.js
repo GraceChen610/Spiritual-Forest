@@ -185,7 +185,7 @@ text-align:center;
 color: white;
 text-shadow: black 0.1em 0.1em 0.2em;
 :hover{
-  transform: scale(1.2);
+  transform: scale(1.15);
   cursor: pointer;
 }
 `;
@@ -211,7 +211,7 @@ const Title = styled.div`
     align-items: center;
     ${'' /* border: black solid 1px; */}
     ${'' /* overflow-x: scroll; */}
-    
+
     span{
     text-align: justify;
     color:#491818;

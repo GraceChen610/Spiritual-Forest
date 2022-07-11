@@ -143,4 +143,17 @@
   -webkit-transform: translateX(100%) translatey(-50%);
           transform: translateX(100%) translatey(-50%);
 }
+
+.nav.back {
+  font-size: 3.5rem;
+  left: 40px;
+  top: initial;
+  bottom: 40px;
+}
+
+.nav.back :hover {
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1);
+  cursor: pointer;
+}
 /*# sourceMappingURL=quiz.css.map */
