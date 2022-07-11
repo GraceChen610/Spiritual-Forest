@@ -15,11 +15,16 @@ const ControlR = styled.div`
  position: absolute;
  left: 500px;
  top: 255px;
+ ${'' /* border: 1px solid; */}
 
  input{
-  margin-bottom:2.3rem;
-  width: 175px;
+  margin-bottom:2.8rem;
+  width: 176px;
   border-radius: 5px;
+  height: 1.3rem;
+  :last-of-type {
+    margin-top: 6px;
+  }
  }
 
  span{
@@ -39,13 +44,15 @@ const ControlL = styled.div`
 width: 300px;
     position: absolute;
     left: 111px;
-    top: 369px;
+    top: 368px;
     
 
   input{
-  margin-bottom:2.9rem;
-  width: 175px;
+  margin-bottom:3.55rem;
+  width: 177px;
   border-radius: 5px;
+  height:1.4rem;
+
  }
 
  span{

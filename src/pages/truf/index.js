@@ -208,9 +208,13 @@ export default function Truf() {
   useEffect(() => {
     if (User) {
       firebaseStores.getArticles('cheerful_articles', User.uid)
-        .then((res) => setCheerfulArticles(res));
+        .then((res) => setCheerfulArticles(
+          (res.map((item) => ({ ...item, bottom: getRandom(0, 100), left: getRandom(0, 1300) }))),
+        ));
       firebaseStores.getArticles('worries_articles', User.uid)
-        .then((res) => setWorriesArticles(res));
+        .then((res) => setWorriesArticles(
+          (res.map((item) => ({ ...item, bottom: getRandom(0, 100), left: getRandom(0, 1300) }))),
+        ));
     } else {
       // alert('請登入以解鎖更多互動功能~');
     }
@@ -229,7 +233,7 @@ export default function Truf() {
       </Link>
 
       {worriesArticles?.map((item) => (
-        <Control bottom={getRandom(0, 100)} left={getRandom(0, 1400)} key={item.id}>
+        <Control bottom={item.bottom} left={item.left} key={item.id}>
           <Message>{item.title}</Message>
           <Grass
             src="/img/singleGrass.png"
@@ -243,7 +247,7 @@ export default function Truf() {
         </Control>
       ))}
       {cheerfulArticles?.map((item) => (
-        <Control bottom={getRandom(0, 100)} left={getRandom(0, 1400)} key={item.id}>
+        <Control bottom={item.bottom} left={item.left} key={item.id}>
           <Message>{item.title}</Message>
           <Flower
             src="/img/flower.png"

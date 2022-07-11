@@ -2,6 +2,7 @@
 /* eslint-disable no-bitwise */
 /* eslint-disable react/prop-types */
 import { useState, useEffect, useContext } from 'react';
+import { BiMessageSquareAdd, BiMessageSquareMinus } from 'react-icons/bi';
 import styled from 'styled-components/macro';
 import UserContext from '../userContext';
 import firebaseStores from '../firebase';
@@ -14,12 +15,6 @@ const ItemControl = styled.div`
 span{
   font-size: 1.1rem;
 }
-`;
-
-const Button = styled.button`
-  display: flex; 
-  justify-content: center; 
-  align-items: center; 
 `;
 
 function Item({
@@ -40,7 +35,7 @@ function Item({
     <div>
       <ItemControl>
         <span>{note}</span>
-        <Button onClick={() => deleteItem()}>－</Button>
+        <BiMessageSquareMinus onClick={() => deleteItem()} style={{ fontSize: '1.8rem', color: '#491818', cursor: 'pointer' }} />
       </ItemControl>
     </div>
   );
@@ -113,9 +108,10 @@ export function Edit({ add, data, keyName }) {
   return (
     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
       <Input type="text" value={note} onChange={(e) => setNote(e.target.value)} />
-      <Button onClick={() => addItem(note)}>
+      <BiMessageSquareAdd onClick={() => addItem(note)} style={{ fontSize: '1.8rem', color: '#491818', cursor: 'pointer' }} />
+      {/* <Button>
         ＋
-      </Button>
+      </Button> */}
     </div>
   );
 }
