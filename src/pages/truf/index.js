@@ -102,7 +102,7 @@ const Articles = styled.div`
     background: linear-gradient(130deg, #D7FFFE, #ace0f9, #ace0c1);
 
     span{
-      font-size: 1.2rem;
+      font-size: 1.4rem;
       font-weight: bold;
       color: #683F39;
       margin-bottom: 1rem;
@@ -110,7 +110,8 @@ const Articles = styled.div`
 
     p{
       text-align: justify;
-      line-height: 1.2rem;
+      line-height: 1.8rem;
+      font-size: 1.1rem;
     }
 `;
 
@@ -143,7 +144,7 @@ position: absolute;
 width: 120px;
 bottom: 140px;
 right: 50px;
-font-size: 1.05rem;
+font-size: 1.2rem;
 ${'' /* border: 1px solid; */}
 text-align:center ;
 letter-spacing: 3px;
@@ -228,7 +229,7 @@ export default function Truf() {
       </Link>
 
       {worriesArticles?.map((item) => (
-        <Control bottom={getRandom(0, 100)} left={getRandom(0, 1400)}>
+        <Control bottom={getRandom(0, 100)} left={getRandom(0, 1400)} key={item.id}>
           <Message>{item.title}</Message>
           <Grass
             src="/img/singleGrass.png"
@@ -242,7 +243,7 @@ export default function Truf() {
         </Control>
       ))}
       {cheerfulArticles?.map((item) => (
-        <Control bottom={getRandom(0, 100)} left={getRandom(0, 1400)}>
+        <Control bottom={getRandom(0, 100)} left={getRandom(0, 1400)} key={item.id}>
           <Message>{item.title}</Message>
           <Flower
             src="/img/flower.png"

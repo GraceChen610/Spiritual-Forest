@@ -184,8 +184,9 @@ width:150px;
 text-align:center;
 color: white;
 text-shadow: black 0.1em 0.1em 0.2em;
+font-size:1.2rem;
 :hover{
-  transform: scale(1.15);
+  transform: scale(1.17);
   cursor: pointer;
 }
 `;
@@ -216,7 +217,7 @@ const Title = styled.div`
     text-align: justify;
     color:#491818;
     vertical-align: middle;
-    font-size:1.35rem;
+    font-size:1.4rem;
     font-weight: bold;
     }
 `;
@@ -435,7 +436,9 @@ export default function Home() {
             console.log(error);
           })}
           >
-            登出
+            登
+            {'　'}
+            出
           </SignLog>
         )
         : (

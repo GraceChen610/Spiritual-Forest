@@ -7,6 +7,7 @@ import { useSpring, animated } from 'react-spring';
 import styled, { keyframes } from 'styled-components';
 import { MdClose } from 'react-icons/md';
 import Swal from 'sweetalert2';
+import { v4 as uuidv4 } from 'uuid';
 import UserContext from '../userContext';
 import firebaseStores from '../firebase';
 import BgImg from './happyBoard.png';
@@ -92,13 +93,14 @@ const ModalContent = styled.div`
     width:53%;
     height:20px;
     border-radius: 10px;
-    font-size:1.05rem;
+    font-size:1.2rem;
     position:relative;
     top: 80px;
     left:-25px;
   }
   textarea {
     margin-bottom: 1rem;
+    font-size: 1.05rem;
     padding: 0.5rem;
     width:68%;
     height:215px;
@@ -191,6 +193,7 @@ export default function Modal({
                         title: refTitle.current.value,
                         content: refContent.current.value,
                         user_id: User.uid,
+                        id: uuidv4(),
                       },
                     );
                     Swal.fire({

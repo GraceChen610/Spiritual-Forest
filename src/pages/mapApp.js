@@ -1,9 +1,11 @@
+/* eslint-disable no-shadow */
 /* eslint-disable no-console */
-/* eslint-disable max-len */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-use-before-define */
 /* eslint-disable no-alert */
-/* eslint-disable no-shadow */
+import { AiOutlineCar } from 'react-icons/ai';
+import { GiPathDistance } from 'react-icons/gi';
+import { MdOutlineMyLocation } from 'react-icons/md';
 import styled from 'styled-components';
 
 import {
@@ -20,8 +22,17 @@ const Box = styled.div`
   background-color: white;
   display:flex;
   justify-content: space-between;
+  align-items: center;
+  span{
+    display: flex;
+    align-items: center;
+    svg{
+      margin-right: 10px;
+    }
 
+  }
 `;
+
 const MapWapper = styled.div`
 position:absolute; 
 left:0; 
@@ -30,6 +41,7 @@ height:100%;
 width:100%;
 z-index:0;
 `;
+
 const Flex = styled.div`
   display:flex;
   flex-direction:column;
@@ -52,6 +64,7 @@ const Button = styled.button`
 
 const Input = styled.input`
 `;
+
 const center = { lat: 25.038489, lng: 121.532369 };
 function MapApp() {
   const [libraries] = useState(['places']);
@@ -88,7 +101,7 @@ function MapApp() {
   useEffect(() => {
     // 定位
     gettingPosition()
-      .then((position) => successCallback(position))
+      .then((myposition) => successCallback(myposition))
       .catch((error) => errorCallback(error));
   }, []);
 
@@ -182,7 +195,11 @@ function MapApp() {
         >
           <Marker position={position} title="U are Here ~" />
           {allStore.map((e) => (
-            <Marker position={e.geometry.location} title={e.name} onClick={() => goToMarker(e.name)} />
+            <Marker
+              position={e.geometry.location}
+              title={e.name}
+              onClick={() => goToMarker(e.name)}
+            />
           ))}
           ;
           {directionsResponse && (
@@ -218,11 +235,12 @@ function MapApp() {
         </Box>
         <Box>
           <span>
-            距離：
+            <GiPathDistance title="距離" />
             {distance}
           </span>
           <span>
-            開車時間：
+            <AiOutlineCar title="開車時間" />
+            {' '}
             {duration}
           </span>
           <Button
@@ -235,6 +253,7 @@ function MapApp() {
               getStore();
             }}
           >
+            <MdOutlineMyLocation />
             我的位置
           </Button>
         </Box>

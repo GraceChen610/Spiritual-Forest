@@ -19,8 +19,8 @@
 
 .carousel {
   position: relative;
-  width: 23rem;
-  height: 23rem;
+  width: 27rem;
+  height: 27rem;
   -webkit-perspective: 500px;
           perspective: 500px;
   -webkit-transform-style: preserve-3d;

@@ -11,6 +11,9 @@ const ItemControl = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+span{
+  font-size: 1.1rem;
+}
 `;
 
 const Button = styled.button`
@@ -45,7 +48,7 @@ function Item({
 
 export function List({ data, deleteData, keyName }) {
   return (
-    <div style={{ overflowY: 'scroll', height: '150px', marginBottom: '0.5rem' }}>
+    <div style={{ overflowY: 'auto', height: '150px', marginBottom: '0.5rem' }}>
       {data?.map((item) => {
         const { content, id } = item;
         return (

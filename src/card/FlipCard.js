@@ -88,7 +88,7 @@ function FlipCard({
           transform,
           background,
           position: 'relative',
-          top: '-326px',
+          top: '-311px',
         }}
       >
         <CardControl>
