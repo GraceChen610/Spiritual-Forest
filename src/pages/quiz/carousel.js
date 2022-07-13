@@ -1,10 +1,8 @@
-/* eslint-disable max-len */
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 import { TiChevronLeftOutline, TiChevronRightOutline } from 'react-icons/ti';
 import styled from 'styled-components/macro';
 import { createGlobalStyle } from 'styled-components';
-// import { MdTranslate } from 'react-icons/md';
 
 const CARDS = 10;
 const maxVisibility = 3;
@@ -49,13 +47,6 @@ const CardContainer = styled.div`
 };
   transition: all 0.3s ease-out;
 `;
-
-// transform:
-// rotateY(calc(var(--offset) * 50deg))
-// scaleY(calc(1 + var(--abs-offset) * -0.4))
-// ${'' /* translate(var(--ab)) */}
-// translateZ(calc(var(--abs-offset) * -30rem))
-// translateX(calc(var(--offset) / var(--abs-offset) * -5rem));
 
 const CardStyle = styled.div`
   width: 100%;
@@ -114,15 +105,19 @@ function Card({ title, content }) {
 function Carousel({ children }) {
   const [active, setActive] = useState(2);
   const count = React.Children.count(children);
-  console.log(active);
 
   return (
     <CarouselWapper>
-      {active > 0 && <ButtonLeft onClick={() => setActive((i) => i - 1)}><TiChevronLeftOutline /></ButtonLeft>}
+
+      {active > 0 && (
+      <ButtonLeft onClick={() => setActive((i) => i - 1)}>
+        <TiChevronLeftOutline />
+      </ButtonLeft>
+      )}
+
       {React.Children.map(children, (child, i) => (
         <CardContainer
           style={
-            // (i === active) ? { transform: 'translate:(0,0)' } : {}
             {
               transform: (i === active) ? 'translate:(0,0)' : '',
               opacity: (Math.abs(active - i) >= maxVisibility) ? '0' : '1',
@@ -133,30 +128,18 @@ function Carousel({ children }) {
           active={i === active ? 1 : 0}
           offset={(active - i) / 3}
           absoffset={Math.abs(active - i) / 3}
-        //   opacity={Math.abs(active - i) >= maxVisibility ? '0' : '1'}
-        //   display={Math.abs(active - i) > maxVisibility ? 'none' : 'block'}
-            // 'active': i === active ? 1 : 0,
-            // 'offset': (active - i) / 3,
-            // 'absoffset': Math.abs(active - i) / 3,
-            // 'pointer-events': active === i ? 'auto' : 'none',
-            // opacity: Math.abs(active - i) >= maxVisibility ? '0' : '1',
-            // display: Math.abs(active - i) > maxVisibility ? 'none' : 'block',
-
-        //   style={{
-        //     transform: `
-        //     rotateY(calc(${(active - i) / 3} * 50deg))
-        //     scaleY(calc(1 + ${Math.abs(active - i) / 3} * -0.4))
-        //     translateZ(calc(${Math.abs(active - i) / 3} * -30rem))
-        //     translateX(calc(${(active - i) / 3} / ${Math.abs(active - i) / 3} * -5rem))`,
-        //     // opacity: ${Math.abs(active - i) >= maxVisibility ? 0 : 1},
-        //     // display: ${Math.abs(active - i)} > maxVisibility ? 'none' : 'block',
-        //   }}
         >
 
           {child}
         </CardContainer>
       ))}
-      {active < count - 1 && <ButtonRight onClick={() => setActive((i) => i + 1)}><TiChevronRightOutline /></ButtonRight>}
+
+      {active < count - 1 && (
+      <ButtonRight onClick={() => setActive((i) => i + 1)}>
+        <TiChevronRightOutline />
+      </ButtonRight>
+      )}
+
     </CarouselWapper>
   );
 }

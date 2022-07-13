@@ -2,8 +2,9 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable no-console */
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect, useContext } from 'react';
+import Toast from '../../components/toastAlert';
 import UserContext from '../../userContext';
 import Todos, { List, Edit, Title } from '../../components/todo';
 import bg from './recordBg.png';
@@ -69,7 +70,19 @@ const ImgBg = styled.div`
 
 export default function Record() {
   const User = useContext(UserContext);
-  console.log(User);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!User) {
+      Toast.fire({
+        title: '親愛的~登入才能紀錄資料喔~',
+      });
+      setTimeout(() => {
+        navigate('/');
+      }, 4000);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // const collectionID = User.uid;
   const [data, setData] = useState([]);

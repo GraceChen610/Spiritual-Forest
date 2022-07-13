@@ -1,6 +1,7 @@
 import styled, { keyframes } from 'styled-components/macro';
 import { useEffect, useState, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import Toast from '../../components/toastAlert';
 import UserContext from '../../userContext';
 import firebaseStores from '../../firebase';
 import MessageModal from '../../components/BaseModal';
@@ -200,6 +201,7 @@ export default function Truf() {
   const [showMessageModal, setShowMessageModal] = useState(false);
   const [articleTitle, setArticleTitle] = useState('');
   const [articleContent, setArticleContent] = useState('');
+  const navigate = useNavigate();
 
   const openModal = () => {
     setShowMessageModal((prev) => !prev);
@@ -216,9 +218,15 @@ export default function Truf() {
           (res.map((item) => ({ ...item, bottom: getRandom(0, 100), left: getRandom(0, 1300) }))),
         ));
     } else {
-      // alert('請登入以解鎖更多互動功能~');
+      Toast.fire({
+        title: '親愛的~登入才能發文與綠植互動喔~',
+      });
+      setTimeout(() => {
+        navigate('/');
+      }, 4000);
     }
-  }, [User]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Wrapper>

@@ -6,6 +6,7 @@ import {
 import { Link } from 'react-router-dom';
 import { GiChainedHeart } from 'react-icons/gi';
 import { signOut } from 'firebase/auth';
+import Toast from '../../components/toastAlert';
 import UserContext from '../../userContext';
 import firebaseStores, { auth } from '../../firebase';
 import Modal from '../../components/Modal';
@@ -378,7 +379,18 @@ export default function Home() {
           <span>今天感覺如何?</span>
         </span>
         <ButtonControl>
-          <button type="button" onClick={() => openModal()}>
+          <button
+            type="button"
+            onClick={() => {
+              openModal();
+              if (!User) {
+                Toast.fire({
+                  title: '親愛的~登入才能紀錄心情喔~',
+                });
+                openModal();
+              }
+            }}
+          >
             很 棒
           </button>
 
@@ -401,7 +413,18 @@ export default function Home() {
       <Giraffe>
         {/* <img src="/img/giraffe.png" alt="turf" width="60%" /> */}
       </Giraffe>
-      <Owl type="button" onClick={() => openWorryModal()}>
+      <Owl
+        type="button"
+        onClick={() => {
+          openWorryModal();
+          if (!User) {
+            Toast.fire({
+              title: '親愛的~登入才能紀錄心情喔~',
+            });
+            openWorryModal();
+          }
+        }}
+      >
         <img src="/img/owl.png" alt="owl" title="讓我替你分憂吧~" width="25%" />
       </Owl>
       <WorryModal
@@ -431,7 +454,9 @@ export default function Home() {
       {User
         ? (
           <SignLog onClick={() => signOut(auth).then(() => {
-            console.log('Sign-out successful.');
+            Toast.fire({
+              title: '登出成功，常回來看我們哦~',
+            });
           }).catch((error) => {
             console.log(error);
           })}
@@ -451,7 +476,7 @@ export default function Home() {
         setShowModal={setLoginModal}
         bg="url(/img/loginBg.png) no-repeat left top / 100% 100% "
         bkc="linear-gradient(130deg, #D7FFFE, #ace0f9, #ace0c1)"
-        content={<Login />}
+        content={<Login setShowModal={setLoginModal} />}
       />
 
       <Modal

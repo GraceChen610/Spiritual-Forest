@@ -69,7 +69,6 @@ function FlipCard({
     opacity: flipped ? 1 : 0,
     transform: `perspective(600px) rotateY(${flipped ? 0 : 180}deg) scale(${flipped ? 1 : 1})`,
     config: { mass: 1, tension: 300, friction: 120 },
-    // background: flipped ? 'white' : 'blue',
   });
 
   return (

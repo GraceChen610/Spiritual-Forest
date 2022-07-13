@@ -107,7 +107,7 @@ export function Edit({ add, data, keyName }) {
 
   return (
     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-      <Input type="text" value={note} onChange={(e) => setNote(e.target.value)} />
+      <Input type="text" value={note} onChange={(e) => setNote(e.target.value)} placeholder="輸入內容後 請按＋" />
       <BiMessageSquareAdd onClick={() => addItem(note)} style={{ fontSize: '1.8rem', color: '#491818', cursor: 'pointer' }} />
       {/* <Button>
         ＋

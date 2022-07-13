@@ -98,6 +98,12 @@
           justify-content: space-evenly;
   height: 60%;
   letter-spacing: 3px;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.card .options input {
+  cursor: pointer;
 }
 
 .nav {
@@ -138,22 +144,38 @@
 }
 
 .nav.finish {
-  color: #e3e384;
-  right: -10px;
+  font-size: 4rem;
   -webkit-transform: translateX(100%) translatey(-50%);
           transform: translateX(100%) translatey(-50%);
+  color: #955a02;
+  right: -20px;
+  border-radius: 50%;
+  background-color: white;
+  -webkit-box-shadow: 0px 0px 10px 8px white;
+          box-shadow: 0px 0px 10px 8px white;
+}
+
+.nav.finish :hover {
+  -webkit-transform: scale(1.05);
+          transform: scale(1.05);
+  cursor: pointer;
 }
 
 .nav.back {
-  font-size: 3.5rem;
+  font-size: 4.5rem;
   top: initial;
   left: 40px;
   bottom: 40px;
+  color: #955a02;
+  border-radius: 50%;
+  background-color: white;
+  -webkit-box-shadow: 0px 0px 8px 5px white;
+          box-shadow: 0px 0px 8px 5px white;
 }
 
 .nav.back :hover {
-  -webkit-transform: scale(1.1);
-          transform: scale(1.1);
+  -webkit-transform: translateX(-5%) translatey(-5%) scale(1.1);
+          transform: translateX(-5%) translatey(-5%) scale(1.1);
   cursor: pointer;
 }
 /*# sourceMappingURL=quiz.css.map */
