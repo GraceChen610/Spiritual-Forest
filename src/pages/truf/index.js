@@ -65,8 +65,7 @@ const Grass = styled.img`
  :hover{
     transform: scale(1.2);
     cursor: pointer;
-
-}
+  }
 `;
 
 const Flower = styled.img`
@@ -138,39 +137,16 @@ function getRandom(min, max) {
 //   }
 //   getRound(getRandom(0, 10), getRandom(0, 10), 25);
 
-// const SignBack = styled.img`
-//   position: absolute;
-//   width: 140px;
-//   bottom: 50px;
-//   right: 50px;
-//   ${'' /* transform: rotateY(180deg); */}
-// `;
-
-// const Back = styled.span`
-// z-index:9999;
-// ${'' /* height: 60%; */}
-// width: 100%;
-// display: inline-block;
-// margin:35% 0 0 0%;
-// padding:25% 10%;
-
-// :hover{
-//   transform: scale(1.15);
-//   cursor: pointer;
-// }
-
-// `;
-
 const SignBack = styled.div`
 ${'' /* border: 1px solid; */}
   position: absolute;
+  bottom: 30px;
+  right: 50px;
+  z-index: 9999;
   display:flex;
   justify-content: center;
   width: 10%;
-  ${'' /* min-width: 80px; */}
   height:23%;
-  bottom: 30px;
-  right: 50px;
   box-sizing: border-box;
   background:url("/img/sign.png") no-repeat bottom LEFT / 100%;
   cursor: pointer;
@@ -192,11 +168,13 @@ ${'' /* border: 1px solid; */}
   font-size: 1.5rem;
   
   }
-
-  @media screen and (max-width: 1025px) { 
+  @media screen and (max-width: 1280px) { 
+    height:18%;
+  }
+  @media screen and (max-width: 1024px) { 
     height:15%;
   }
-  @media screen and (max-width: 770px) { 
+  @media screen and (max-width: 768px) { 
     height:12%;
     ::after{
       font-size: 1rem;
@@ -261,6 +239,21 @@ export default function Truf() {
   };
 
   useEffect(() => {
+    if (User === '') {
+      // eslint-disable-next-line no-console
+      console.log('Loading...');
+      Toast.fire({
+        title: '稍等片刻，光速抓取資料中...',
+      });
+    }
+    if (User === null) {
+      Toast.fire({
+        title: '親愛的~登入才能發文與綠植互動喔~',
+      });
+      setTimeout(() => {
+        navigate('/');
+      }, 4000);
+    }
     if (User) {
       firebaseStores.getArticles('cheerful_articles', User.uid)
         .then((res) => setCheerfulArticles(
@@ -270,16 +263,8 @@ export default function Truf() {
         .then((res) => setWorriesArticles(
           (res.map((item) => ({ ...item, bottom: getRandom(0, 100), left: getRandom(0, 90) }))),
         ));
-    } else {
-      Toast.fire({
-        title: '親愛的~登入才能發文與綠植互動喔~',
-      });
-      setTimeout(() => {
-        navigate('/');
-      }, 4000);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [User, navigate]);
 
   return (
     <Wrapper>

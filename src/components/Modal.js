@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-/* eslint-disable react/prop-types */
 import React, {
   useRef, useEffect, useCallback, useContext,
 } from 'react';
@@ -8,6 +7,7 @@ import styled, { keyframes } from 'styled-components';
 import { MdClose } from 'react-icons/md';
 import Swal from 'sweetalert2';
 import { v4 as uuidv4 } from 'uuid';
+import PropTypes from 'prop-types';
 import UserContext from '../userContext';
 import firebaseStores from '../firebase';
 import BgImg from './happyBoard.png';
@@ -218,3 +218,10 @@ export default function Modal({
     </div>
   );
 }
+
+Modal.propTypes = {
+  showModal: PropTypes.bool.isRequired,
+  setShowModal: PropTypes.func.isRequired,
+  refTitle: PropTypes.shape({ current: PropTypes.instanceOf(Element) }).isRequired,
+  refContent: PropTypes.shape({ current: PropTypes.instanceOf(Element) }).isRequired,
+};

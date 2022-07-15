@@ -1,9 +1,9 @@
-/* eslint-disable react/prop-types */
 import React, { useRef, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { useSpring, animated } from 'react-spring';
 import styled from 'styled-components/macro';
 import { MdClose } from 'react-icons/md';
+import PropTypes from 'prop-types';
 
 const Background = styled.div`
   width: 100vw;
@@ -162,3 +162,8 @@ export default function BadModal({
     </div>
   );
 }
+
+BadModal.propTypes = {
+  showBadModal: PropTypes.bool.isRequired,
+  setShowBadModal: PropTypes.func.isRequired,
+};

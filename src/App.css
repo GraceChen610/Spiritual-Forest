@@ -16,7 +16,7 @@ body::-webkit-scrollbar {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: center;
   overflow-y: hidden;
   position:relative;
   cursor: pointer;
@@ -27,6 +27,7 @@ body::-webkit-scrollbar {
  font-weight: bold;
 margin: 5px;
 opacity: 0.5;
+box-sizing: content-box;
 }
 
 

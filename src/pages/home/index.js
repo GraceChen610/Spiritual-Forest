@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes } from 'styled-components/macro';
 import {
   useEffect, useState, useRef, useContext,
 } from 'react';
@@ -123,22 +123,6 @@ const Zebra = styled(Board)`
     left:900px;
 `;
 
-const bubble = keyframes`
-    0%   { transform: rotateX(90deg);  opacity: 0;}
-  100% {  transform: rotateX(0deg);  opacity: 0.9;}
-`;
-const Bubble = styled(Board)`
-opacity: 0;
-    animation: ${bubble} 2s ease 2s 1 forwards;
-    ${'' /* transform-origin: bottom center; */}
-    bottom:380px;
-    left:970px;
-    z-index:0;
-  img{
-    filter: drop-shadow(5px 5px 0.5rem #2c4919);
-  }
-`;
-
 const Lion = styled(Tree)`
 bottom:30px;
 left:1090px;
@@ -148,11 +132,6 @@ const RedPanda = styled(Tree)`
 z-index:-42;
 bottom:60px;
 left:220px;
-`;
-
-const Giraffe = styled(Tree)`
-bottom:100px;
-left:20px;
 `;
 
 const Owl = styled.div`
@@ -178,7 +157,7 @@ const Sign = styled.span`
 display: inline-block;
 position: absolute;
 z-index:0;
-bottom:130px;
+bottom:100px;
 left:30px;
 ${'' /* border: 1px solid black; */}
 width:150px;
@@ -186,6 +165,7 @@ text-align:center;
 color: white;
 text-shadow: black 0.1em 0.1em 0.2em;
 font-size:1.2rem;
+padding: 30px 0;
 :hover{
   transform: scale(1.17);
   cursor: pointer;
@@ -198,7 +178,7 @@ left: initial;
 `;
 
 const SignLog = styled(Sign)`
-bottom:415px;
+bottom:385px;
 left:430px;
 `;
 
@@ -223,30 +203,60 @@ const Title = styled.div`
     }
 `;
 
+const bubble = keyframes`
+    0%   { transform: rotateX(90deg);  opacity: 0;}
+  100% {  transform: rotateX(0deg);  opacity: 0.9;}
+`;
+
+const Bubble = styled(Board)`
+opacity: 0;
+    animation: ${bubble} 2s ease 2s 1 forwards;
+    ${'' /* transform-origin: bottom center; */}
+    bottom:380px;
+    left:970px;
+    z-index:0;
+  img{
+    filter: drop-shadow(5px 5px 0.5rem #2c4919);
+  }
+`;
+
 const qusition = keyframes`
     0%   { transform: rotateX(90deg);  opacity: 0;}
   100% {  transform: rotateX(0deg);  opacity: 1;}
 `;
 
 const Qusition = styled.div`
-    animation: ${qusition} 2s ease 2s 1 forwards;
+    animation: ${qusition} 2s ease 1s 1 forwards;
     opacity: 0;
-    position: absolute;
-    z-index:1;
-    bottom:450px;
-    left:990px;
-    width:330px;
-    height:120px;
+    width:340px;
+    height:150px;
     text-align: center;
-    font-size: 1.2rem;
+    font-size: 1.35rem;
     ${'' /* border: black solid 1px; */}
     font-weight: bold;
     display:flex;
     flex-direction: column;
-    padding:0.5rem;
   span{
     color:#491818;
   }
+`;
+
+const QusitionControl = styled.div`
+  opacity: 0;
+  animation: ${bubble} 2s ease 2s 1 forwards;
+  background: url("/img/bubble.png") no-repeat bottom left / 100%;
+  height:30%;
+  width:25%;
+  position: absolute;
+  bottom:400px;
+  left:970px;
+  z-index:1;
+  ${'' /* border:1px solid black; */}
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(5px 5px 0.5rem #2c4919);
 `;
 
 const ButtonControl = styled.div`
@@ -284,8 +294,8 @@ export default function Home() {
   const [showBadModal, setShowBadModal] = useState(false);
   const [showWorryModal, setShowWorryModal] = useState(false);
   const [loginModal, setLoginModal] = useState(false);
-  const refTitle = useRef('');
-  const refContent = useRef('');
+  const refTitle = useRef();
+  const refContent = useRef();
   const User = useContext(UserContext);
 
   const openModal = () => {
@@ -366,53 +376,53 @@ export default function Home() {
         <img src="/img/turf.png" alt="turf" width="100%" />
       </Turf>
       <Zebra>
-        <img src="/img/zebra.png" alt="turf" width="70%" />
+        <img src="/img/zebra.png" alt="zebra" width="70%" />
       </Zebra>
-      <Qusition>
-        <span>
-          親愛的
-          {' '}
-          {User ? (User.userData.user_name) : '~'}
-          {' '}
-          {User ? <GiChainedHeart /> : null}
-          <br />
-          <span>今天感覺如何?</span>
-        </span>
-        <ButtonControl>
-          <button
-            type="button"
-            onClick={() => {
-              openModal();
-              if (!User) {
-                Toast.fire({
-                  title: '親愛的~登入才能紀錄心情喔~',
-                });
+      <QusitionControl>
+        <Qusition>
+          <span>
+            親愛的
+            {' '}
+            {User ? (User.userData.user_name) : '~'}
+            {' '}
+            {User ? <GiChainedHeart /> : null}
+            <br />
+            <span>今天感覺如何?</span>
+          </span>
+          <ButtonControl>
+            <button
+              type="button"
+              onClick={() => {
                 openModal();
-              }
-            }}
-          >
-            很 棒
-          </button>
+                if (!User) {
+                  Toast.fire({
+                    title: '親愛的~登入才能紀錄心情喔~',
+                  });
+                  openModal();
+                }
+              }}
+            >
+              很 棒
+            </button>
 
-          <button type="button" onClick={() => openBadModal()}>
-            不 好
-          </button>
+            <button type="button" onClick={() => openBadModal()}>
+              不 好
+            </button>
 
-        </ButtonControl>
+          </ButtonControl>
 
-      </Qusition>
+        </Qusition>
+      </QusitionControl>
       <Bubble>
-        <img src="/img/bubble.png" alt="turf" width="70%" />
+        {/* <img src="/img/bubble.png" alt="turf" width="70%" /> */}
       </Bubble>
       <Lion>
-        <img src="/img/lion.png" alt="turf" width="80%" />
+        <img src="/img/lion.png" alt="lion" width="80%" />
       </Lion>
       <RedPanda>
-        <img src="/img/red-panda.png" alt="turf" width="60%" />
+        <img src="/img/red-panda.png" alt="panda" width="60%" />
       </RedPanda>
-      <Giraffe>
-        {/* <img src="/img/giraffe.png" alt="turf" width="60%" /> */}
-      </Giraffe>
+
       <Owl
         type="button"
         onClick={() => {
@@ -445,11 +455,10 @@ export default function Home() {
       </Sign>
 
       <img src="/img/signs.png" alt="turf" width="10%" style={signRStyle} />
-      <SignR>
-        <Link to="/record">
-          紀錄今天＞
-        </Link>
-      </SignR>
+
+      <Link to="/record">
+        <SignR>紀錄今天＞ </SignR>
+      </Link>
 
       {User
         ? (

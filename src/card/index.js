@@ -11,6 +11,8 @@ export default function Shuffle() {
   const [cardMap, setCardMap] = useState({});
   const [flipped, set] = useState(null);
   const [play, setPlay] = useState(false);
+  // const [showLink, setShowLink] = useState(11);
+  // console.log(showLink);
 
   useEffect(() => {
     firebaseStores.getData('cards')
@@ -62,6 +64,7 @@ export default function Shuffle() {
             innerRef={ref}
             setfun={() => { set(key); }}
             flipped={flipped === key}
+            // onClick={console.log(key)}
             style={{
               transition: `transform ${TRANSITION_DURATION}ms ease`,
               height: '350px',

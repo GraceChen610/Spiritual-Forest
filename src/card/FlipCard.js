@@ -1,9 +1,8 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable react/prop-types */
 import React from 'react';
 import styled from 'styled-components/macro';
 import { useSpring, a } from 'react-spring';
+import PropTypes from 'prop-types';
 import cardBg from './cardBg.gif';
 
 const CardControl = styled.div`
@@ -33,6 +32,7 @@ const CardControl = styled.div`
 
     a{
       color: black;
+      pointer-events: ${(props) => (props.primary ? 'auto' : 'none')};
 
       button{
         padding: 5px 24px;
@@ -45,7 +45,6 @@ const CardControl = styled.div`
         font-size: 0.7rem;
       }
     }
-
 `;
 
 const CardBack = styled.div`
@@ -70,9 +69,9 @@ function FlipCard({
     transform: `perspective(600px) rotateY(${flipped ? 0 : 180}deg) scale(${flipped ? 1 : 1})`,
     config: { mass: 1, tension: 300, friction: 120 },
   });
-
   return (
-    <div onClick={setfun} ref={innerRef} style={style}>
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events
+    <div onClick={() => { setfun(); }} ref={innerRef} style={style}>
       <a.div
         style={{
           transform,
@@ -90,14 +89,36 @@ function FlipCard({
           top: '-311px',
         }}
       >
-        <CardControl>
-          <span>{item.title}</span>
-          <p>{item.content}</p>
-          <a href={item.resource} target="_blank" title="更多資源" rel="noreferrer"><button type="button">更多資源</button></a>
-        </CardControl>
+        { flipped
+          ? (
+            <CardControl primary>
+              <span>{item.title}</span>
+              <p>{item.content}</p>
+              <a href={item.resource} target="_blank" title="更多資源" rel="noreferrer"><button type="button">更多資源</button></a>
+            </CardControl>
+          )
+          : (
+            <CardControl>
+              <span>{item.title}</span>
+              <p>{item.content}</p>
+              <a href={item.resource} target="_blank" title="更多資源" rel="noreferrer"><button type="button">更多資源</button></a>
+            </CardControl>
+          )}
       </a.div>
     </div>
   );
 }
 
 export default FlipCard;
+
+FlipCard.propTypes = {
+  flipped: PropTypes.bool.isRequired,
+  setfun: PropTypes.func.isRequired,
+  item: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    content: PropTypes.string.isRequired,
+    resource: PropTypes.string.isRequired,
+  }).isRequired,
+  style: PropTypes.shape.isRequired,
+  innerRef: PropTypes.shape({ current: PropTypes.instanceOf(Element) }).isRequired,
+};

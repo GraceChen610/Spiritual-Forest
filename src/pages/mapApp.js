@@ -7,6 +7,9 @@ import { AiOutlineCar } from 'react-icons/ai';
 import { GiPathDistance } from 'react-icons/gi';
 import { MdOutlineMyLocation } from 'react-icons/md';
 import styled from 'styled-components/macro';
+import { Link, useSearchParams } from 'react-router-dom';
+import { IoArrowBackCircle } from 'react-icons/io5';
+import PropTypes from 'prop-types';
 
 import {
   useJsApiLoader,
@@ -16,7 +19,6 @@ import {
   DirectionsRenderer,
 } from '@react-google-maps/api';
 import { useEffect, useRef, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
 
 const Box = styled.div`
   display:flex;
@@ -114,8 +116,21 @@ const Button = styled.button`
   }
 `;
 
+const Btncontrol = styled.div`
+  display:${(props) => props.backbtn || 'initial'};
+`;
+
 const center = { lat: 25.038489, lng: 121.532369 };
-function MapApp() {
+
+MapApp.propTypes = {
+  backbtn: PropTypes.string,
+};
+
+MapApp.defaultProps = {
+  backbtn: null,
+};
+
+function MapApp({ backbtn }) {
   const [libraries] = useState(['places']);
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAP_KEY,
@@ -228,6 +243,12 @@ function MapApp() {
 
   return (
     <Flex>
+      <Link to="/" title="back">
+        <Btncontrol backbtn={backbtn}>
+          <IoArrowBackCircle className="nav back" />
+        </Btncontrol>
+      </Link>
+
       <SearchBar>
         <Box>
           目的地：

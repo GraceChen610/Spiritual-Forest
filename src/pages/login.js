@@ -3,9 +3,9 @@ import {
   createUserWithEmailAndPassword, signInWithEmailAndPassword,
   setPersistence, browserSessionPersistence,
 } from 'firebase/auth';
-import { useNavigate } from 'react-router-dom';
 import { useState, useContext } from 'react';
 import styled from 'styled-components/macro';
+import PropTypes from 'prop-types';
 import firebaseStores, { auth } from '../firebase';
 import Toast from '../components/toastAlert';
 import UserContext from '../userContext';
@@ -69,13 +69,11 @@ width: 300px;
  }
  `;
 
-// eslint-disable-next-line react/prop-types
 function Login({ setShowModal }) {
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
   const [userName, setUserName] = useState('');
   const User = useContext(UserContext);
-  const navigate = useNavigate();
 
   function register(email, password) {
     createUserWithEmailAndPassword(auth, email, password)
@@ -98,6 +96,7 @@ function Login({ setShowModal }) {
         Toast.fire({
           title: '註冊成功啦~',
         });
+        setShowModal(false);
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -136,7 +135,7 @@ function Login({ setShowModal }) {
         <input type="text" placeholder="請輸入暱稱" name="name" required onChange={(e) => setUserName(e.target.value)} />
         <input type="text" placeholder="請輸入E-mail" name="email" required onChange={(e) => setUserEmail(e.target.value)} />
         <input type="password" placeholder="請輸入密碼" name="psw" required onChange={(e) => setUserPassword(e.target.value)} />
-        <span role="button" tabIndex={0} aria-hidden="true" onClick={() => { register(userEmail, userPassword); navigate('/'); }}>註冊</span>
+        <span role="button" tabIndex={0} aria-hidden="true" onClick={() => { register(userEmail, userPassword); }}>註冊</span>
       </ControlR>
 
       <ControlL>
@@ -159,3 +158,11 @@ function Login({ setShowModal }) {
 }
 
 export default Login;
+
+Login.propTypes = {
+  setShowModal: PropTypes.func,
+};
+
+Login.defaultProps = {
+  setShowModal: null,
+};
