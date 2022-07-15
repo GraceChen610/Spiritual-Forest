@@ -117,7 +117,7 @@ const Button = styled.button`
 `;
 
 const Btncontrol = styled.div`
-  display:${(props) => props.backbtn || 'initial'};
+  display:${(props) => props.backbtn || 'block'};
 `;
 
 const center = { lat: 25.038489, lng: 121.532369 };
@@ -126,8 +126,12 @@ MapApp.propTypes = {
   backbtn: PropTypes.string,
 };
 
+// MapApp.propTypes = {
+//   backbtn: PropTypes.string
+// };
+
 MapApp.defaultProps = {
-  backbtn: null,
+  backbtn: 'block',
 };
 
 function MapApp({ backbtn }) {
