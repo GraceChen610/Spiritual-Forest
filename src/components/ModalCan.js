@@ -1,9 +1,8 @@
-/* eslint-disable no-console */
-/* eslint-disable react/prop-types */
 import React, { useRef, useEffect, useCallback } from 'react';
 import { useSpring, animated } from 'react-spring';
 import styled from 'styled-components';
 import { MdClose } from 'react-icons/md';
+import PropTypes from 'prop-types';
 import Canvas from '../pages/record/canvas';
 
 const Background = styled.div`
@@ -58,7 +57,6 @@ const CloseModalButton = styled(MdClose)`
 `;
 
 export default function Modal({
-  // eslint-disable-next-line no-unused-vars
   showModal, setShowModal, setHistoryImg, setUpdataImg,
 }) {
   const modalRef = useRef();
@@ -82,7 +80,6 @@ export default function Modal({
     (e) => {
       if (e.key === 'Escape' && showModal) {
         setShowModal(false);
-        console.log('I pressed');
       }
     },
     [setShowModal, showModal],
@@ -116,3 +113,10 @@ export default function Modal({
     </div>
   );
 }
+
+Modal.propTypes = {
+  showModal: PropTypes.bool.isRequired,
+  setShowModal: PropTypes.bool.isRequired,
+  setHistoryImg: PropTypes.string.isRequired,
+  setUpdataImg: PropTypes.bool.isRequired,
+};

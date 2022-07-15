@@ -3,10 +3,12 @@ import {
   createUserWithEmailAndPassword, signInWithEmailAndPassword,
   setPersistence, browserSessionPersistence,
 } from 'firebase/auth';
-// eslint-disable-next-line no-unused-vars
-import { useEffect, useState } from 'react';
+import { useState, useContext } from 'react';
 import styled from 'styled-components/macro';
+import PropTypes from 'prop-types';
 import firebaseStores, { auth } from '../firebase';
+import Toast from '../components/toastAlert';
+import UserContext from '../userContext';
 
 const Wrapper = styled.div`
   `;
@@ -67,10 +69,11 @@ width: 300px;
  }
  `;
 
-function Login() {
+function Login({ setShowModal }) {
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
   const [userName, setUserName] = useState('');
+  const User = useContext(UserContext);
 
   function register(email, password) {
     createUserWithEmailAndPassword(auth, email, password)
@@ -90,7 +93,10 @@ function Login() {
           gratitude: [],
           favorite: [],
         });
-        // ...
+        Toast.fire({
+          title: '註冊成功啦~',
+        });
+        setShowModal(false);
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -108,8 +114,11 @@ function Login() {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         const userData = auth.currentUser;
         console.log('userData', userData);
-        // eslint-disable-next-line no-alert
-        alert(`目前狀態:${userCredential.operationType}`);
+        console.log(`目前狀態:${userCredential.operationType}`);
+        Toast.fire({
+          title: `${User ? (User.userData.user_name) : ''} 你回來啦~ 大家都在想你呢`,
+        });
+        setShowModal(false);
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -126,16 +135,34 @@ function Login() {
         <input type="text" placeholder="請輸入暱稱" name="name" required onChange={(e) => setUserName(e.target.value)} />
         <input type="text" placeholder="請輸入E-mail" name="email" required onChange={(e) => setUserEmail(e.target.value)} />
         <input type="password" placeholder="請輸入密碼" name="psw" required onChange={(e) => setUserPassword(e.target.value)} />
-        <span role="button" tabIndex={0} aria-hidden="true" onClick={() => register(userEmail, userPassword)}>註冊</span>
+        <span role="button" tabIndex={0} aria-hidden="true" onClick={() => { register(userEmail, userPassword); }}>註冊</span>
       </ControlR>
 
       <ControlL>
         <input type="text" placeholder="請輸入E-mail" name="email" id="email" required onChange={(e) => setUserEmail(e.target.value)} />
         <input type="password" placeholder="請輸入密碼" name="psw" required onChange={(e) => setUserPassword(e.target.value)} />
-        <span role="button" tabIndex={0} aria-hidden="true" onClick={() => logIn(userEmail, userPassword)}>登入</span>
+        <span
+          role="button"
+          tabIndex={0}
+          aria-hidden="true"
+          onClick={() => {
+            logIn(userEmail, userPassword);
+          }}
+        >
+          登入
+
+        </span>
       </ControlL>
     </Wrapper>
   );
 }
 
 export default Login;
+
+Login.propTypes = {
+  setShowModal: PropTypes.func,
+};
+
+Login.defaultProps = {
+  setShowModal: null,
+};

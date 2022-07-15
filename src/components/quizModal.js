@@ -1,14 +1,13 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
-/* eslint-disable react/prop-types */
-
 import React, {
   useRef, useEffect, useCallback, useState,
 } from 'react';
 import { Link } from 'react-router-dom';
 import { useSpring, animated } from 'react-spring';
-import styled, { keyframes } from 'styled-components/macro';
+import styled from 'styled-components/macro';
 import { MdClose } from 'react-icons/md';
+import PropTypes from 'prop-types';
 import MapModal from './BaseModal';
 import MapApp from '../pages/mapApp';
 
@@ -176,9 +175,23 @@ export default function Modal({
       <MapModal
         showModal={showMapModal}
         setShowModal={setShowMapModal}
-        content={<MapApp />}
+        content={<MapApp backbtn="none" />}
       />
 
     </div>
   );
 }
+
+Modal.propTypes = {
+  showModal: PropTypes.bool.isRequired,
+  setShowModal: PropTypes.bool.isRequired,
+  myQuizScore: PropTypes.number.isRequired,
+  myQuizResult: PropTypes.arrayOf(PropTypes.shape({
+    content: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
+  })),
+};
+
+Modal.defaultProps = {
+  myQuizResult: [],
+};

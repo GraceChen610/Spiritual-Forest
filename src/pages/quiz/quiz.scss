@@ -87,7 +87,13 @@ $card-size: 27rem;
     align-items: center;
     justify-content: space-evenly;
     height: 60%;
-    letter-spacing:3px
+    letter-spacing:3px;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    
+    input{
+      cursor: pointer;
+    }
   }
 }
 
@@ -116,18 +122,32 @@ $card-size: 27rem;
   }
 
   &.finish {
-    color: rgb(227, 227, 132);
-    right: -10px;
+    font-size: 4rem;
     transform: translateX(100%) translatey(-50%);
+    color: #955a02;
+    right: -20px;
+    border-radius: 50%;
+    background-color: white;
+    box-shadow: 0px 0px 10px 8px white;
+    
+    :hover{
+      transform: scale(1.05);
+      cursor: pointer;
+    }
   }
 
   &.back{
-    font-size: 3.5rem;
+    font-size: 4.5rem;
     top: initial;
     left: 40px;
     bottom: 40px;
+    color: #955a02;
+    border-radius: 50%;
+    background-color: white;
+    box-shadow: 0px 0px 8px 5px white;
+
     :hover{
-      transform: scale(1.1);
+      transform: translateX(-5%) translatey(-5%) scale(1.1);
       cursor: pointer;
     }
   }

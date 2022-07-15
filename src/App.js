@@ -1,6 +1,4 @@
 /* eslint-disable no-console */
-/* eslint-disable import/no-unresolved */
-/* eslint-disable import/extensions */
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useEffect, useState } from 'react';
@@ -16,8 +14,7 @@ import UserContext from './userContext';
 import Truf from './pages/truf';
 
 function App() {
-  // eslint-disable-next-line no-unused-vars
-  const [User, setUser] = useState();
+  const [User, setUser] = useState('');
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -34,12 +31,21 @@ function App() {
 
         // ...
       } else {
-        // User is signed out
-        // ...
         console.log('User is signed out');
-        setUser();
+        setUser(null);
       }
     });
+  }, []);
+
+  useEffect(() => {
+    // eslint-disable-next-line max-len
+    // window.addEventListener('onorientationchange' in window ? 'orientationchange' : 'resize', () => {
+    //   if (window.orientation === 180 || window.orientation === 0) {
+    //     // eslint-disable-next-line no-alert
+    //     alert('為確保最佳使用體驗，請將手機螢幕轉為橫向瀏覽');
+    //   }
+    // }, false);
+    // screen.orientation.lock('landscape-primary');
   }, []);
 
   return (

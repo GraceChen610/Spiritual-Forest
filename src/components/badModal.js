@@ -1,16 +1,13 @@
-/* eslint-disable no-console */
-/* eslint-disable react/prop-types */
 import React, { useRef, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { useSpring, animated } from 'react-spring';
 import styled from 'styled-components/macro';
 import { MdClose } from 'react-icons/md';
+import PropTypes from 'prop-types';
 
 const Background = styled.div`
   width: 100vw;
-  height: 100vh;  
-  ${'' /* backdrop-filter: blur(10px); */}
-  ${'' /* background: rgba(0, 0, 0, 0.8); */}
+  height: 100vh;
   background: rgba(255, 255, 255, 0.8);
   position: fixed;
   bottom: 0px;
@@ -31,8 +28,6 @@ const ModalWrapper = styled.div`
   background: #fff;
   color: #000;
   background: linear-gradient(130deg, #D7FFFE, #ace0f9, #ace0c1);
-  ${'' /* display: grid;
-  grid-template-columns: 8fr 1fr; */}
   position: relative;
   z-index: 10;
   border-radius: 10px;
@@ -167,3 +162,8 @@ export default function BadModal({
     </div>
   );
 }
+
+BadModal.propTypes = {
+  showBadModal: PropTypes.bool.isRequired,
+  setShowBadModal: PropTypes.func.isRequired,
+};

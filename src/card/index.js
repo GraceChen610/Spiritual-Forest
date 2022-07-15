@@ -1,11 +1,8 @@
-/* eslint-disable no-console */
-/* eslint-disable max-len */
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { IoArrowBackCircle } from 'react-icons/io5';
 import { ReactMixitup } from 'react-mixitup';
 import { shuffle, range } from 'lodash';
-// import styled from 'styled-components/macro';
 import firebaseStores from '../firebase';
 import FlipCard from './FlipCard';
 
@@ -14,7 +11,8 @@ export default function Shuffle() {
   const [cardMap, setCardMap] = useState({});
   const [flipped, set] = useState(null);
   const [play, setPlay] = useState(false);
-  console.log(cardMap);
+  // const [showLink, setShowLink] = useState(11);
+  // console.log(showLink);
 
   useEffect(() => {
     firebaseStores.getData('cards')
@@ -26,7 +24,6 @@ export default function Shuffle() {
           arr[index] = item;
           return arr;
         }, {});
-        console.log({ result });
         setCardMap(result);
         setPlay(true);
       });
@@ -43,8 +40,8 @@ export default function Shuffle() {
   useEffect(() => {
     if (!play) return;
     goShuffle();
-    setTimeout((() => goShuffle()), 800);
-    setTimeout((() => goShuffle()), 1600);
+    setTimeout((() => goShuffle()), 500);
+    setTimeout((() => goShuffle()), 1000);
     setPlay(false);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [play]);
@@ -54,7 +51,7 @@ export default function Shuffle() {
   return (
     <div>
       {/* <button type="button" onClick={goShuffle}>Shuffle</button> */}
-      <Link to="/" title="back"><IoArrowBackCircle className="nav back" style={{ left: '20px', bottom: '25px' }} /></Link>
+      <Link to="/" title="back"><IoArrowBackCircle className="nav back" style={{ left: '30px', bottom: '35px' }} /></Link>
       {}
       <ReactMixitup
         keys={keys}
@@ -67,6 +64,7 @@ export default function Shuffle() {
             innerRef={ref}
             setfun={() => { set(key); }}
             flipped={flipped === key}
+            // onClick={console.log(key)}
             style={{
               transition: `transform ${TRANSITION_DURATION}ms ease`,
               height: '350px',
@@ -76,9 +74,6 @@ export default function Shuffle() {
           />
         )}
         renderWrapper={(style, ref, children) => (
-          // const squareWidth = (245 + 4 * 3);
-          // const wrapperWidth = squareWidth
-          //     * Math.ceil(Math.sqrt(NUM_CELLS));
           <div
             style={{
               display: 'flex',

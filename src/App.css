@@ -3,6 +3,12 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  box-sizing:content-box;
+  font-size: 1rem;
+}
+
+body::-webkit-scrollbar {
+  display: none;
 }
 
 .App-logo {
@@ -10,7 +16,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: center;
   overflow-y: hidden;
   position:relative;
   cursor: pointer;
@@ -21,6 +27,7 @@
  font-weight: bold;
 margin: 5px;
 opacity: 0.5;
+box-sizing: content-box;
 }
 
 

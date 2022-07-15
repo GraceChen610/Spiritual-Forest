@@ -58,7 +58,7 @@ function Card({
           5 ~ 7 天
         </label>
       </div>
-      <span>單位: 週</span>
+      <span>每週幾天</span>
     </div>
   );
 }

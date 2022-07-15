@@ -1,9 +1,10 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable no-console */
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import styled from 'styled-components/macro';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect, useContext } from 'react';
+import Toast from '../../components/toastAlert';
 import UserContext from '../../userContext';
 import Todos, { List, Edit, Title } from '../../components/todo';
 import bg from './recordBg.png';
@@ -18,30 +19,39 @@ const Wrapper = styled.div`
     height: 100vh;
     width: 100vw;
     display: flex;
-    background:  url(${bg}) no-repeat left top / contain ;
-    padding-top:180px;
-    padding-left:300px;
+    align-items: center;
+    justify-content: center;
+    background:  url(${bg}) no-repeat left top / 100% 100% ;
     position:relative;
 `;
+
+const Contain = styled.div`
+    display: flex;
+    height: calc((700/1080)*100vh);
+    width: calc((1350/1920)*100vw);
+    margin-left: 2rem;
+    box-sizing: content-box;
+`;
+
 const LeftControl = styled.div`
-height:60%;
+height:100%;
 `;
 
 const RightControl = styled.div`
     display: flex;
     flex-direction: column;
-  align-items: center;
+    align-items: center;
 `;
 
 const TodoList = styled.div`
-  width:25vw;
-  height:37vh;
+  width:23vw;
+  height:35vh;
   ${'' /* border: 1px solid red; */}
-  background:  url(${listBg}) no-repeat top right / 100% 100%;
+  background: url(${listBg}) no-repeat top right / 100% 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
   text-align: center;
 `;
 
@@ -59,7 +69,7 @@ const Backfrog = styled.img`
 
 const ImgBg = styled.div`
   width: 45vw;
-  height: 75vh;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -69,9 +79,7 @@ const ImgBg = styled.div`
 
 export default function Record() {
   const User = useContext(UserContext);
-  console.log(User);
-
-  // const collectionID = User.uid;
+  const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [historyImg, setHistoryImg] = useState();
@@ -82,6 +90,19 @@ export default function Record() {
   };
 
   useEffect(() => {
+    if (User === '') {
+      console.log('Loading...');
+    }
+
+    if (User === null) {
+      Toast.fire({
+        title: '親愛的~登入才能紀錄資料喔~',
+      });
+      setTimeout(() => {
+        navigate('/');
+      }, 4000);
+    }
+
     if (User) {
       firebaseStores.getOneDoc('users', User.uid)
         .then((res) => {
@@ -90,38 +111,51 @@ export default function Record() {
         })
         .catch((e) => console.log(e));
     }
-  }, [User, updataImg, historyImg]);
+  }, [User, updataImg, historyImg, navigate]);
 
   return (
     <Wrapper>
       <Link to="/">
         <Backfrog src={backfrog} />
       </Link>
-      <LeftControl>
-        <ImgBg>
-          {
+      <Contain>
+        <LeftControl>
+          <ImgBg>
+            {
             historyImg
-              ? <img src={historyImg} alt="myImg" height={380} onClick={() => openModal()} />
+              ? (
+                <img
+                  src={historyImg}
+                  alt="myImg"
+                  height={380}
+                  style={{
+                    maxHeight: '80%', maxWidth: '80%', height: 'auto', width: 'auto',
+                  }}
+                  onClick={() => openModal()}
+                />
+              )
               : <img src={baseImg} alt="myImg" height={380} onClick={() => openModal()} />
           }
-          <Modal
-            showModal={showModal}
-            setShowModal={setShowModal}
-            setHistoryImg={setHistoryImg}
-            setUpdataImg={setUpdataImg}
-          />
-        </ImgBg>
-      </LeftControl>
-      <RightControl>
-        <TodoList><Todos /></TodoList>
-        <Goal>
-          <div>
-            <Title>感恩小語</Title>
-            <List data={data} deleteData={setData} keyName="gratitude" />
-            <Edit data={data} add={setData} keyName="gratitude" />
-          </div>
-        </Goal>
-      </RightControl>
+            <Modal
+              showModal={showModal}
+              setShowModal={setShowModal}
+              historyImg={historyImg}
+              setHistoryImg={setHistoryImg}
+              setUpdataImg={setUpdataImg}
+            />
+          </ImgBg>
+        </LeftControl>
+        <RightControl>
+          <TodoList><Todos /></TodoList>
+          <Goal>
+            <div style={{ width: '65%' }}>
+              <Title>感恩小語</Title>
+              <List data={data} deleteData={setData} keyName="gratitude" />
+              <Edit data={data} add={setData} keyName="gratitude" />
+            </div>
+          </Goal>
+        </RightControl>
+      </Contain>
     </Wrapper>
   );
 }

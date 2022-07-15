@@ -1,12 +1,10 @@
 /* eslint-disable no-console */
-/* eslint-disable no-bitwise */
-/* eslint-disable react/prop-types */
 import { useState, useEffect, useContext } from 'react';
 import { BiMessageSquareAdd, BiMessageSquareMinus } from 'react-icons/bi';
 import styled from 'styled-components/macro';
+import PropTypes from 'prop-types';
 import UserContext from '../userContext';
 import firebaseStores from '../firebase';
-// import uuid from './uuid';
 
 const ItemControl = styled.div`
   display: flex;
@@ -43,7 +41,7 @@ function Item({
 
 export function List({ data, deleteData, keyName }) {
   return (
-    <div style={{ overflowY: 'auto', height: '150px', marginBottom: '0.5rem' }}>
+    <div style={{ overflowY: 'auto', height: '115px', marginBottom: '0.5rem' }}>
       {data?.map((item) => {
         const { content, id } = item;
         return (
@@ -78,8 +76,8 @@ export function Edit({ add, data, keyName }) {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(
       /[xy]/g,
       (c) => {
-        const r = (Math.random() * 16) | 0;
-        const v = c === 'x' ? r : (r & 0x3) | 0x8;
+        const r = (Math.random() * 16) || 0;
+        const v = c === 'x' ? r : (r && 0x3) || 0x8;
         return v.toString(16).toUpperCase();
       },
     );
@@ -107,11 +105,8 @@ export function Edit({ add, data, keyName }) {
 
   return (
     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-      <Input type="text" value={note} onChange={(e) => setNote(e.target.value)} />
+      <Input type="text" value={note} onChange={(e) => setNote(e.target.value)} placeholder="輸入內容後 請按＋" />
       <BiMessageSquareAdd onClick={() => addItem(note)} style={{ fontSize: '1.8rem', color: '#491818', cursor: 'pointer' }} />
-      {/* <Button>
-        ＋
-      </Button> */}
     </div>
   );
 }
@@ -123,6 +118,11 @@ export const Title = styled.span`
     font-weight: bold;
 `;
 
+const ItemWapper = styled.div`
+width:65%;
+height:75%;
+${'' /* border: 1px solid red; */}
+`;
 export default function Todos() {
   const User = useContext(UserContext);
 
@@ -137,10 +137,34 @@ export default function Todos() {
   }, [User]);
 
   return (
-    <div>
+    <ItemWapper>
       <Title>今日目標</Title>
       <List data={data} deleteData={setData} keyName="goals" />
       <Edit data={data} add={setData} keyName="goals" />
-    </div>
+    </ItemWapper>
   );
 }
+
+Item.propTypes = {
+  id: PropTypes.number.isRequired,
+  note: PropTypes.string.isRequired,
+  deleteData: PropTypes.func.isRequired,
+  data: PropTypes.arrayOf({
+    id: PropTypes.number,
+  }).isRequired,
+  keyName: PropTypes.string.isRequired,
+};
+
+List.propTypes = {
+  deleteData: PropTypes.func.isRequired,
+  data: PropTypes.arrayOf({ id: PropTypes.number }).isRequired,
+  keyName: PropTypes.string.isRequired,
+};
+
+Edit.propTypes = {
+  add: PropTypes.func.isRequired,
+  data: PropTypes.arrayOf({
+    id: PropTypes.number,
+  }).isRequired,
+  keyName: PropTypes.string.isRequired,
+};

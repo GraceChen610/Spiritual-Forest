@@ -1,8 +1,8 @@
-/* eslint-disable react/prop-types */
 import React, { useRef, useEffect, useCallback } from 'react';
 import { useSpring, animated } from 'react-spring';
 import styled from 'styled-components';
 import { MdClose } from 'react-icons/md';
+import PropTypes from 'prop-types';
 // import Swal from 'sweetalert2';
 
 const Background = styled.div`
@@ -113,3 +113,18 @@ export default function Modal({
     </div>
   );
 }
+
+Modal.propTypes = {
+  showModal: PropTypes.bool.isRequired,
+  setShowModal: PropTypes.func.isRequired,
+  content: PropTypes.shape({ current: PropTypes.instanceOf(Element) }).isRequired,
+  bkc: PropTypes.string.isRequired,
+  width: PropTypes.string,
+  height: PropTypes.string,
+  bg: PropTypes.string.isRequired,
+};
+
+Modal.defaultProps = {
+  width: null,
+  height: null,
+};

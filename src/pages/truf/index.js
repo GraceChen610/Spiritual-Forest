@@ -1,6 +1,7 @@
 import styled, { keyframes } from 'styled-components/macro';
 import { useEffect, useState, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import Toast from '../../components/toastAlert';
 import UserContext from '../../userContext';
 import firebaseStores from '../../firebase';
 import MessageModal from '../../components/BaseModal';
@@ -9,15 +10,21 @@ const Wrapper = styled.div`
     background: url(/img/155.jpg) no-repeat 0 bottom / cover ;
     width:100vw;
     height:100vh;
+    scrollbar-width:none;
+`;
+
+const PlantsControl = styled.div`
+  width: 85%;
+  ${'' /* border: 1px solid; */}
+  height: 15%;
+  position: absolute;
+  bottom: 0;
 `;
 
 const Control = styled.div`
  position: absolute;
- bottom: ${(props) => props.bottom || 0}px;
- left: ${(props) => props.left || 0}px;
-  ${'' /* display: flex;
-  flex-direction: column;
-  justify-content: center; */}
+ bottom: ${(props) => props.bottom || 0}%;
+ left: ${(props) => props.left || 0}%;
   ${'' /* border: 1px solid black; */}
 
   :hover div{
@@ -58,8 +65,7 @@ const Grass = styled.img`
  :hover{
     transform: scale(1.2);
     cursor: pointer;
-
-}
+  }
 `;
 
 const Flower = styled.img`
@@ -131,29 +137,55 @@ function getRandom(min, max) {
 //   }
 //   getRound(getRandom(0, 10), getRandom(0, 10), 25);
 
-const SignBack = styled.img`
-  position: absolute;
-  width: 140px;
-  bottom: 50px;
-  right: 50px;
-  ${'' /* transform: rotateY(180deg); */}
-`;
-
-const Back = styled.span`
-position: absolute;
-width: 120px;
-bottom: 140px;
-right: 50px;
-font-size: 1.2rem;
+const SignBack = styled.div`
 ${'' /* border: 1px solid; */}
-text-align:center ;
-letter-spacing: 3px;
-text-shadow: black 0.1em 0.1em 0.2em;
-:hover{
-  transform: scale(1.15);
+  position: absolute;
+  bottom: 30px;
+  right: 50px;
+  z-index: 9999;
+  display:flex;
+  justify-content: center;
+  width: 10%;
+  height:23%;
+  box-sizing: border-box;
+  background:url("/img/sign.png") no-repeat bottom LEFT / 100%;
   cursor: pointer;
-}
 
+ ::after{
+   content: 'Back >';
+   color: white;
+   height: 30%;
+   padding-top: 32%;
+   padding-left: 10%;
+   font-size: 1.2rem;
+   letter-spacing: 3px;
+   text-shadow: black 0.1em 0.1em 0.2em;
+   ${'' /* border: 1px solid; */}
+
+  }
+
+  &:hover::after{
+  font-size: 1.5rem;
+  
+  }
+  @media screen and (max-width: 1280px) { 
+    height:18%;
+  }
+  @media screen and (max-width: 1024px) { 
+    height:15%;
+  }
+  @media screen and (max-width: 768px) { 
+    height:12%;
+    ::after{
+      font-size: 1rem;
+      letter-spacing: 2px;
+    }
+    &:hover::after{
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+
+    }
+  }
 `;
 
 const sun = keyframes`
@@ -200,66 +232,79 @@ export default function Truf() {
   const [showMessageModal, setShowMessageModal] = useState(false);
   const [articleTitle, setArticleTitle] = useState('');
   const [articleContent, setArticleContent] = useState('');
+  const navigate = useNavigate();
 
   const openModal = () => {
     setShowMessageModal((prev) => !prev);
   };
 
   useEffect(() => {
+    if (User === '') {
+      // eslint-disable-next-line no-console
+      console.log('Loading...');
+      Toast.fire({
+        title: '稍等片刻，光速抓取資料中...',
+      });
+    }
+    if (User === null) {
+      Toast.fire({
+        title: '親愛的~登入才能發文與綠植互動喔~',
+      });
+      setTimeout(() => {
+        navigate('/');
+      }, 4000);
+    }
     if (User) {
       firebaseStores.getArticles('cheerful_articles', User.uid)
         .then((res) => setCheerfulArticles(
-          (res.map((item) => ({ ...item, bottom: getRandom(0, 100), left: getRandom(0, 1300) }))),
+          (res.map((item) => ({ ...item, bottom: getRandom(0, 100), left: getRandom(0, 90) }))),
         ));
       firebaseStores.getArticles('worries_articles', User.uid)
         .then((res) => setWorriesArticles(
-          (res.map((item) => ({ ...item, bottom: getRandom(0, 100), left: getRandom(0, 1300) }))),
+          (res.map((item) => ({ ...item, bottom: getRandom(0, 100), left: getRandom(0, 90) }))),
         ));
-    } else {
-      // alert('請登入以解鎖更多互動功能~');
     }
-  }, [User]);
+  }, [User, navigate]);
 
   return (
     <Wrapper>
       <Sun src="/img/sun.png" />
       <Sunface src="/img/sunface.png" />
-      <SignBack src="/img/sign.png" />
+
       <Link to="/">
-        <Back>
-          Back
-          {' >'}
-        </Back>
+        <SignBack />
       </Link>
 
-      {worriesArticles?.map((item) => (
-        <Control bottom={item.bottom} left={item.left} key={item.id}>
-          <Message>{item.title}</Message>
-          <Grass
-            src="/img/singleGrass.png"
-            height={getRandom(65, 120)}
-            onClick={() => {
-              setArticleTitle(item.title);
-              setArticleContent(item.content);
-              openModal();
-            }}
-          />
-        </Control>
-      ))}
-      {cheerfulArticles?.map((item) => (
-        <Control bottom={item.bottom} left={item.left} key={item.id}>
-          <Message>{item.title}</Message>
-          <Flower
-            src="/img/flower.png"
-            height={getRandom(65, 100)}
-            onClick={() => {
-              setArticleTitle(item.title);
-              setArticleContent(item.content);
-              openModal();
-            }}
-          />
-        </Control>
-      ))}
+      <PlantsControl>
+        {worriesArticles?.map((item) => (
+          <Control bottom={item.bottom} left={item.left} key={item.id}>
+            <Message>{item.title}</Message>
+            <Grass
+              src="/img/singleGrass.png"
+              height={getRandom(65, 120)}
+              onClick={() => {
+                setArticleTitle(item.title);
+                setArticleContent(item.content);
+                openModal();
+              }}
+            />
+          </Control>
+        ))}
+        {cheerfulArticles?.map((item) => (
+          <Control bottom={item.bottom} left={item.left} key={item.id}>
+            <Message>{item.title}</Message>
+            <Flower
+              src="/img/flower.png"
+              height={getRandom(65, 100)}
+              onClick={() => {
+                setArticleTitle(item.title);
+                setArticleContent(item.content);
+                openModal();
+              }}
+            />
+          </Control>
+        ))}
+      </PlantsControl>
       <MessageModal
         showModal={showMessageModal}
         setShowModal={setShowMessageModal}
