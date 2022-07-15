@@ -111,7 +111,6 @@ export default function BadModal({
     (e) => {
       if (e.key === 'Escape' && showBadModal) {
         setShowBadModal(false);
-        console.log('I pressed');
       }
     },
     [setShowBadModal, showBadModal],
