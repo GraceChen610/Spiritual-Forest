@@ -69,11 +69,78 @@ const Tree = styled.div`
     z-index:-45;
     bottom:170px;
     left:-10px;
+
+  @media screen and (max-width: 1280px) { 
+    bottom:150px;
+    width: 55%;
+    left: 10px;
+  }
+
+  @media screen and (max-width: 1024px) { 
+    bottom:110px;
+    left: 10px;
+    width: 57%;
+  }
 `;
 
-const Board = styled(Tree)`
+const Base = styled.div`
+position: absolute;
+z-index:-45;
+bottom:170px;
+left:-10px;
+`;
+
+const Board = styled(Base)`
     bottom:50px;
     left:350px;
+
+  @media screen and (max-width: 1280px) { 
+    left:320px;
+    bottom:45px;
+    width:68%;
+  }
+
+  @media screen and (max-width: 1024px) { 
+    left:250px;
+    bottom:35px;
+    width:65%;
+  }
+`;
+
+const Title = styled.div`
+    position: absolute;
+    z-index:-40;
+    bottom:100px;
+    left:440px;
+    width:415px;
+    height:200px;
+    display: flex;
+    align-items: center;
+    border: black solid 1px;
+    ${'' /* overflow-x: scroll; */}
+
+    span{
+    text-align: justify;
+    color:#491818;
+    vertical-align: middle;
+    font-size:1.4rem;
+    font-weight: bold;
+    }
+    @media screen and (max-width: 1280px) { 
+      width:370px;
+      height:180px;
+      left:400px;
+      bottom:90px;
+    }
+    @media screen and (max-width: 1024px) { 
+      bottom:75px;
+      left:310px;
+      width:290px;
+      height:135px;
+      span{
+        font-size:1.2rem;
+      }
+    }
 `;
 
 const butterfly = keyframes`
@@ -81,14 +148,18 @@ const butterfly = keyframes`
   25% {transform: translate(400px, -45px); opacity: 1;}
   50% {transform: translate(200px, 0px); opacity: 1;}
   75% {transform: translate(0px, -45px); opacity: 1;}
-  100% {transform: translate(-150px, 0);opacity: 0.8;}
+  100% {transform: translate(-200px, 0px);opacity: 0.8;}
 `;
 
-const Butterfly = styled(Tree)`
+const Butterfly = styled(Base)`
     animation: ${butterfly} 20s linear 0s infinite;
     bottom:120px;
     left:500px;
     z-index:-40;
+  @media screen and (max-width: 1024px) { 
+    left:200px;
+    width:4%;
+  }
 `;
 
 const bear = keyframes`
@@ -97,15 +168,33 @@ const bear = keyframes`
   100% {transform: rotate(0deg);  opacity: 1;}
 `;
 
-const Bear = styled(Tree)`
-    animation: ${bear} 2s ease 4s alternate 1 forwards;
-    transform-origin: bottom right;
-    opacity: 0;
-    bottom:340px;
-    left:700px;
+const bear1024 = keyframes`
+  0%   {transform: rotate(0deg);  opacity: 0;}
+  50% {transform: rotate(75deg) translate(0px, 100px);}
+  100% {transform: rotate(0deg);  opacity: 1;}
 `;
 
-const Turf = styled(Tree)`
+const Bear = styled(Base)`
+    animation: ${bear} 2s ease 4s alternate 1 forwards;
+    transform-origin: bottom right;
+    opacity: 15;
+    bottom:349px;
+    left:700px;
+    opacity: 0;
+
+  @media screen and (max-width: 1280px) { 
+    bottom: 302px;
+    left: 600px;
+  }
+  @media screen and (max-width: 1024px) { 
+    animation: ${bear1024} 2s ease 4s alternate 1 forwards;
+    bottom: 233px;
+    left: 500px;
+    width: 10%;
+  }
+`;
+
+const Turf = styled(Base)`
 bottom:0px;
 left:0px;
 z-index:-50;
@@ -122,55 +211,124 @@ const Zebra = styled(Board)`
     transform-origin: bottom center;
     bottom:50px;
     left:900px;
+  @media screen and (max-width: 1280px) { 
+    bottom:40px;
+    left:810px;
+    width:22%
+  }
+  @media screen and (max-width: 1024px) { 
+    bottom:40px;
+    left:620px;
+    width:20%
+  }
 `;
 
-const Lion = styled(Tree)`
+const Lion = styled(Base)`
 bottom:30px;
 left:1090px;
+
+  @media screen and (max-width: 1280px) { 
+    bottom:85px;
+    left:970px;
+    width:20%
+  }
+
+  @media screen and (max-width: 1024px) { 
+    bottom:40px;
+    left:750px;
+    width:18%
+  }
 `;
 
-const RedPanda = styled(Tree)`
+const RedPanda = styled(Base)`
 z-index:-42;
 bottom:60px;
 left:220px;
+@media screen and (max-width: 1280px) { 
+  bottom:60px;
+  left:160px;
+  width:23%
+}
+@media screen and (max-width: 1024px) { 
+  bottom:60px;
+  left:140px;
+  width:20%
+}
+
 `;
 
 const Owl = styled.div`
-position: absolute;
-z-index:0;
-bottom:520px;
-left:350px;
+  position: absolute;
+  z-index:0;
+  bottom:520px;
+  left:350px;
 img{ 
   :hover{
     transform: scale(1.2);
     cursor: pointer;
   }
 }
+@media screen and (max-width: 1280px) { 
+  bottom:460px;
+  left:330px;
+}
+@media screen and (max-width: 1180px) { 
+  bottom:435px;
+  left:300px;
+}
+@media screen and (max-width: 1024px) { 
+  bottom: 365px;
+  left: 270px;
+  width:25%
+}
 `;
 
-const Grass = styled(Tree)`
+const Grass = styled(Base)`
 z-index:0;
 bottom:0px;
 left:0px;
 `;
 
 const Sign = styled.span`
-display: inline-block;
-position: absolute;
-z-index:0;
-bottom:100px;
-left:30px;
-${'' /* border: 1px solid black; */}
-width:150px;
-text-align:center;
-color: white;
-text-shadow: black 0.1em 0.1em 0.2em;
-font-size:1.2rem;
-padding: 30px 0;
+  display: inline-block;
+  position: absolute;
+  z-index:0;
+  bottom:100px;
+  left:30px;
+  width:150px;
+  text-align:center;
+  color: white;
+  text-shadow: black 0.1em 0.1em 0.2em;
+  font-size:1.2rem;
+  padding: 30px 0;
+  border: 1px solid black;
 :hover{
   transform: scale(1.17);
   cursor: pointer;
 }
+ @media screen and (mix-width: 1920px) { 
+    width: 180px;
+    bottom: 110px;
+    padding: 40px 0;
+    font-size: 1.5rem;
+  }
+  @media screen and (max-width: 1440px) { 
+    width: 140px;
+    bottom: 90px;
+  }
+  @media screen and (max-width: 1280px) { 
+    width: 120px;
+    bottom: 85px;
+    padding: 20px 0;
+  }
+  @media screen and (max-width: 1024px) { 
+    bottom: 70px;
+    left: 30px;
+    width: 100px;
+    padding: 20px 0;
+    font-size: 1rem;
+  }
+
 `;
 
 const SignR = styled(Sign)`
@@ -181,65 +339,28 @@ left: initial;
 const SignLog = styled(Sign)`
 bottom:385px;
 left:430px;
-`;
-
-const Title = styled.div`
-    position: absolute;
-    z-index:-40;
-    bottom:100px;
-    left:440px;
-    width:415px;
-    height:200px;
-    display: flex;
-    align-items: center;
-    ${'' /* border: black solid 1px; */}
-    ${'' /* overflow-x: scroll; */}
-
-    span{
-    text-align: justify;
-    color:#491818;
-    vertical-align: middle;
-    font-size:1.4rem;
-    font-weight: bold;
-    }
+  @media screen and (min-width: 1920px) { 
+    bottom: 380px;
+    left: 430px;
+    width:150px;
+  }
+  @media screen and (max-width: 1280px) { 
+    bottom: 350px;
+    left: 400px;
+  }
+  @media screen and (max-width: 1180px) { 
+    bottom: 325px;
+    left: 370px;
+  }
+  @media screen and (max-width: 1024px) { 
+    bottom: 270px;
+    left: 330px;
+  }
 `;
 
 const bubble = keyframes`
     0%   { transform: rotateX(90deg);  opacity: 0;}
   100% {  transform: rotateX(0deg);  opacity: 0.9;}
-`;
-
-const Bubble = styled(Board)`
-opacity: 0;
-    animation: ${bubble} 2s ease 2s 1 forwards;
-    ${'' /* transform-origin: bottom center; */}
-    bottom:380px;
-    left:970px;
-    z-index:0;
-  img{
-    filter: drop-shadow(5px 5px 0.5rem #2c4919);
-  }
-`;
-
-const qusition = keyframes`
-    0%   { transform: rotateX(90deg);  opacity: 0;}
-  100% {  transform: rotateX(0deg);  opacity: 1;}
-`;
-
-const Qusition = styled.div`
-    animation: ${qusition} 2s ease 1s 1 forwards;
-    opacity: 0;
-    width:340px;
-    height:150px;
-    text-align: center;
-    font-size: 1.35rem;
-    ${'' /* border: black solid 1px; */}
-    font-weight: bold;
-    display:flex;
-    flex-direction: column;
-  span{
-    color:#491818;
-  }
 `;
 
 const QusitionControl = styled.div`
@@ -252,12 +373,70 @@ const QusitionControl = styled.div`
   bottom:400px;
   left:970px;
   z-index:1;
-  ${'' /* border:1px solid black; */}
+  border:1px solid black;
   display:flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   filter: drop-shadow(5px 5px 0.5rem #2c4919);
+
+  @media screen and (min-width: 1920px) { 
+    min-height:30%;
+  }
+
+  @media screen and (max-width: 1280px) { 
+    bottom: 360px;
+    height:25%;
+    left:880px;
+  }
+
+  @media screen and (max-width: 1024px) { 
+    min-height:20%;
+    height:auto;
+    bottom: 270px;
+    left: 670px;
+  }
+`;
+
+const qusition = keyframes`
+    0%   { transform: rotateX(90deg);  opacity: 0;}
+  100% {  transform: rotateX(0deg);  opacity: 1;}
+`;
+
+const Qusition = styled.div`
+    animation: ${qusition} 2s ease 1s 1 forwards;
+    opacity: 0;
+    width:100%;
+    height:150px;
+    text-align: center;
+    font-size: 1.35rem;
+    border: black solid 1px;
+    font-weight: bold;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+
+  span{
+    color:#491818;
+  }
+  @media screen and (max-width: 1440px) { 
+    height:auto;
+    font-size: 1.2rem;
+    margin-top:0rem;
+    padding-bottom:2rem;
+  }
+  @media screen and (max-width: 1280px) { 
+    height:auto;
+    font-size: 1.2rem;
+    margin-top:0rem;
+    padding-bottom:2.5rem;
+  }
+  @media screen and (max-width: 1024px) { 
+    height:auto;
+    width:250px;
+    font-size: 1.1rem;
+    padding-bottom: 2rem;
+  }
 `;
 
 const ButtonControl = styled.div`
@@ -284,7 +463,13 @@ const ButtonControl = styled.div`
   :hover {
     box-shadow: rgba(243, 158, 91,.35) 0 -25px 18px -14px inset,rgba(243, 158, 91,.25) 0 1px 2px,rgba(243, 158, 91,.25) 0 2px 4px,rgba(243, 158, 91,.25) 0 4px 8px,rgba(243, 158, 91,.25) 0 8px 16px,rgba(243, 158, 91,.25) 0 16px 32px;
     transform: scale(1.05) rotate(-1deg);
-    }
+  }
+
+  @media screen and (max-width: 1024px) { 
+    padding: 5px 15px;
+    font-size: 14px;
+  }
+
 }
 
 `;
@@ -416,9 +601,6 @@ export default function Home() {
 
         </Qusition>
       </QusitionControl>
-      <Bubble>
-        {/* <img src="/img/bubble.png" alt="turf" width="70%" /> */}
-      </Bubble>
       <Lion>
         <img src="/img/lion.png" alt="lion" width="80%" />
       </Lion>

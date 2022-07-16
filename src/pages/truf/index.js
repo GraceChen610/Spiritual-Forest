@@ -138,13 +138,14 @@ function getRandom(min, max) {
 //   getRound(getRandom(0, 10), getRandom(0, 10), 25);
 
 const SignBack = styled.div`
-${'' /* border: 1px solid; */}
+  border: 1px solid;
   position: absolute;
   bottom: 30px;
   right: 50px;
   z-index: 9999;
   display:flex;
   justify-content: center;
+  align-items: end;
   width: 10%;
   height:23%;
   box-sizing: border-box;
@@ -154,29 +155,61 @@ ${'' /* border: 1px solid; */}
  ::after{
    content: 'Back >';
    color: white;
-   height: 30%;
+   height: 70%;
+   width:100%;
    padding-top: 32%;
-   padding-left: 10%;
+   padding-left: 15%;
+   text-align:center;
    font-size: 1.2rem;
    letter-spacing: 3px;
    text-shadow: black 0.1em 0.1em 0.2em;
-   ${'' /* border: 1px solid; */}
+   border: 1px solid;
 
   }
 
   &:hover::after{
   font-size: 1.5rem;
+  }
   
+  @media screen and (min-width: 1920px) { 
+    height:30%;
+    ::after{
+      font-size: 2rem;
+    }
+    &:hover::after{
+      font-size: 2.3rem;
+    }
   }
+
   @media screen and (max-width: 1280px) { 
-    height:18%;
+    height: 20%;
+    ::after{
+      height: 70%;
+    }
   }
+
+  @media screen and (max-width: 1180px) { 
+    height: 18%;
+    ::after{
+      padding: 15% 0 15% 12%;
+      height: 60%;
+    }
+  }
+
   @media screen and (max-width: 1024px) { 
-    height:15%;
+    height: 15%;
+    ::after{
+      height: 60%;
+      padding: 13% 0 15% 13%;
+      bottom: 30px;
+    }
   }
+
   @media screen and (max-width: 768px) { 
     height:12%;
+
     ::after{
+      height:60%;
       font-size: 1rem;
       letter-spacing: 2px;
     }
