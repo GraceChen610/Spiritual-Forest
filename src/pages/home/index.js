@@ -14,6 +14,7 @@ import BadModal from '../../components/badModal';
 import WorryModal from '../../components/ModalWorry';
 import LoginModal from '../../components/BaseModal';
 import Login from '../login';
+import Tour from '../tour';
 
 const Wrapper = styled.div`
     height:100vh;
@@ -341,6 +342,7 @@ export default function Home() {
 
   return (
     <Wrapper>
+      <Tour />
       <Sky />
       <Cloud>
         <img src="/img/cloud.png" alt="Cloud" width="10%" />
@@ -365,7 +367,7 @@ export default function Home() {
         <img src="/img/board.png" alt="board" width="60%" />
       </Board>
 
-      <Title>
+      <Title className="step-1">
         <span>{positive}</span>
       </Title>
 
@@ -391,6 +393,7 @@ export default function Home() {
           </span>
           <ButtonControl>
             <button
+              className="step-4"
               type="button"
               onClick={() => {
                 openModal();
@@ -405,7 +408,7 @@ export default function Home() {
               很 棒
             </button>
 
-            <button type="button" onClick={() => openBadModal()}>
+            <button className="step-3" type="button" onClick={() => openBadModal()}>
               不 好
             </button>
 
@@ -435,7 +438,7 @@ export default function Home() {
           }
         }}
       >
-        <img src="/img/owl.png" alt="owl" title="讓我替你分憂吧~" width="25%" />
+        <img className="step-5" src="/img/owl.png" alt="owl" title="讓我替你分憂吧~" width="25%" />
       </Owl>
       <WorryModal
         showWorryModal={showWorryModal}
@@ -448,7 +451,7 @@ export default function Home() {
       </Grass>
 
       <img src="/img/signs.png" alt="turf" width="10%" style={signLStyle} />
-      <Sign>
+      <Sign className="step-6">
         <Link to="/truf">
           ＜前往草坪
         </Link>
@@ -457,7 +460,7 @@ export default function Home() {
       <img src="/img/signs.png" alt="turf" width="10%" style={signRStyle} />
 
       <Link to="/record">
-        <SignR>紀錄今天＞ </SignR>
+        <SignR className="step-2">紀錄今天＞ </SignR>
       </Link>
 
       {User
@@ -476,7 +479,7 @@ export default function Home() {
           </SignLog>
         )
         : (
-          <SignLog onClick={() => openLoginModal()}>
+          <SignLog className="step-7" onClick={() => openLoginModal()}>
             登入/註冊
           </SignLog>
         )}
