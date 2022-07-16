@@ -12,6 +12,7 @@ import Login from './pages/login';
 import QuizApp from './pages/quiz/index';
 import UserContext from './userContext';
 import Truf from './pages/truf';
+import Tour from './pages/tour';
 
 function App() {
   const [User, setUser] = useState('');
@@ -62,6 +63,7 @@ function App() {
           <Route path="record" element={<Record />} />
           <Route path="login" element={<Login />} />
           <Route path="truf" element={<Truf />} />
+          <Route path="tour" element={<Tour />} />
         </Routes>
       </UserContext.Provider>
     </Router>

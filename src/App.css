@@ -30,6 +30,9 @@ opacity: 0.5;
 box-sizing: content-box;
 }
 
+.newline{
+  white-space: pre-wrap;
+}
 
 a:-webkit-any-link{
   color: white ;
