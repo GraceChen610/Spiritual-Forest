@@ -116,8 +116,7 @@ const Title = styled.div`
     height:200px;
     display: flex;
     align-items: center;
-    border: black solid 1px;
-    ${'' /* overflow-x: scroll; */}
+    ${'' /* border: black solid 1px; */}
 
     span{
     text-align: justify;
@@ -301,7 +300,7 @@ const Sign = styled.span`
   text-shadow: black 0.1em 0.1em 0.2em;
   font-size:1.2rem;
   padding: 30px 0;
-  border: 1px solid black;
+  ${'' /* border: 1px solid black; */}
 :hover{
   transform: scale(1.17);
   cursor: pointer;
@@ -373,7 +372,7 @@ const QusitionControl = styled.div`
   bottom:400px;
   left:970px;
   z-index:1;
-  border:1px solid black;
+  ${'' /* border:1px solid black; */}
   display:flex;
   flex-direction: column;
   align-items: center;
@@ -410,11 +409,12 @@ const Qusition = styled.div`
     height:150px;
     text-align: center;
     font-size: 1.35rem;
-    border: black solid 1px;
+    ${'' /* border: black solid 1px; */}
     font-weight: bold;
     display:flex;
     flex-direction: column;
     justify-content: center;
+    padding-bottom:3rem;
 
   span{
     color:#491818;

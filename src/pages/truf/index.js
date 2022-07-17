@@ -138,7 +138,7 @@ function getRandom(min, max) {
 //   getRound(getRandom(0, 10), getRandom(0, 10), 25);
 
 const SignBack = styled.div`
-  border: 1px solid;
+  ${'' /* border: 1px solid; */}
   position: absolute;
   bottom: 30px;
   right: 50px;
@@ -163,12 +163,13 @@ const SignBack = styled.div`
    font-size: 1.2rem;
    letter-spacing: 3px;
    text-shadow: black 0.1em 0.1em 0.2em;
-   border: 1px solid;
+   ${'' /* border: 1px solid; */}
 
   }
 
   &:hover::after{
   font-size: 1.5rem;
+  cursor: pointer;
   }
   
   @media screen and (min-width: 1920px) { 
@@ -258,6 +259,40 @@ const Suneye = styled.div`
     ${'' /* animation: blink 1s ease-in-out 0s infinite alternate forwards; */}
 `;
 
+const butterfly = keyframes`
+   0% {transform: translate(550px, 60px); opacity: 0.8;}
+  25% {transform: translate(400px, -45px); opacity: 1;}
+  50% {transform: translate(200px, 0px); opacity: 1;}
+  75% {transform: translate(0px, -45px); opacity: 1;}
+  100% {transform: translate(-200px, 0px);opacity: 0.8;}
+`;
+
+const Butterfly = styled.img`
+    position: absolute;
+    z-index:0;
+    bottom:100px;
+    right:900px;
+    animation: ${butterfly} 20s linear 0s infinite;
+    width:3%;
+  ${'' /* @media screen and (max-width: 1024px) {
+    left:200px;
+    width:4%;
+  } */}
+`;
+
+const butterflyBlue = keyframes`
+   0% {transform: translate(-550px, 60px); opacity: 0.8;}
+  25% {transform: translate(-400px, -45px); opacity: 1;}
+  50% {transform: translate(-200px, -0px); opacity: 1;}
+  75% {transform: translate(0px, -60px); opacity: 1;}
+  100% {transform: translate(300px, 30px);opacity: 0.8;}
+`;
+
+const ButterflyBlue = styled(Butterfly)`
+  animation: ${butterflyBlue} 20s linear 0s infinite;
+  bottom:150px;
+  left:900px;
+`;
 export default function Truf() {
   const User = useContext(UserContext);
   const [worriesArticles, setWorriesArticles] = useState([]);
@@ -351,6 +386,9 @@ export default function Truf() {
         width="400px"
         height="auto"
       />
+      <Butterfly src="/img/Butterfly.png" alt="Butterfly" />
+      <ButterflyBlue src="/img/Butterfly2.png" alt="Butterfly" />
+
     </Wrapper>
   );
 }
