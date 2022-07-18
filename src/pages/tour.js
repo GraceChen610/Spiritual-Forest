@@ -51,7 +51,6 @@ export default class Tour extends Component {
       showProgress: true,
       continuous: true,
       tourActive: true,
-
     };
   }
 

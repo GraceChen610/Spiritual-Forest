@@ -527,7 +527,7 @@ export default function Home() {
 
   return (
     <Wrapper>
-      <Tour />
+      {!User ? <Tour /> : null}
       <Sky />
       <Cloud>
         <img src="/img/cloud.png" alt="Cloud" width="10%" />
