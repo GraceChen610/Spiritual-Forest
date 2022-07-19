@@ -1,4 +1,3 @@
-/* * {cursor: url(https://cur.cursors-4u.net/nature/nat-4/nat344.ani), url(https://cur.cursors-4u.net/nature/nat-4/nat344.png), auto ;}  */
 * {cursor: url(../public/img/cursor.png), auto ;} 
 .App {
   text-align: center;
@@ -41,17 +40,14 @@ a:-webkit-any-link{
   text-decoration: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.react-joyride__beacon > span{
+  background-color: #03a9f4 !important;
+  /* box-shadow: 0 0 5px 5px white; */
+
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.react-joyride__beacon span + span{
+  border: 2px solid #03a9f4 !important;
+  background-color:initial !important;
+  cursor: pointer;
 }
