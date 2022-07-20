@@ -527,10 +527,8 @@ export default function Home() {
 
   return (
     <Wrapper>
-      {/* {!User ? <Tour /> : null} */}
-
       {User || loginModal || showBadModal ? null : <Tour />}
-      {/* add Modal 控制 */}
+
       <Sky />
       <Cloud>
         <img src="/img/cloud.png" alt="Cloud" width="10%" />
