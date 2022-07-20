@@ -126,7 +126,7 @@ export default function Canvas({ setHistoryImg, setUpdataImg }) {
               name: 'SampleImage',
             },
             menu: ['crop', 'flip', 'rotate', 'draw', 'shape', 'icon', 'text', 'mask', 'filter'],
-            initMenu: 'mask',
+            initMenu: 'icon',
             uiSize: {
               width: '980px',
               height: '600px',
