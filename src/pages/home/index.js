@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import styled, { keyframes } from 'styled-components/macro';
 import {
   useEffect, useState, useRef, useContext,
@@ -9,12 +8,13 @@ import { signOut } from 'firebase/auth';
 import Toast from '../../components/toastAlert';
 import UserContext from '../../userContext';
 import firebaseStores, { auth } from '../../firebase';
-import Modal from '../../components/Modal';
-import BadModal from '../../components/badModal';
-import WorryModal from '../../components/ModalWorry';
-import LoginModal from '../../components/BaseModal';
+import Modal from '../../components/BaseModal';
+import Cheerful from '../../components/cheerful';
+import Worry from '../../components/worry';
 import Login from '../login';
 import Tour from '../tour';
+import CheerfulBgImg from '../../components/happyBoard.png';
+import WorryBgImg from '../../components/worryBoard.png';
 
 const Wrapper = styled.div`
     height:100vh;
@@ -474,6 +474,25 @@ const ButtonControl = styled.div`
 
 `;
 
+function BadModalContent() {
+  return (
+    <>
+      <Link
+        to="/quiz"
+        className="index-quiz"
+      >
+        <img src="img/signBorderR.png" alt="r" width="300px" />
+      </Link>
+      <Link
+        to="/card"
+        className="index-card"
+      >
+        <img src="img/signBorderL2.png" alt="r" width="300px" />
+      </Link>
+    </>
+  );
+}
+
 export default function Home() {
   const [positive, setPositive] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -623,12 +642,7 @@ export default function Home() {
       >
         <img className="step-5" src="/img/owl.png" alt="owl" title="讓我替你分憂吧~" width="25%" />
       </Owl>
-      <WorryModal
-        showWorryModal={showWorryModal}
-        setShowWorryModal={setShowWorryModal}
-        refTitle={refTitle}
-        refContent={refContent}
-      />
+
       <Grass>
         <img src="/img/grass.png" alt="turf" width="100%" />
       </Grass>
@@ -666,7 +680,8 @@ export default function Home() {
             登入/註冊
           </SignLog>
         )}
-      <LoginModal
+
+      <Modal
         showModal={loginModal}
         setShowModal={setLoginModal}
         bg="url(/img/loginBg.png) no-repeat left top / 100% 100% "
@@ -677,16 +692,43 @@ export default function Home() {
       <Modal
         showModal={showModal}
         setShowModal={setShowModal}
-        refTitle={refTitle}
-        refContent={refContent}
+        bg={`url(${CheerfulBgImg})  no-repeat left top / contain`}
+        width="780px"
+        height="700px"
+        content={(
+          <Cheerful
+            refTitle={refTitle}
+            refContent={refContent}
+            setShowModal={setShowModal}
+          />
+        )}
       />
 
-      <BadModal
-        showBadModal={showBadModal}
-        setShowBadModal={setShowBadModal}
-        refTitle={refTitle}
-        refContent={refContent}
+      <Modal
+        showModal={showWorryModal}
+        setShowModal={setShowWorryModal}
+        bg={`url(${WorryBgImg})  no-repeat left top / contain`}
+        width="755px"
+        height="700px"
+        content={(
+          <Worry
+            refTitle={refTitle}
+            refContent={refContent}
+            setShowModal={setShowModal}
+          />
+        )}
       />
+
+      <Modal
+        showModal={showBadModal}
+        setShowModal={setShowBadModal}
+        width="100vw"
+        height="100vh"
+        justify="space-evenly"
+        flexDirection="row"
+        content={<BadModalContent />}
+      />
+
     </Wrapper>
   );
 }

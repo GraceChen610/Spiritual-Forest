@@ -153,6 +153,6 @@ export default function Canvas({ setHistoryImg, setUpdataImg }) {
 }
 
 Canvas.propTypes = {
-  setHistoryImg: PropTypes.string.isRequired,
-  setUpdataImg: PropTypes.bool.isRequired,
+  setHistoryImg: PropTypes.func.isRequired,
+  setUpdataImg: PropTypes.func.isRequired,
 };

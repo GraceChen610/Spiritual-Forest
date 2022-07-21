@@ -11,9 +11,10 @@ import bg from './recordBg.png';
 import listBg from './listBg2.png';
 import backfrog from './frog.png';
 import firebaseStores from '../../firebase';
-import Modal from '../../components/ModalCan';
+import Modal from '../../components/BaseModal';
 import photoBg from './photoBg.png';
 import baseImg from './base2.png';
+import Canvas from './canvas';
 
 const Wrapper = styled.div`
     height: 100vh;
@@ -139,9 +140,12 @@ export default function Record() {
             <Modal
               showModal={showModal}
               setShowModal={setShowModal}
-              historyImg={historyImg}
-              setHistoryImg={setHistoryImg}
-              setUpdataImg={setUpdataImg}
+              // historyImg={historyImg}
+              // setHistoryImg={setHistoryImg}
+              // setUpdataImg={setUpdataImg}
+              content={<Canvas setHistoryImg={setHistoryImg} setUpdataImg={setUpdataImg} />}
+              width="1080px"
+              height="650px"
             />
           </ImgBg>
         </LeftControl>
