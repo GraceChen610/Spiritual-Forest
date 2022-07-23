@@ -23,7 +23,7 @@ const Wrapper = styled.div`
 `;
 
 const Sky = styled.div`
-    background: linear-gradient(180deg, rgba(105, 194, 238, 1), rgba(255, 255, 255, 1)), url('') no-repeat center center fixed;
+    background: linear-gradient(180deg, rgba(105, 194, 238, 1), rgba(255, 255, 255, 1));
     width:100%;
     height:60%;
     position: relative;
@@ -176,7 +176,6 @@ const bear1024 = keyframes`
 const Bear = styled(Base)`
     animation: ${bear} 2s ease 4s alternate 1 forwards;
     transform-origin: bottom right;
-    opacity: 15;
     bottom:349px;
     left:700px;
     opacity: 0;

@@ -1,8 +1,5 @@
-/* eslint-disable no-shadow */
 /* eslint-disable no-console */
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-use-before-define */
-/* eslint-disable no-alert */
+/* eslint-disable no-undef */
 import { AiOutlineCar } from 'react-icons/ai';
 import { GiPathDistance } from 'react-icons/gi';
 import { MdOutlineMyLocation } from 'react-icons/md';
@@ -10,7 +7,7 @@ import styled from 'styled-components/macro';
 import { Link, useSearchParams } from 'react-router-dom';
 import { IoArrowBackCircle } from 'react-icons/io5';
 import PropTypes from 'prop-types';
-
+import { v4 as uuidv4 } from 'uuid';
 import {
   useJsApiLoader,
   GoogleMap,
@@ -19,6 +16,7 @@ import {
   DirectionsRenderer,
 } from '@react-google-maps/api';
 import { useEffect, useRef, useState } from 'react';
+import Toast from '../components/toastAlert';
 
 const Box = styled.div`
   display:flex;
@@ -35,7 +33,6 @@ const Box = styled.div`
 `;
 
 const MapWapper = styled.div`
-${'' /* position:absolute;  */}
 left:0; 
 top:0 ; 
 height: 80%;
@@ -120,20 +117,6 @@ const Btncontrol = styled.div`
   display:${(props) => props.backbtn || 'block'};
 `;
 
-const center = { lat: 25.038489, lng: 121.532369 };
-
-MapApp.propTypes = {
-  backbtn: PropTypes.string,
-};
-
-// MapApp.propTypes = {
-//   backbtn: PropTypes.string
-// };
-
-MapApp.defaultProps = {
-  backbtn: 'block',
-};
-
 function MapApp({ backbtn }) {
   const [libraries] = useState(['places']);
   const { isLoaded } = useJsApiLoader({
@@ -148,11 +131,8 @@ function MapApp({ backbtn }) {
   const [position, setposition] = useState({ lat: 25.038489, lng: 121.532369 });
   const [allStore, setAllstore] = useState([]);
   const [searchParams] = useSearchParams();
-
   const search = searchParams.get('search');
-  console.log(search);
 
-  // eslint-disable-next-line prefer-const
   let keyword = '心理諮詢';
 
   if (search === 'restaurant') {
@@ -165,24 +145,65 @@ function MapApp({ backbtn }) {
     keyword = '心理諮詢';
   }
 
-  console.log(keyword);
+  // 及時定位
+  // eslint-disable-next-line consistent-return
+  function gettingPosition() {
+    if (navigator.geolocation) {
+      return new Promise((resolve, reject) => {
+        const option = {
+          enableAcuracy: false, // 提高精確度
+          maximumAge: 0, // 設定上一次位置資訊的有效期限(毫秒)
+          timeout: 10000, // 逾時計時器(毫秒)
+        };
+        navigator.geolocation.getCurrentPosition(resolve, reject, option);
+      });
+    }
+    console.log('Does not support positioning!');
+  }
+
+  function successCallback(myposition) {
+    setposition({ lat: myposition.coords.latitude, lng: myposition.coords.longitude });
+  }
+  function errorCallback(error) {
+    console.log(error.message); // error.code
+    Toast.fire({
+      title: '親愛的~定位失敗，將使用預設位置，請允許定位，才能正確為您導航哦~',
+      timer: 7000,
+    });
+  }
+
   useEffect(() => {
-    // 定位
     gettingPosition()
       .then((myposition) => successCallback(myposition))
       .catch((error) => errorCallback(error));
   }, []);
 
-  function getStore() {
-    const url = `https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=25.038489,121.532369&radius=3000&keyword=${keyword}&language=zh-TW&key=${process.env.REACT_APP_GOOGLE_MAP_KEY}`;
-    fetch(url)
-      .then((store) => store.json())
-      .then((res) => setAllstore(res.results));
+  function callback(results, status) {
+    setAllstore(results);
+
+    if (status !== google.maps.places.PlacesServiceStatus.OK) {
+      console.log('status', status);
+    }
   }
 
+  const getStore = () => {
+    const request = {
+      location: position,
+      radius: 3000,
+      query: keyword,
+    };
+    const service = new google.maps.places.PlacesService(map);
+    if (service !== undefined) {
+      service.textSearch(request, callback);
+    }
+  };
+
   useEffect(() => {
-    getStore();
-  }, []);
+    if (map) {
+      getStore();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [map]);
 
   /** @type React.MutableRefObject<HTMLInputElement> */
   const destiantionRef = useRef();
@@ -196,13 +217,10 @@ function MapApp({ backbtn }) {
       return;
     }
 
-    // eslint-disable-next-line no-undef
     const directionsService = new google.maps.DirectionsService();
     const results = await directionsService.route({
-      // origin: originRef.current.value,
       origin: position,
       destination: destiantionRef.current.value,
-      // eslint-disable-next-line no-undef
       travelMode: google.maps.TravelMode.DRIVING,
     });
     setDirectionsResponse(results);
@@ -220,29 +238,6 @@ function MapApp({ backbtn }) {
   function goToMarker(name) {
     destiantionRef.current.value = name;
     calculateRoute();
-  }
-
-  // 及時定位
-  // eslint-disable-next-line consistent-return
-  function gettingPosition() {
-    if (navigator.geolocation) {
-      return new Promise((resolve, reject) => {
-        const option = {
-          enableAcuracy: false, // 提高精確度
-          maximumAge: 0, // 設定上一次位置資訊的有效期限(毫秒)
-          timeout: 10000, // 逾時計時器(毫秒)
-        };
-        navigator.geolocation.getCurrentPosition(resolve, reject, option);
-      });
-    }
-    alert('Does not support positioning!');
-  }
-
-  function successCallback(position) {
-    setposition({ lat: position.coords.latitude, lng: position.coords.longitude });
-  }
-  function errorCallback(error) {
-    alert(error.message); // error.code
   }
 
   return (
@@ -270,7 +265,6 @@ function MapApp({ backbtn }) {
             </Button>
             <Button
               aria-label="center back"
-              // icon={<FaTimes />}
               onClick={() => clearRoute()}
             >
               重設
@@ -287,13 +281,12 @@ function MapApp({ backbtn }) {
             {' '}
             {duration}
           </span>
-          {/* <Button></Button> */}
           <MdOutlineMyLocation
             type="button"
             title="我的位置"
             onClick={() => {
               gettingPosition()
-                .then((position) => successCallback(position))
+                .then((myposition) => successCallback(myposition))
                 .catch((error) => errorCallback(error));
               map.panTo(position);
               map.setZoom(15);
@@ -307,7 +300,7 @@ function MapApp({ backbtn }) {
       <MapWapper>
         {/* Google Map Box */}
         <GoogleMap
-          center={center}
+          center={position}
           zoom={15}
           mapContainerStyle={{ width: '100%', height: '100%' }}
           // options={{
@@ -316,7 +309,10 @@ function MapApp({ backbtn }) {
           //   mapTypeControl: false,
           //   fullscreenControl: false,
           // }}
-          onLoad={(map) => setMap(map)}
+          onLoad={(loadmap) => {
+            setMap(loadmap);
+            gettingPosition();
+          }}
         >
           <Marker position={position} title="U are Here ~" />
           {allStore.map((e) => (
@@ -324,6 +320,7 @@ function MapApp({ backbtn }) {
               position={e.geometry.location}
               title={e.name}
               onClick={() => goToMarker(e.name)}
+              key={uuidv4()}
             />
           ))}
           ;
@@ -337,3 +334,11 @@ function MapApp({ backbtn }) {
 }
 
 export default MapApp;
+
+MapApp.propTypes = {
+  backbtn: PropTypes.string,
+};
+
+MapApp.defaultProps = {
+  backbtn: 'block',
+};
