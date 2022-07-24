@@ -1,10 +1,8 @@
-/* eslint-disable no-console */
 import React, { useRef, useEffect, useCallback } from 'react';
 import { useSpring, animated } from 'react-spring';
 import styled from 'styled-components/macro';
 import { MdClose } from 'react-icons/md';
 import PropTypes from 'prop-types';
-// import Swal from 'sweetalert2';
 
 const Background = styled.div`
   width: 100vw;
@@ -88,7 +86,6 @@ export default function Modal({
     (e) => {
       if (e.key === 'Escape' && showModal) {
         setShowModal(false);
-        console.log('I pressed');
       }
     },
     [setShowModal, showModal],

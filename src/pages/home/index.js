@@ -540,7 +540,6 @@ export default function Home() {
     zIndex: -1,
     bottom: '30px',
     right: '30px',
-    // transform: 'scaleX(-1)',
   };
 
   return (
