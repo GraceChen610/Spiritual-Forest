@@ -15,7 +15,6 @@ const Wrapper = styled.div`
 
 const PlantsControl = styled.div`
   width: 85%;
-  ${'' /* border: 1px solid; */}
   height: 15%;
   position: absolute;
   bottom: 0;
@@ -25,7 +24,6 @@ const Control = styled.div`
  position: absolute;
  bottom: ${(props) => props.bottom || 0}%;
  left: ${(props) => props.left || 0}%;
-  ${'' /* border: 1px solid black; */}
 
   :hover div{
     opacity: 0.8;
@@ -41,6 +39,10 @@ text-align:center ;
 padding:10px 20px;
 margin-bottom: 20px;
 box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+max-width:250px;
+text-overflow: ellipsis;
+overflow: hidden;
+white-space: nowrap;
 
 :hover{
     opacity: 0.85;
@@ -79,20 +81,8 @@ const Flower = styled.img`
  :hover{
     transform: scale(1.2);
     cursor: pointer;
-
-}
+  }
 `;
-
-// const Apple = styled.img`
-//  position: absolute;
-//  bottom: ${(props) => props.bottom || 230}px;
-//  right: ${(props) => props.left || 0}px;
-//  width:200px;
-//  height:300px;
-//  ${'' /* Y:230,530
-//  X:0,200 */}
-//  ${'' /* background:white; */}
-// `;
 
 const Articles = styled.div`
     display: flex;
@@ -103,21 +93,24 @@ const Articles = styled.div`
     margin:1rem;
     padding:1.5rem;
     font-size:14px;
-    ${'' /* border: black 1px dotted; */}
-    background: #EDE8D6;
-    background: linear-gradient(130deg, #D7FFFE, #ace0f9, #ace0c1);
+    width:400px;
+    text-align:center ;
+    word-break: break-word;
 
     span{
       font-size: 1.4rem;
       font-weight: bold;
       color: #683F39;
+      margin-top:1rem;
       margin-bottom: 1rem;
+      width:95%;
     }
 
     p{
       text-align: justify;
       line-height: 1.8rem;
       font-size: 1.1rem;
+      width:95%;
     }
 `;
 
@@ -125,20 +118,7 @@ function getRandom(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-// function getRound(x, y, r) {
-//     let x2 = x * x;
-//     let y2 = y * y;
-//     let newRound = r * r * 3.14;
-//     if (x2 * y2 <= newRound) {
-//       return `x=${x} , y=${y}`;
-//     }else{
-//         getRound(x, y, r);
-//     }
-//   }
-//   getRound(getRandom(0, 10), getRandom(0, 10), 25);
-
 const SignBack = styled.div`
-  ${'' /* border: 1px solid; */}
   position: absolute;
   bottom: 30px;
   right: 50px;
@@ -163,8 +143,6 @@ const SignBack = styled.div`
    font-size: 1.2rem;
    letter-spacing: 3px;
    text-shadow: black 0.1em 0.1em 0.2em;
-   ${'' /* border: 1px solid; */}
-
   }
 
   &:hover::after{
@@ -245,20 +223,6 @@ height: auto;
 z-index: 2;
 `;
 
-// eslint-disable-next-line no-unused-vars
-const Suneye = styled.div`
-  position: absolute;
-    top: 100px ;
-    left:130px;
-    z-index: 2;
-    width: 10px;
-    height: 10px;
-    padding-bottom: 0.5%;
-    border-radius: 50%;
-    background: black;
-    ${'' /* animation: blink 1s ease-in-out 0s infinite alternate forwards; */}
-`;
-
 const butterfly = keyframes`
    0% {transform: translate(550px, 60px); opacity: 0.8;}
   25% {transform: translate(400px, -45px); opacity: 1;}
@@ -274,10 +238,6 @@ const Butterfly = styled.img`
     right:900px;
     animation: ${butterfly} 20s linear 0s infinite;
     width:3%;
-  ${'' /* @media screen and (max-width: 1024px) {
-    left:200px;
-    width:4%;
-  } */}
 `;
 
 const butterflyBlue = keyframes`
@@ -294,7 +254,7 @@ const ButterflyBlue = styled(Butterfly)`
   left:900px;
 `;
 export default function Truf() {
-  const User = useContext(UserContext);
+  const user = useContext(UserContext);
   const [worriesArticles, setWorriesArticles] = useState([]);
   const [cheerfulArticles, setCheerfulArticles] = useState([]);
   const [showMessageModal, setShowMessageModal] = useState(false);
@@ -307,14 +267,12 @@ export default function Truf() {
   };
 
   useEffect(() => {
-    if (User === '') {
-      // eslint-disable-next-line no-console
-      console.log('Loading...');
+    if (user === '') {
       Toast.fire({
         title: '稍等片刻，光速抓取資料中...',
       });
     }
-    if (User === null) {
+    if (user === null) {
       Toast.fire({
         title: '親愛的~登入才能發文與綠植互動喔~',
       });
@@ -322,17 +280,17 @@ export default function Truf() {
         navigate('/');
       }, 4000);
     }
-    if (User) {
-      firebaseStores.getArticles('cheerful_articles', User.uid)
+    if (user) {
+      firebaseStores.getArticles('cheerful_articles', user.uid)
         .then((res) => setCheerfulArticles(
           (res.map((item) => ({ ...item, bottom: getRandom(0, 100), left: getRandom(0, 90) }))),
         ));
-      firebaseStores.getArticles('worries_articles', User.uid)
+      firebaseStores.getArticles('worries_articles', user.uid)
         .then((res) => setWorriesArticles(
           (res.map((item) => ({ ...item, bottom: getRandom(0, 100), left: getRandom(0, 90) }))),
         ));
     }
-  }, [User, navigate]);
+  }, [user, navigate]);
 
   return (
     <Wrapper>
@@ -383,12 +341,11 @@ export default function Truf() {
           </Articles>
         )}
         bkc="rgba(0, 0, 0, 0)"
-        width="400px"
+        width="450px"
         height="auto"
       />
       <Butterfly src="/img/Butterfly.png" alt="Butterfly" />
       <ButterflyBlue src="/img/Butterfly2.png" alt="Butterfly" />
-
     </Wrapper>
   );
 }

@@ -1,10 +1,8 @@
-/* eslint-disable no-console */
 import React, { useRef, useEffect, useCallback } from 'react';
 import { useSpring, animated } from 'react-spring';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { MdClose } from 'react-icons/md';
 import PropTypes from 'prop-types';
-// import Swal from 'sweetalert2';
 
 const Background = styled.div`
   width: 100vw;
@@ -13,7 +11,7 @@ const Background = styled.div`
   position: fixed;
   top:0;
   left:0;
-  z-index:1200;
+  z-index:5;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -36,14 +34,22 @@ const ModalWrapper = styled.div`
 
 const ModalContent = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-direction: ${(props) => props.flexDirection || 'column'};
+  justify-content: ${(props) => props.justify || 'center'};
+  align-items: center;
   line-height: 1;
   color: #141414;
-  opacity: 0.8;
+  opacity: 1;
   width:100%;
   height:100%;
   position:relative;
+
+  img{
+    :hover{
+    transform: scale(1.2);
+    cursor: pointer;
+    }
+  }
 `;
 
 const CloseModalButton = styled(MdClose)`
@@ -58,7 +64,7 @@ const CloseModalButton = styled(MdClose)`
 `;
 
 export default function Modal({
-  showModal, setShowModal, content, bkc, width, height, bg,
+  showModal, setShowModal, content, bkc, width, height, bg, justify, flexDirection,
 }) {
   const modalRef = useRef();
 
@@ -80,7 +86,6 @@ export default function Modal({
     (e) => {
       if (e.key === 'Escape' && showModal) {
         setShowModal(false);
-        console.log('I pressed');
       }
     },
     [setShowModal, showModal],
@@ -100,7 +105,7 @@ export default function Modal({
         <Background onClick={closeModal} ref={modalRef} bkc={bkc}>
           <animated.div style={animation}>
             <ModalWrapper showModal={showModal} width={width} height={height} bg={bg}>
-              <ModalContent>
+              <ModalContent justify={justify} flexDirection={flexDirection}>
                 {content}
               </ModalContent>
               <CloseModalButton
@@ -119,13 +124,19 @@ Modal.propTypes = {
   showModal: PropTypes.bool.isRequired,
   setShowModal: PropTypes.func.isRequired,
   content: PropTypes.shape({ current: PropTypes.instanceOf(Element) }).isRequired,
-  bkc: PropTypes.string.isRequired,
   width: PropTypes.string,
   height: PropTypes.string,
-  bg: PropTypes.string.isRequired,
+  bkc: PropTypes.string,
+  bg: PropTypes.string,
+  justify: PropTypes.string,
+  flexDirection: PropTypes.string,
 };
 
 Modal.defaultProps = {
   width: null,
   height: null,
+  bkc: null,
+  bg: null,
+  justify: null,
+  flexDirection: null,
 };

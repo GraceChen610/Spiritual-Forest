@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-console */
 import React, {
   useRef, useEffect, useCallback, useState,
 } from 'react';
@@ -120,7 +118,6 @@ export default function Modal({
     (e) => {
       if (e.key === 'Escape' && showModal) {
         setShowModal(false);
-        console.log('I pressed');
       }
     },
     [setShowModal, showModal],

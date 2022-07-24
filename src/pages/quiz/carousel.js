@@ -1,8 +1,8 @@
-/* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 import { TiChevronLeftOutline, TiChevronRightOutline } from 'react-icons/ti';
 import styled from 'styled-components/macro';
 import { createGlobalStyle } from 'styled-components';
+import PropTypes from 'prop-types';
 
 const CARDS = 10;
 const maxVisibility = 3;
@@ -89,8 +89,8 @@ const ButtonLeft = styled.button`
 `;
 
 const ButtonRight = styled(ButtonLeft)`
-    right: 0;
-    transform: translateX(100%) translatey(-50%);
+  right: 0;
+  transform: translateX(100%) translatey(-50%);
 `;
 
 function Card({ title, content }) {
@@ -101,6 +101,11 @@ function Card({ title, content }) {
     </CardStyle>
   );
 }
+
+Card.propTypes = {
+  title: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired,
+};
 
 function Carousel({ children }) {
   const [active, setActive] = useState(2);
@@ -156,3 +161,7 @@ export default function QuizApp() {
     </>
   );
 }
+
+Carousel.propTypes = {
+  children: PropTypes.shape({ current: PropTypes.instanceOf(Element) }).isRequired,
+};

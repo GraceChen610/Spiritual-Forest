@@ -7,18 +7,14 @@ import firebaseStores from '../firebase';
 import FlipCard from './FlipCard';
 
 export default function Shuffle() {
-  // card
   const [cardMap, setCardMap] = useState({});
   const [flipped, set] = useState(null);
   const [play, setPlay] = useState(false);
-  // const [showLink, setShowLink] = useState(11);
-  // console.log(showLink);
 
   useEffect(() => {
     firebaseStores.getData('cards')
       .then((res) => res[0].data())
       .then((data) => {
-        // [{ title: '' }] => { 1: { title: '' } }
         const result = data.content.reduce((arr, item, index) => {
           // eslint-disable-next-line no-param-reassign
           arr[index] = item;
@@ -29,7 +25,6 @@ export default function Shuffle() {
       });
   }, []);
 
-  // Shuffle
   const NUM_CELLS = 10;
   const [keys, setKeys] = useState(() => range(NUM_CELLS));
 
@@ -49,13 +44,15 @@ export default function Shuffle() {
   const TRANSITION_DURATION = 250;
 
   return (
-    <div>
-      {/* <button type="button" onClick={goShuffle}>Shuffle</button> */}
+    <div style={{
+      background: 'url(/img/cardBg.png) right top / 100% 100% no-repeat fixed',
+      position: 'fixed',
+    }}
+    >
       <Link to="/" title="back"><IoArrowBackCircle className="nav back" style={{ left: '30px', bottom: '35px' }} /></Link>
       {}
       <ReactMixitup
         keys={keys}
-          // dynamicDirection is off because keys.length never changes
         dynamicDirection="off"
         transitionDuration={TRANSITION_DURATION}
         renderCell={(key, style, ref) => cardMap[key] && (
@@ -64,7 +61,6 @@ export default function Shuffle() {
             innerRef={ref}
             setfun={() => { set(key); }}
             flipped={flipped === key}
-            // onClick={console.log(key)}
             style={{
               transition: `transform ${TRANSITION_DURATION}ms ease`,
               height: '350px',
@@ -80,13 +76,10 @@ export default function Shuffle() {
               justifyContent: 'center',
               alignItems: 'center',
               flexWrap: 'wrap',
-              // if wrapper height or width never changes
-              // we can have set boxSizing to anything
               boxSizing: 'content-box',
               width: '100vw',
               height: '100vh',
-              // border: '1px solid red',
-              background: 'url(/img/cardBg.png) no-repeat right top / 100% 100%',
+              overflowY: 'scroll',
               padding: '0',
               ...style,
             }}

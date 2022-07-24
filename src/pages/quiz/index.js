@@ -1,10 +1,8 @@
-/* eslint-disable no-console */
-/* eslint-disable jsx-a11y/control-has-associated-label */
-/* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { TiChevronLeftOutline, TiChevronRightOutline, TiTickOutline } from 'react-icons/ti';
 import { IoArrowBackCircle } from 'react-icons/io5';
+import PropTypes from 'prop-types';
 import firebaseStores from '../../firebase';
 import './quiz.css';
 import Modal from '../../components/quizModal';
@@ -63,6 +61,13 @@ function Card({
   );
 }
 
+Card.propTypes = {
+  id: PropTypes.number.isRequired,
+  title: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired,
+  handleScore: PropTypes.func.isRequired,
+};
+
 function Carousel({ children, handleQuizResults }) {
   const [active, setActive] = useState(2);
   const count = React.Children.count(children);
@@ -70,7 +75,7 @@ function Carousel({ children, handleQuizResults }) {
   const MAX_VISIBILITY = 3;
   return (
     <div className="carousel">
-      {active > 0 && <button type="button" className="nav left" onClick={() => setActive((i) => i - 1)}><TiChevronLeftOutline /></button>}
+      {active > 0 && <button type="button" aria-label="previous" className="nav left" onClick={() => setActive((i) => i - 1)}><TiChevronLeftOutline /></button>}
       {React.Children.map(children, (child, i) => {
         if (i === active) {
           const abs = Math.abs(active - i) / 3;
@@ -108,8 +113,8 @@ function Carousel({ children, handleQuizResults }) {
           </div>
         );
       })}
-      {active < count - 1 && <button type="button" className="nav right" onClick={() => setActive((i) => i + 1)}><TiChevronRightOutline /></button>}
-      {active === count - 1 && <button className="nav finish" type="button" onClick={() => handleQuizResults()}><TiTickOutline /></button>}
+      {active < count - 1 && <button type="button" aria-label="next" className="nav right" onClick={() => setActive((i) => i + 1)}><TiChevronRightOutline /></button>}
+      {active === count - 1 && <button className="nav finish" aria-label="finish" type="button" onClick={() => handleQuizResults()}><TiTickOutline /></button>}
     </div>
   );
 }
@@ -118,7 +123,6 @@ export default function QuizApp() {
   const [quiz, setQuiz] = useState([]);
   const [quizScore, setQuizScore] = useState([]);
   const [myQuizScore, setMyQuizScore] = useState(0);
-  console.log(`當前總分:${myQuizScore}`);
   const [quizResults, setQuizResults] = useState([]);
   const [myQuizResult, setMyQuizResult] = useState('');
   const [showModal, setShowModal] = useState(false);
@@ -172,9 +176,7 @@ export default function QuizApp() {
     } else if (myQuizScore > 28) {
       setMyQuizResult(quizResults[0].content);
     }
-    console.log(`結果:${myQuizResult}`);
     openModal();
-    // setShowQuizResult(true);
   };
 
   return (
@@ -195,3 +197,8 @@ export default function QuizApp() {
     </div>
   );
 }
+
+Carousel.propTypes = {
+  children: PropTypes.shape({ current: PropTypes.instanceOf(Element) }).isRequired,
+  handleQuizResults: PropTypes.func.isRequired,
+};

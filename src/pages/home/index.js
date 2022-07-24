@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import styled, { keyframes } from 'styled-components/macro';
 import {
   useEffect, useState, useRef, useContext,
@@ -9,12 +8,13 @@ import { signOut } from 'firebase/auth';
 import Toast from '../../components/toastAlert';
 import UserContext from '../../userContext';
 import firebaseStores, { auth } from '../../firebase';
-import Modal from '../../components/Modal';
-import BadModal from '../../components/badModal';
-import WorryModal from '../../components/ModalWorry';
-import LoginModal from '../../components/BaseModal';
+import Modal from '../../components/BaseModal';
+import Cheerful from '../../components/cheerful';
+import Worry from '../../components/worry';
 import Login from '../login';
 import Tour from '../tour';
+import CheerfulBgImg from '../../components/cheerful/cheerfulBoard.png';
+import WorryBgImg from '../../components/worry/worryBoard.png';
 
 const Wrapper = styled.div`
     height:100vh;
@@ -23,7 +23,7 @@ const Wrapper = styled.div`
 `;
 
 const Sky = styled.div`
-    background: linear-gradient(180deg, rgba(105, 194, 238, 1), rgba(255, 255, 255, 1)), url('') no-repeat center center fixed;
+    background: linear-gradient(180deg, rgba(105, 194, 238, 1), rgba(255, 255, 255, 1));
     width:100%;
     height:60%;
     position: relative;
@@ -176,7 +176,6 @@ const bear1024 = keyframes`
 const Bear = styled(Base)`
     animation: ${bear} 2s ease 4s alternate 1 forwards;
     transform-origin: bottom right;
-    opacity: 15;
     bottom:349px;
     left:700px;
     opacity: 0;
@@ -474,15 +473,34 @@ const ButtonControl = styled.div`
 
 `;
 
+function BadModalContent() {
+  return (
+    <>
+      <Link
+        to="/quiz"
+        className="index-quiz"
+      >
+        <img src="img/signBorderR.png" alt="r" width="300px" />
+      </Link>
+      <Link
+        to="/card"
+        className="index-card"
+      >
+        <img src="img/signBorderL2.png" alt="r" width="300px" />
+      </Link>
+    </>
+  );
+}
+
 export default function Home() {
   const [positive, setPositive] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [showBadModal, setShowBadModal] = useState(false);
   const [showWorryModal, setShowWorryModal] = useState(false);
-  const [loginModal, setLoginModal] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
   const refTitle = useRef();
   const refContent = useRef();
-  const User = useContext(UserContext);
+  const user = useContext(UserContext);
 
   const openModal = () => {
     setShowModal((prev) => !prev);
@@ -497,7 +515,7 @@ export default function Home() {
   };
 
   const openLoginModal = () => {
-    setLoginModal((prev) => !prev);
+    setShowLoginModal((prev) => !prev);
   };
 
   function getRandom(min, max) {
@@ -522,12 +540,12 @@ export default function Home() {
     zIndex: -1,
     bottom: '30px',
     right: '30px',
-    // transform: 'scaleX(-1)',
   };
 
   return (
     <Wrapper>
-      {!User ? <Tour /> : null}
+      {user || showLoginModal || showBadModal ? null : <Tour />}
+
       <Sky />
       <Cloud>
         <img src="/img/cloud.png" alt="Cloud" width="10%" />
@@ -570,9 +588,9 @@ export default function Home() {
           <span>
             親愛的
             {' '}
-            {User ? (User.userData.user_name) : '~'}
+            {user ? (user.userData.user_name) : '~'}
             {' '}
-            {User ? <GiChainedHeart /> : null}
+            {user ? <GiChainedHeart /> : null}
             <br />
             <span>今天感覺如何?</span>
           </span>
@@ -582,7 +600,7 @@ export default function Home() {
               type="button"
               onClick={() => {
                 openModal();
-                if (!User) {
+                if (!user) {
                   Toast.fire({
                     title: '親愛的~登入才能紀錄心情喔~',
                   });
@@ -612,7 +630,7 @@ export default function Home() {
         type="button"
         onClick={() => {
           openWorryModal();
-          if (!User) {
+          if (!user) {
             Toast.fire({
               title: '親愛的~登入才能紀錄心情喔~',
             });
@@ -622,12 +640,7 @@ export default function Home() {
       >
         <img className="step-5" src="/img/owl.png" alt="owl" title="讓我替你分憂吧~" width="25%" />
       </Owl>
-      <WorryModal
-        showWorryModal={showWorryModal}
-        setShowWorryModal={setShowWorryModal}
-        refTitle={refTitle}
-        refContent={refContent}
-      />
+
       <Grass>
         <img src="/img/grass.png" alt="turf" width="100%" />
       </Grass>
@@ -645,13 +658,14 @@ export default function Home() {
         <SignR className="step-2">紀錄今天＞ </SignR>
       </Link>
 
-      {User
+      {user
         ? (
           <SignLog onClick={() => signOut(auth).then(() => {
             Toast.fire({
               title: '登出成功，常回來看我們哦~',
             });
           }).catch((error) => {
+            // eslint-disable-next-line no-console
             console.log(error);
           })}
           >
@@ -665,27 +679,55 @@ export default function Home() {
             登入/註冊
           </SignLog>
         )}
-      <LoginModal
-        showModal={loginModal}
-        setShowModal={setLoginModal}
+
+      <Modal
+        showModal={showLoginModal}
+        setShowModal={setShowLoginModal}
         bg="url(/img/loginBg.png) no-repeat left top / 100% 100% "
         bkc="linear-gradient(130deg, #D7FFFE, #ace0f9, #ace0c1)"
-        content={<Login setShowModal={setLoginModal} />}
+        content={<Login setShowModal={setShowLoginModal} />}
       />
 
       <Modal
         showModal={showModal}
         setShowModal={setShowModal}
-        refTitle={refTitle}
-        refContent={refContent}
+        bg={`url(${CheerfulBgImg})  no-repeat left top / contain`}
+        width="780px"
+        height="700px"
+        content={(
+          <Cheerful
+            refTitle={refTitle}
+            refContent={refContent}
+            setShowModal={setShowModal}
+          />
+        )}
       />
 
-      <BadModal
-        showBadModal={showBadModal}
-        setShowBadModal={setShowBadModal}
-        refTitle={refTitle}
-        refContent={refContent}
+      <Modal
+        showModal={showWorryModal}
+        setShowModal={setShowWorryModal}
+        bg={`url(${WorryBgImg})  no-repeat left top / contain`}
+        width="755px"
+        height="700px"
+        content={(
+          <Worry
+            refTitle={refTitle}
+            refContent={refContent}
+            setShowModal={setShowWorryModal}
+          />
+        )}
       />
+
+      <Modal
+        showModal={showBadModal}
+        setShowModal={setShowBadModal}
+        width="100vw"
+        height="100vh"
+        justify="space-evenly"
+        flexDirection="row"
+        content={<BadModalContent />}
+      />
+
     </Wrapper>
   );
 }

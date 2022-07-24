@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { useState, useEffect, useContext } from 'react';
 import { BiMessageSquareAdd, BiMessageSquareMinus } from 'react-icons/bi';
 import styled from 'styled-components/macro';
@@ -10,21 +9,22 @@ const ItemControl = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-span{
-  font-size: 1.1rem;
-}
+
+  span{
+    font-size: 1.1rem;
+  }
 `;
 
 function Item({
   id, note, deleteData, data, keyName,
 }) {
-  const User = useContext(UserContext);
+  const user = useContext(UserContext);
 
   function deleteItem() {
     deleteData((prev) => prev.filter((item) => item.id !== id));
     // eslint-disable-next-line prefer-const
     let newdata = data.filter((item) => item.id !== id);
-    firebaseStores.updateDoc(User.uid, {
+    firebaseStores.updateDoc(user.uid, {
       [keyName]: newdata,
     });
   }
@@ -60,12 +60,12 @@ export function List({ data, deleteData, keyName }) {
 }
 
 const Input = styled.input`
-width:70%;
-border-radius: 5px;
-border:0;
-padding:2px 10px;
-background: #d5bfa4;
-height:1.25rem;
+  width:70%;
+  border-radius: 5px;
+  border:0;
+  padding:2px 10px;
+  background: #d5bfa4;
+  height:1.25rem;
 `;
 
 export function Edit({ add, data, keyName }) {
@@ -85,7 +85,6 @@ export function Edit({ add, data, keyName }) {
   const uuid = uuidfun();
 
   function addItem(currNote) {
-    console.log(data);
     add(
       (prevData) => (
         prevData ? ([{ content: currNote, id: uuid }, ...prevData])
@@ -112,17 +111,17 @@ export function Edit({ add, data, keyName }) {
 }
 
 export const Title = styled.span`
-    display: block;
-    font-size: 1.5em;
-    margin-bottom:0.5rem;
-    font-weight: bold;
+  display: block;
+  font-size: 1.5em;
+  margin-bottom:0.5rem;
+  font-weight: bold;
 `;
 
 const ItemWapper = styled.div`
-width:65%;
-height:75%;
-${'' /* border: 1px solid red; */}
+  width:65%;
+  height:75%;
 `;
+
 export default function Todos() {
   const User = useContext(UserContext);
 
