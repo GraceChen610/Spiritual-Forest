@@ -1,6 +1,4 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-/* eslint-disable no-console */
 import styled from 'styled-components/macro';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect, useContext } from 'react';
@@ -75,7 +73,9 @@ const ImgBg = styled.div`
   justify-content: center;
   align-items: center;
   background:  url(${photoBg}) no-repeat left top / 100% 100% ;
-  cursor: pointer;
+  img{
+    cursor: pointer;
+  }
 `;
 
 export default function Record() {
@@ -92,6 +92,7 @@ export default function Record() {
 
   useEffect(() => {
     if (User === '') {
+      // eslint-disable-next-line no-console
       console.log('Loading...');
     }
 
@@ -110,6 +111,7 @@ export default function Record() {
           setData(res.data().gratitude);
           setHistoryImg(res.data().pic);
         })
+        // eslint-disable-next-line no-console
         .catch((e) => console.log(e));
     }
   }, [User, updataImg, historyImg, navigate]);
@@ -130,20 +132,25 @@ export default function Record() {
                   alt="myImg"
                   height={380}
                   style={{
-                    maxHeight: '80%', maxWidth: '80%', height: 'auto', width: 'auto',
+                    maxHeight: '80%', maxWidth: '80%', height: 'auto', width: 'auto', cursor: 'pointer',
                   }}
+                  title="點擊可更換新圖片"
                   onClick={() => openModal()}
+                  onKeyDown={() => openModal()}
                 />
               )
-              : <img src={baseImg} alt="myImg" height={380} onClick={() => openModal()} />
+              : <img src={baseImg} alt="點擊製作夢想圖" title="點擊可製作夢想圖" height={380} onClick={() => openModal()} onKeyDown={() => openModal()} />
           }
             <Modal
               showModal={showModal}
               setShowModal={setShowModal}
-              // historyImg={historyImg}
-              // setHistoryImg={setHistoryImg}
-              // setUpdataImg={setUpdataImg}
-              content={<Canvas setHistoryImg={setHistoryImg} setUpdataImg={setUpdataImg} />}
+              content={(
+                <Canvas
+                  setHistoryImg={setHistoryImg}
+                  setUpdataImg={setUpdataImg}
+                  setShowModal={setShowModal}
+                />
+              )}
               width="1080px"
               height="650px"
             />

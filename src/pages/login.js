@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import {
   createUserWithEmailAndPassword, signInWithEmailAndPassword,
   setPersistence, browserSessionPersistence,
@@ -17,7 +16,6 @@ const ControlR = styled.div`
  position: absolute;
  left: 500px;
  top: 255px;
- ${'' /* border: 1px solid; */}
 
  input{
   margin-bottom:2.8rem;
@@ -38,6 +36,9 @@ const ControlR = styled.div`
   opacity: 0;
   border: 1px solid;
   cursor: pointer;
+  &:last-of-type{
+    left: 110px;
+  }
  }
  `;
 
@@ -70,8 +71,8 @@ width: 300px;
  `;
 
 function Login({ setShowModal }) {
-  const [userEmail, setUserEmail] = useState('');
-  const [userPassword, setUserPassword] = useState('');
+  const [userEmail, setUserEmail] = useState('test@mail.com');
+  const [userPassword, setUserPassword] = useState('test123');
   const [userName, setUserName] = useState('');
   const User = useContext(UserContext);
 
@@ -80,7 +81,7 @@ function Login({ setShowModal }) {
       .then((userCredential) => {
         // Signed in
         const { user } = userCredential;
-        console.log(user);
+
         firebaseStores.addUser(user.uid, {
           user_name: userName,
           account: userEmail,
@@ -93,27 +94,27 @@ function Login({ setShowModal }) {
           gratitude: [],
           favorite: [],
         });
+
         Toast.fire({
-          title: '註冊成功啦~',
+          title: '恭喜您註冊成功~ 嘗試探索新功能吧！',
         });
+
         setShowModal(false);
       })
+
       .catch((error) => {
         const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode);
-        console.log(errorMessage);
-        // ..
+        Toast.fire({
+          title: errorCode,
+        });
       });
   }
 
   function logIn(email, password) {
-    // 透過firebase的功能，存用戶的資訊到local storage
     setPersistence(auth, browserSessionPersistence)
       .then(async () => {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        const userData = auth.currentUser;
-        console.log('userData', userData);
+        // eslint-disable-next-line no-console
         console.log(`目前狀態:${userCredential.operationType}`);
         Toast.fire({
           title: `${User ? (User.userData.user_name) : ''} 你回來啦~ 大家都在想你呢`,
@@ -122,25 +123,31 @@ function Login({ setShowModal }) {
       })
       .catch((error) => {
         const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode);
-        console.log(errorMessage);
+        Toast.fire({
+          title: errorCode,
+        });
       });
-    // firebaseStores.getData(collectionName);
   }
+
+  const handleClick = () => {
+    setUserName('');
+    setUserEmail('');
+    setUserPassword('');
+  };
 
   return (
     <Wrapper>
       <ControlR>
-        <input type="text" placeholder="請輸入暱稱" name="name" required onChange={(e) => setUserName(e.target.value)} />
-        <input type="text" placeholder="請輸入E-mail" name="email" required onChange={(e) => setUserEmail(e.target.value)} />
-        <input type="password" placeholder="請輸入密碼" name="psw" required onChange={(e) => setUserPassword(e.target.value)} />
+        <input type="text" placeholder="請輸入暱稱" name="name" required onChange={(e) => setUserName(e.target.value)} value={userName} />
+        <input type="text" placeholder="請輸入E-mail" name="email" required onChange={(e) => setUserEmail(e.target.value)} value={userEmail} />
+        <input type="password" placeholder="請輸入密碼" name="psw" required onChange={(e) => setUserPassword(e.target.value)} value={userPassword} />
         <span role="button" tabIndex={0} aria-hidden="true" onClick={() => { register(userEmail, userPassword); }}>註冊</span>
+        <span role="button" tabIndex={0} aria-hidden="true" onClick={() => handleClick()}>取消</span>
       </ControlR>
 
       <ControlL>
-        <input type="text" placeholder="請輸入E-mail" name="email" id="email" required onChange={(e) => setUserEmail(e.target.value)} />
-        <input type="password" placeholder="請輸入密碼" name="psw" required onChange={(e) => setUserPassword(e.target.value)} />
+        <input type="text" placeholder="直接點擊ok使用體驗帳號登入" name="email" id="email" required onChange={(e) => setUserEmail(e.target.value)} />
+        <input type="password" placeholder="或 輸入帳號密碼後登入" name="psw" required onChange={(e) => setUserPassword(e.target.value)} />
         <span
           role="button"
           tabIndex={0}

@@ -1,10 +1,9 @@
 * {cursor: url(../public/img/cursor.png), auto ;} 
+
 .App {
   text-align: center;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-  box-sizing:content-box;
   font-size: 1rem;
 }
 
@@ -22,13 +21,13 @@ body::-webkit-scrollbar {
   position:relative;
   cursor: pointer;
   background: #491818;
- border-radius: 10px;
- border: 1px solid;
- text-align:center ;
- font-weight: bold;
-margin: 5px;
-opacity: 0.5;
-box-sizing: content-box;
+  border-radius: 10px;
+  border: 1px solid;
+  text-align:center ;
+  font-weight: bold;
+  margin: 5px;
+  opacity: 0.5;
+  box-sizing: content-box;
 }
 
 .newline{
@@ -42,8 +41,6 @@ a:-webkit-any-link{
 
 .react-joyride__beacon > span{
   background-color: #03a9f4 !important;
-  /* box-shadow: 0 0 5px 5px white; */
-
 }
 
 .react-joyride__beacon span + span{

@@ -18,13 +18,13 @@ const ItemControl = styled.div`
 function Item({
   id, note, deleteData, data, keyName,
 }) {
-  const User = useContext(UserContext);
+  const user = useContext(UserContext);
 
   function deleteItem() {
     deleteData((prev) => prev.filter((item) => item.id !== id));
     // eslint-disable-next-line prefer-const
     let newdata = data.filter((item) => item.id !== id);
-    firebaseStores.updateDoc(User.uid, {
+    firebaseStores.updateDoc(user.uid, {
       [keyName]: newdata,
     });
   }
