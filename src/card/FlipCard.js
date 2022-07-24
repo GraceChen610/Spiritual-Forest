@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
 import styled from 'styled-components/macro';
 import { useSpring, a } from 'react-spring';
@@ -70,8 +69,7 @@ function FlipCard({
     config: { mass: 1, tension: 300, friction: 120 },
   });
   return (
-    // eslint-disable-next-line jsx-a11y/click-events-have-key-events
-    <div onClick={() => { setfun(); }} ref={innerRef} style={style}>
+    <div onClick={() => { setfun(); }} onKeyDown={() => { setfun(); }} ref={innerRef} style={style} role="button" tabIndex={0}>
       <a.div
         style={{
           transform,

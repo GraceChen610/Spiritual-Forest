@@ -111,7 +111,6 @@ const Articles = styled.div`
       line-height: 1.8rem;
       font-size: 1.1rem;
       width:95%;
-      border: 1px solid ;
     }
 `;
 
@@ -255,7 +254,7 @@ const ButterflyBlue = styled(Butterfly)`
   left:900px;
 `;
 export default function Truf() {
-  const User = useContext(UserContext);
+  const user = useContext(UserContext);
   const [worriesArticles, setWorriesArticles] = useState([]);
   const [cheerfulArticles, setCheerfulArticles] = useState([]);
   const [showMessageModal, setShowMessageModal] = useState(false);
@@ -268,12 +267,12 @@ export default function Truf() {
   };
 
   useEffect(() => {
-    if (User === '') {
+    if (user === '') {
       Toast.fire({
         title: '稍等片刻，光速抓取資料中...',
       });
     }
-    if (User === null) {
+    if (user === null) {
       Toast.fire({
         title: '親愛的~登入才能發文與綠植互動喔~',
       });
@@ -281,17 +280,17 @@ export default function Truf() {
         navigate('/');
       }, 4000);
     }
-    if (User) {
-      firebaseStores.getArticles('cheerful_articles', User.uid)
+    if (user) {
+      firebaseStores.getArticles('cheerful_articles', user.uid)
         .then((res) => setCheerfulArticles(
           (res.map((item) => ({ ...item, bottom: getRandom(0, 100), left: getRandom(0, 90) }))),
         ));
-      firebaseStores.getArticles('worries_articles', User.uid)
+      firebaseStores.getArticles('worries_articles', user.uid)
         .then((res) => setWorriesArticles(
           (res.map((item) => ({ ...item, bottom: getRandom(0, 100), left: getRandom(0, 90) }))),
         ));
     }
-  }, [User, navigate]);
+  }, [user, navigate]);
 
   return (
     <Wrapper>

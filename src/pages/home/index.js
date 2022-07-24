@@ -13,8 +13,8 @@ import Cheerful from '../../components/cheerful';
 import Worry from '../../components/worry';
 import Login from '../login';
 import Tour from '../tour';
-import CheerfulBgImg from '../../components/happyBoard.png';
-import WorryBgImg from '../../components/worryBoard.png';
+import CheerfulBgImg from '../../components/cheerful/cheerfulBoard.png';
+import WorryBgImg from '../../components/worry/worryBoard.png';
 
 const Wrapper = styled.div`
     height:100vh;
@@ -497,10 +497,10 @@ export default function Home() {
   const [showModal, setShowModal] = useState(false);
   const [showBadModal, setShowBadModal] = useState(false);
   const [showWorryModal, setShowWorryModal] = useState(false);
-  const [loginModal, setLoginModal] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
   const refTitle = useRef();
   const refContent = useRef();
-  const User = useContext(UserContext);
+  const user = useContext(UserContext);
 
   const openModal = () => {
     setShowModal((prev) => !prev);
@@ -515,7 +515,7 @@ export default function Home() {
   };
 
   const openLoginModal = () => {
-    setLoginModal((prev) => !prev);
+    setShowLoginModal((prev) => !prev);
   };
 
   function getRandom(min, max) {
@@ -545,7 +545,7 @@ export default function Home() {
 
   return (
     <Wrapper>
-      {User || loginModal || showBadModal ? null : <Tour />}
+      {user || showLoginModal || showBadModal ? null : <Tour />}
 
       <Sky />
       <Cloud>
@@ -589,9 +589,9 @@ export default function Home() {
           <span>
             親愛的
             {' '}
-            {User ? (User.userData.user_name) : '~'}
+            {user ? (user.userData.user_name) : '~'}
             {' '}
-            {User ? <GiChainedHeart /> : null}
+            {user ? <GiChainedHeart /> : null}
             <br />
             <span>今天感覺如何?</span>
           </span>
@@ -601,7 +601,7 @@ export default function Home() {
               type="button"
               onClick={() => {
                 openModal();
-                if (!User) {
+                if (!user) {
                   Toast.fire({
                     title: '親愛的~登入才能紀錄心情喔~',
                   });
@@ -631,7 +631,7 @@ export default function Home() {
         type="button"
         onClick={() => {
           openWorryModal();
-          if (!User) {
+          if (!user) {
             Toast.fire({
               title: '親愛的~登入才能紀錄心情喔~',
             });
@@ -659,13 +659,14 @@ export default function Home() {
         <SignR className="step-2">紀錄今天＞ </SignR>
       </Link>
 
-      {User
+      {user
         ? (
           <SignLog onClick={() => signOut(auth).then(() => {
             Toast.fire({
               title: '登出成功，常回來看我們哦~',
             });
           }).catch((error) => {
+            // eslint-disable-next-line no-console
             console.log(error);
           })}
           >
@@ -681,11 +682,11 @@ export default function Home() {
         )}
 
       <Modal
-        showModal={loginModal}
-        setShowModal={setLoginModal}
+        showModal={showLoginModal}
+        setShowModal={setShowLoginModal}
         bg="url(/img/loginBg.png) no-repeat left top / 100% 100% "
         bkc="linear-gradient(130deg, #D7FFFE, #ace0f9, #ace0c1)"
-        content={<Login setShowModal={setLoginModal} />}
+        content={<Login setShowModal={setShowLoginModal} />}
       />
 
       <Modal
@@ -713,7 +714,7 @@ export default function Home() {
           <Worry
             refTitle={refTitle}
             refContent={refContent}
-            setShowModal={setShowModal}
+            setShowModal={setShowWorryModal}
           />
         )}
       />

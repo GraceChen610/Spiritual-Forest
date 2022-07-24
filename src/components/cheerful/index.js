@@ -3,14 +3,15 @@ import styled, { keyframes } from 'styled-components';
 import Swal from 'sweetalert2';
 import { v4 as uuidv4 } from 'uuid';
 import PropTypes from 'prop-types';
-import UserContext from '../userContext';
-import firebaseStores from '../firebase';
+import UserContext from '../../userContext';
+import firebaseStores from '../../firebase';
+import Toast from '../toastAlert';
 import bird from './bird.png';
 import sharehappy from './sharehappy.png';
 
 const birdanimated = keyframes`
-0%   { transform: translate(0, 0px);}
-100% {transform: translate(0, -25px);}
+  0%   { transform: translate(0, 0px);}
+  100% {transform: translate(0, -25px);}
 `;
 
 const Bird = styled.img`
@@ -24,8 +25,8 @@ const Bird = styled.img`
 `;
 
 const shareHappyAnimated = keyframes`
-0%   { transform: translate(0, 0px) scale(0.7);}
-100% {transform: translate(0, 0px) scale(1);opacity: 1;}
+  0%   { transform: translate(0, 0px) scale(0.7);}
+  100% {transform: translate(0, 0px) scale(1);opacity: 1;}
 `;
 
 const ShareHappy = styled.img`
@@ -48,7 +49,6 @@ const ModalContent = styled.div`
   opacity: 0.8;
   width:70%;
   position:relative;
-  ${'' /* border: 1px solid; */}
 
   img{
     :hover{
@@ -89,13 +89,12 @@ const ModalContent = styled.div`
     position:relative;
     top: 100px;
     left:90px;
-    
     cursor: pointer;
 
   }
 `;
 export default function Cheerful({ setShowModal, refTitle, refContent }) {
-  const User = useContext(UserContext);
+  const user = useContext(UserContext);
 
   return (
     <>
@@ -107,22 +106,28 @@ export default function Cheerful({ setShowModal, refTitle, refContent }) {
         <button
           type="button"
           onClick={() => {
-            setShowModal((prev) => !prev);
-            firebaseStores.postdata(
-              'cheerful_articles',
-              {
-                title: refTitle.current.value,
-                content: refContent.current.value,
-                user_id: User.uid,
-                id: uuidv4(),
-              },
-            );
-            Swal.fire({
-              icon: 'success',
-              showConfirmButton: false,
-              timer: 1200,
-              text: '心情已送出',
-            });
+            if (refTitle.current.value && refContent.current.value) {
+              setShowModal((prev) => !prev);
+              firebaseStores.postdata(
+                'cheerful_articles',
+                {
+                  title: refTitle.current.value,
+                  content: refContent.current.value,
+                  user_id: user.uid,
+                  id: uuidv4(),
+                },
+              );
+              Swal.fire({
+                icon: 'success',
+                showConfirmButton: false,
+                timer: 1200,
+                text: '心情已送出',
+              });
+            } else {
+              Toast.fire({
+                title: '親愛的~ 標題及內容缺一不可哦~',
+              });
+            }
           }}
         >
           submit
