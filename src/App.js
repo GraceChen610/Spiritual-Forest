@@ -32,9 +32,12 @@ display:none;
 `;
 
 const Main = styled.div`
-  @media only screen and (orientation:portrait){
+  @media only screen and (orientation:portrait) {
     display: none;
-    }
+  }
+  @media only screen and (max-width: 980px) {
+    display: none;
+  }
 `;
 
 function App() {

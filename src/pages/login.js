@@ -2,7 +2,7 @@ import {
   createUserWithEmailAndPassword, signInWithEmailAndPassword,
   setPersistence, browserSessionPersistence,
 } from 'firebase/auth';
-import { useState, useContext } from 'react';
+import { useState, useContext, useRef } from 'react';
 import styled from 'styled-components/macro';
 import PropTypes from 'prop-types';
 import firebaseStores, { auth } from '../firebase';
@@ -71,9 +71,11 @@ width: 300px;
  `;
 
 function Login({ setShowModal }) {
-  const [userEmail, setUserEmail] = useState('test@mail.com');
-  const [userPassword, setUserPassword] = useState('test123');
+  const [userEmail, setUserEmail] = useState('');
+  const [userPassword, setUserPassword] = useState('');
   const [userName, setUserName] = useState('');
+  const refLoginEmail = useRef('');
+  const refLoginPassword = useRef('');
   const User = useContext(UserContext);
 
   function register(email, password) {
@@ -146,14 +148,14 @@ function Login({ setShowModal }) {
       </ControlR>
 
       <ControlL>
-        <input type="text" placeholder="直接點擊ok使用體驗帳號登入" name="email" id="email" required onChange={(e) => setUserEmail(e.target.value)} />
-        <input type="password" placeholder="或 輸入帳號密碼後登入" name="psw" required onChange={(e) => setUserPassword(e.target.value)} />
+        <input type="text" placeholder="直接點擊ok使用體驗帳號登入" name="email" id="email" required ref={refLoginEmail} defaultValue="test@mail.com" />
+        <input type="password" name="psw" required ref={refLoginPassword} defaultValue="test123" />
         <span
           role="button"
           tabIndex={0}
           aria-hidden="true"
           onClick={() => {
-            logIn(userEmail, userPassword);
+            logIn(refLoginEmail.current.value, refLoginPassword.current.value);
           }}
         >
           登入

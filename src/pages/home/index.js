@@ -99,7 +99,11 @@ const Board = styled(Base)`
     bottom:45px;
     width:68%;
   }
-
+  @media screen and (max-width: 1180px) { 
+    left:300px;
+    bottom:45px;
+    width:66%;
+  }
   @media screen and (max-width: 1024px) { 
     left:250px;
     bottom:35px;
@@ -130,6 +134,14 @@ const Title = styled.div`
       height:180px;
       left:400px;
       bottom:90px;
+    }
+    @media screen and (max-width: 1180px) { 
+      width:340px;
+      height:160px;
+      left:370px;
+      span{
+        font-size:1.3rem;
+      }
     }
     @media screen and (max-width: 1024px) { 
       bottom:75px;
@@ -184,6 +196,9 @@ const Bear = styled(Base)`
     bottom: 302px;
     left: 600px;
   }
+  @media screen and (max-width: 1180px) { 
+    bottom: 275px;
+  }
   @media screen and (max-width: 1024px) { 
     animation: ${bear1024} 2s ease 4s alternate 1 forwards;
     bottom: 233px;
@@ -214,6 +229,11 @@ const Zebra = styled(Board)`
     left:810px;
     width:22%
   }
+  @media screen and (max-width: 1180px) { 
+    bottom:40px;
+    left:740px;
+    width:20%
+  }
   @media screen and (max-width: 1024px) { 
     bottom:40px;
     left:620px;
@@ -230,7 +250,11 @@ left:1090px;
     left:970px;
     width:20%
   }
-
+  @media screen and (max-width: 1180px) { 
+    bottom:70px;
+    left:880px;
+    width:18%
+  }
   @media screen and (max-width: 1024px) { 
     bottom:40px;
     left:750px;
@@ -387,7 +411,11 @@ const QusitionControl = styled.div`
     height:25%;
     left:880px;
   }
-
+  @media screen and (max-width: 1180px) { 
+    bottom: 320px;
+    height:25%;
+    left:780px;
+  }
   @media screen and (max-width: 1024px) { 
     min-height:20%;
     height:auto;
@@ -429,6 +457,9 @@ const Qusition = styled.div`
     font-size: 1.2rem;
     margin-top:0rem;
     padding-bottom:2.5rem;
+  }
+  @media screen and (max-width: 1180px) { 
+    padding-bottom:0.5rem;
   }
   @media screen and (max-width: 1024px) { 
     height:auto;
