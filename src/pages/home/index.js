@@ -17,65 +17,64 @@ import CheerfulBgImg from '../../components/cheerful/cheerfulBoard.png';
 import WorryBgImg from '../../components/worry/worryBoard.png';
 
 const Wrapper = styled.div`
-    height:100vh;
-    width: 100vw;
-    position: relative;
+  height:100vh;
+  width: 100vw;
+  position: relative;
 `;
 
 const Sky = styled.div`
-    background: linear-gradient(180deg, rgba(105, 194, 238, 1), rgba(255, 255, 255, 1));
-    width:100%;
-    height:60%;
-    position: relative;
-    z-index:-50;
+  background: linear-gradient(180deg, rgba(105, 194, 238, 1), rgba(255, 255, 255, 1));
+  width:100%;
+  height:60%;
+  position: relative;
+  z-index:-50;
 `;
 
 const cloud = keyframes`
-    0%   { transform: translate(10%, 0px);}
+  0%   { transform: translate(10%, 0px);}
   100% {transform: translate(100%, 90px);}
   
 `;
 
 const cloud2 = keyframes`
-    0%   { transform: translate(100%, 90px);}
+  0%   { transform: translate(100%, 90px);}
   100% {transform: translate(0, 150px);}
 `;
 
 const cloud3 = keyframes`
-    0%   { transform: translate(100%, 150px);}
+  0%   { transform: translate(100%, 150px);}
   100% {transform: translate(0%, 200px);}
 `;
 
 const Cloud = styled.div`
-    animation: ${cloud} 40s linear 0s alternate infinite;
-    position: absolute;
-    z-index:-48;
-    top:0;
-    left:0;
+  animation: ${cloud} 40s linear 0s alternate infinite;
+  position: absolute;
+  z-index:-48;
+  top:0;
+  left:0;
 `;
 
 const Cloud2 = styled(Cloud)`
-    animation: ${cloud2} 30s linear 0s alternate infinite;
-    z-index:-47;
+  animation: ${cloud2} 30s linear 0s alternate infinite;
+  z-index:-47;
 `;
 
 const Cloud3 = styled(Cloud)`
-    animation: ${cloud3} 50s linear 0s alternate infinite;
-    z-index:-49;
+  animation: ${cloud3} 50s linear 0s alternate infinite;
+  z-index:-49;
 `;
 
 const Tree = styled.div`
-    position: absolute;
-    z-index:-45;
-    bottom:170px;
-    left:-10px;
+  position: absolute;
+  z-index:-45;
+  bottom:170px;
+  left:-10px;
 
   @media screen and (max-width: 1280px) { 
     bottom:150px;
     width: 55%;
     left: 10px;
   }
-
   @media screen and (max-width: 1024px) { 
     bottom:110px;
     left: 10px;
@@ -84,22 +83,26 @@ const Tree = styled.div`
 `;
 
 const Base = styled.div`
-position: absolute;
-z-index:-45;
-bottom:170px;
-left:-10px;
+  position: absolute;
+  z-index:-45;
+  bottom:170px;
+  left:-10px;
 `;
 
 const Board = styled(Base)`
-    bottom:50px;
-    left:350px;
+  bottom:50px;
+  left:350px;
 
   @media screen and (max-width: 1280px) { 
     left:320px;
     bottom:45px;
     width:68%;
   }
-
+  @media screen and (max-width: 1180px) { 
+    left:300px;
+    bottom:45px;
+    width:66%;
+  }
   @media screen and (max-width: 1024px) { 
     left:250px;
     bottom:35px;
@@ -108,38 +111,48 @@ const Board = styled(Base)`
 `;
 
 const Title = styled.div`
-    position: absolute;
-    z-index:-40;
-    bottom:100px;
-    left:440px;
-    width:415px;
-    height:200px;
-    display: flex;
-    align-items: center;
-    ${'' /* border: black solid 1px; */}
+  position: absolute;
+  z-index:-40;
+  bottom:100px;
+  left:440px;
+  width:415px;
+  height:200px;
+  display: flex;
+  align-items: center;
+
+  span{
+  text-align: justify;
+  color:#491818;
+  vertical-align: middle;
+  font-size:1.4rem;
+  font-weight: bold;
+  }
+
+  @media screen and (max-width: 1280px) { 
+    width:370px;
+    height:180px;
+    left:400px;
+    bottom:90px;
+  }
+  @media screen and (max-width: 1180px) { 
+    width:340px;
+    height:160px;
+    left:370px;
 
     span{
-    text-align: justify;
-    color:#491818;
-    vertical-align: middle;
-    font-size:1.4rem;
-    font-weight: bold;
+      font-size:1.3rem;
     }
-    @media screen and (max-width: 1280px) { 
-      width:370px;
-      height:180px;
-      left:400px;
-      bottom:90px;
+  }
+  @media screen and (max-width: 1024px) { 
+    bottom:75px;
+    left:310px;
+    width:290px;
+    height:135px;
+
+    span{
+      font-size:1.2rem;
     }
-    @media screen and (max-width: 1024px) { 
-      bottom:75px;
-      left:310px;
-      width:290px;
-      height:135px;
-      span{
-        font-size:1.2rem;
-      }
-    }
+  }
 `;
 
 const butterfly = keyframes`
@@ -151,10 +164,11 @@ const butterfly = keyframes`
 `;
 
 const Butterfly = styled(Base)`
-    animation: ${butterfly} 20s linear 0s infinite;
-    bottom:120px;
-    left:500px;
-    z-index:-40;
+  animation: ${butterfly} 20s linear 0s infinite;
+  bottom:120px;
+  left:500px;
+  z-index:-40;
+
   @media screen and (max-width: 1024px) { 
     left:200px;
     width:4%;
@@ -162,27 +176,30 @@ const Butterfly = styled(Base)`
 `;
 
 const bear = keyframes`
-    0%   {transform: rotate(0deg);  opacity: 0;}
+  0%  {transform: rotate(0deg);  opacity: 0;}
   50% {transform: rotate(75deg) translate(0px, 150px);}
   100% {transform: rotate(0deg);  opacity: 1;}
 `;
 
 const bear1024 = keyframes`
-  0%   {transform: rotate(0deg);  opacity: 0;}
+  0%  {transform: rotate(0deg);  opacity: 0;}
   50% {transform: rotate(75deg) translate(0px, 100px);}
   100% {transform: rotate(0deg);  opacity: 1;}
 `;
 
 const Bear = styled(Base)`
-    animation: ${bear} 2s ease 4s alternate 1 forwards;
-    transform-origin: bottom right;
-    bottom:349px;
-    left:700px;
-    opacity: 0;
+  animation: ${bear} 2s ease 4s alternate 1 forwards;
+  transform-origin: bottom right;
+  bottom:349px;
+  left:700px;
+  opacity: 0;
 
   @media screen and (max-width: 1280px) { 
     bottom: 302px;
     left: 600px;
+  }
+  @media screen and (max-width: 1180px) { 
+    bottom: 275px;
   }
   @media screen and (max-width: 1024px) { 
     animation: ${bear1024} 2s ease 4s alternate 1 forwards;
@@ -193,26 +210,32 @@ const Bear = styled(Base)`
 `;
 
 const Turf = styled(Base)`
-bottom:0px;
-left:0px;
-z-index:-50;
+  bottom:0px;
+  left:0px;
+  z-index:-50;
 `;
 
 const zebra = keyframes`
-  0%   {transform: rotate(10deg);}
+  0%  {transform: rotate(10deg);}
   70% {transform: rotate(0deg);}
   100% {transform: rotate(0deg);}
 `;
 
 const Zebra = styled(Board)`
-    animation: ${zebra} 2s ease 0s 1;
-    transform-origin: bottom center;
-    bottom:50px;
-    left:900px;
+  animation: ${zebra} 2s ease 0s 1;
+  transform-origin: bottom center;
+  bottom:50px;
+  left:900px;
+
   @media screen and (max-width: 1280px) { 
     bottom:40px;
     left:810px;
     width:22%
+  }
+  @media screen and (max-width: 1180px) { 
+    bottom:40px;
+    left:740px;
+    width:20%
   }
   @media screen and (max-width: 1024px) { 
     bottom:40px;
@@ -222,15 +245,19 @@ const Zebra = styled(Board)`
 `;
 
 const Lion = styled(Base)`
-bottom:30px;
-left:1090px;
+  bottom:30px;
+  left:1090px;
 
   @media screen and (max-width: 1280px) { 
     bottom:85px;
     left:970px;
     width:20%
   }
-
+  @media screen and (max-width: 1180px) { 
+    bottom:70px;
+    left:880px;
+    width:18%
+  }
   @media screen and (max-width: 1024px) { 
     bottom:40px;
     left:750px;
@@ -239,19 +266,20 @@ left:1090px;
 `;
 
 const RedPanda = styled(Base)`
-z-index:-42;
-bottom:60px;
-left:220px;
-@media screen and (max-width: 1280px) { 
+  z-index:-42;
   bottom:60px;
-  left:160px;
-  width:23%
-}
-@media screen and (max-width: 1024px) { 
-  bottom:60px;
-  left:140px;
-  width:20%
-}
+  left:220px;
+
+  @media screen and (max-width: 1280px) { 
+    bottom:60px;
+    left:160px;
+    width:23%
+  }
+  @media screen and (max-width: 1024px) { 
+    bottom:60px;
+    left:140px;
+    width:20%
+  }
 
 `;
 
@@ -260,31 +288,32 @@ const Owl = styled.div`
   z-index:0;
   bottom:520px;
   left:350px;
-img{ 
-  :hover{
-    transform: scale(1.2);
-    cursor: pointer;
+  img{ 
+    :hover{
+      transform: scale(1.2);
+      cursor: pointer;
+    }
   }
-}
-@media screen and (max-width: 1280px) { 
-  bottom:460px;
-  left:330px;
-}
-@media screen and (max-width: 1180px) { 
-  bottom:435px;
-  left:300px;
-}
-@media screen and (max-width: 1024px) { 
-  bottom: 365px;
-  left: 270px;
-  width:25%
-}
+
+  @media screen and (max-width: 1280px) { 
+    bottom:460px;
+    left:330px;
+  }
+  @media screen and (max-width: 1180px) { 
+    bottom:435px;
+    left:300px;
+  }
+  @media screen and (max-width: 1024px) { 
+    bottom: 365px;
+    left: 270px;
+    width:25%
+  }
 `;
 
 const Grass = styled(Base)`
-z-index:0;
-bottom:0px;
-left:0px;
+  z-index:0;
+  bottom:0px;
+  left:0px;
 `;
 
 const Sign = styled.span`
@@ -299,11 +328,11 @@ const Sign = styled.span`
   text-shadow: black 0.1em 0.1em 0.2em;
   font-size:1.2rem;
   padding: 30px 0;
-  ${'' /* border: 1px solid black; */}
-:hover{
-  transform: scale(1.17);
-  cursor: pointer;
-}
+
+  :hover{
+    transform: scale(1.17);
+    cursor: pointer;
+  }
  @media screen and (mix-width: 1920px) { 
     width: 180px;
     bottom: 110px;
@@ -330,13 +359,14 @@ const Sign = styled.span`
 `;
 
 const SignR = styled(Sign)`
-right:30px;
-left: initial;
+  right:30px;
+  left: initial;
 `;
 
 const SignLog = styled(Sign)`
-bottom:385px;
-left:430px;
+  bottom:385px;
+  left:430px;
+
   @media screen and (min-width: 1920px) { 
     bottom: 380px;
     left: 430px;
@@ -357,7 +387,7 @@ left:430px;
 `;
 
 const bubble = keyframes`
-    0%   { transform: rotateX(90deg);  opacity: 0;}
+  0%   { transform: rotateX(90deg);  opacity: 0;}
   100% {  transform: rotateX(0deg);  opacity: 0.9;}
 `;
 
@@ -371,7 +401,6 @@ const QusitionControl = styled.div`
   bottom:400px;
   left:970px;
   z-index:1;
-  ${'' /* border:1px solid black; */}
   display:flex;
   flex-direction: column;
   align-items: center;
@@ -387,7 +416,11 @@ const QusitionControl = styled.div`
     height:25%;
     left:880px;
   }
-
+  @media screen and (max-width: 1180px) { 
+    bottom: 320px;
+    height:25%;
+    left:780px;
+  }
   @media screen and (max-width: 1024px) { 
     min-height:20%;
     height:auto;
@@ -397,23 +430,23 @@ const QusitionControl = styled.div`
 `;
 
 const qusition = keyframes`
-    0%   { transform: rotateX(90deg);  opacity: 0;}
+  0%   { transform: rotateX(90deg);  opacity: 0;}
   100% {  transform: rotateX(0deg);  opacity: 1;}
 `;
 
 const Qusition = styled.div`
-    animation: ${qusition} 2s ease 1s 1 forwards;
-    opacity: 0;
-    width:100%;
-    height:150px;
-    text-align: center;
-    font-size: 1.35rem;
-    ${'' /* border: black solid 1px; */}
-    font-weight: bold;
-    display:flex;
-    flex-direction: column;
-    justify-content: center;
-    padding-bottom:3rem;
+  animation: ${qusition} 2s ease 1s 1 forwards;
+  opacity: 0;
+  width:100%;
+  height:150px;
+  text-align: center;
+  font-size: 1.35rem;
+  ${'' /* border: black solid 1px; */}
+  font-weight: bold;
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-bottom:3rem;
 
   span{
     color:#491818;
@@ -430,6 +463,9 @@ const Qusition = styled.div`
     margin-top:0rem;
     padding-bottom:2.5rem;
   }
+  @media screen and (max-width: 1180px) { 
+    padding-bottom:0.5rem;
+  }
   @media screen and (max-width: 1024px) { 
     height:auto;
     width:250px;
@@ -439,10 +475,11 @@ const Qusition = styled.div`
 `;
 
 const ButtonControl = styled.div`
-    margin-top:0.6rem;
-    display:flex;
-    justify-content: space-around;
-    button {
+  margin-top:0.6rem;
+  display:flex;
+  justify-content: space-around;
+
+  button {
     background-color: #efddc5;
     border-radius: 100px;
     box-shadow: rgba(243, 158, 91, .2) 0 -25px 18px -14px inset,rgba(243, 158, 91, .15) 0 1px 2px,rgba(243, 158, 91, .15) 0 2px 4px,rgba(243, 158, 91, .15) 0 4px 8px,rgba(243, 158, 91, .15) 0 8px 16px,rgba(243, 158, 91, .15) 0 16px 32px;
@@ -459,18 +496,17 @@ const ButtonControl = styled.div`
     user-select: none;
     -webkit-user-select: none;
     touch-action: manipulation;
-  :hover {
-    box-shadow: rgba(243, 158, 91,.35) 0 -25px 18px -14px inset,rgba(243, 158, 91,.25) 0 1px 2px,rgba(243, 158, 91,.25) 0 2px 4px,rgba(243, 158, 91,.25) 0 4px 8px,rgba(243, 158, 91,.25) 0 8px 16px,rgba(243, 158, 91,.25) 0 16px 32px;
-    transform: scale(1.05) rotate(-1deg);
+
+    :hover {
+      box-shadow: rgba(243, 158, 91,.35) 0 -25px 18px -14px inset,rgba(243, 158, 91,.25) 0 1px 2px,rgba(243, 158, 91,.25) 0 2px 4px,rgba(243, 158, 91,.25) 0 4px 8px,rgba(243, 158, 91,.25) 0 8px 16px,rgba(243, 158, 91,.25) 0 16px 32px;
+      transform: scale(1.05) rotate(-1deg);
+    }
+
+    @media screen and (max-width: 1024px) { 
+      padding: 5px 15px;
+      font-size: 14px;
+    }
   }
-
-  @media screen and (max-width: 1024px) { 
-    padding: 5px 15px;
-    font-size: 14px;
-  }
-
-}
-
 `;
 
 function BadModalContent() {

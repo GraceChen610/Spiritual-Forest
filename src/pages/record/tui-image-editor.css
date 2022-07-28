@@ -1149,7 +1149,8 @@ body > textarea {
     float: left;
     width: 17px;
     height: 17px;
-    border: 0
+    border: 0;
+    color: rgba(0,0,0,0) !important;
 }
 
 .tui-image-editor-container .color-picker-control {
