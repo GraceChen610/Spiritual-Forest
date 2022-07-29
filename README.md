@@ -7,7 +7,7 @@
 <li><a href="#Psychological-Test">Psychological test.</a></li>
 <li><a href="#Pick-a-card-for-a-relaxation-activity">Randomly pick a card for a relaxation activity.</a></li>
 <li><a href="#map">Provide place search and navigation service.</a></li>
-<li><a href="#Make-a-Dream-Board-(image-editor)">Make a Dream Board with image editor.</a></li>
+<li><a href="#make-a-dream-board-image-editor">Make a Dream Board with image editor.</a></li>
 <li><a href="#Post-a-mood-article">Post a mood article</a></li>
 <li><a href="#View-historical-articles">Interactive mood article visualized with graceful plants.</a></li>
 </ul> 
