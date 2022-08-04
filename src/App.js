@@ -15,7 +15,21 @@ import Truf from './pages/truf';
 
 const ForceLandscapeAlert = styled.div`
 display:none;
-  @media only screen and (orientation:portrait){
+  @media only screen and (orientation:portrait) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(130deg, #D7FFFE, #ace0f9, #ace0c1);
+    height:100vh;
+
+    p{
+      width:80%;
+      font-size: 1.8rem;
+      text-align: justify;
+    }
+  }
+  @media only screen and (max-width: 980px) {
     display: flex;
     flex-direction: column;
     justify-content: center;
