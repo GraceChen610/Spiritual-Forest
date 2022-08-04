@@ -21,7 +21,6 @@ body::-webkit-scrollbar {
   position:relative;
   cursor: pointer;
   background: #491818;
-  border-radius: 10px;
   border: 1px solid;
   text-align:center ;
   font-weight: bold;
