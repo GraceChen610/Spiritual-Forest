@@ -92,8 +92,10 @@ const Articles = styled.div`
     border-radius: 10px;
     margin:1rem;
     padding:1.5rem;
+    padding-right:0.8rem;
     font-size:14px;
     width:400px;
+    max-height:550px;
     text-align:center ;
     word-break: break-word;
 
@@ -110,7 +112,26 @@ const Articles = styled.div`
       text-align: justify;
       line-height: 1.8rem;
       font-size: 1.1rem;
+      padding-right:0.7rem;
       width:95%;
+      overflow-y: auto;
+      ::-webkit-scrollbar {
+        width: 10px;
+      }
+
+      /* Track */
+      ::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 5px grey; 
+        border-radius: 10px;
+      }
+      
+      /* Handle */
+      ::-webkit-scrollbar-thumb {
+        background: #79b9c2; 
+        border-radius: 10px;
+      }
+
+
     }
 `;
 
