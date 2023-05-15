@@ -2,7 +2,7 @@
 /* eslint-disable no-mixed-operators */
 import { useState } from 'react';
 import { Configuration } from 'openai';
-import styled from 'styled-components/macro';
+import styled, { keyframes } from 'styled-components/macro';
 
 const Main = styled.div`
   display: flex;
@@ -82,7 +82,7 @@ const Message = styled.span`
     border-radius: 8px;
     margin: 8px 0;
     display: inline-block;
-  ${'' /* background-color: aliceblue; */}
+    line-height: 1.5rem;
   background-color: ${(props) => (props.aiRes ? '#ffe6ea' : 'aliceblue')};
   align-self: ${(props) => (props.aiRes ? 'flex-start' : 'flex-end')};
 `;
@@ -90,6 +90,17 @@ const Message = styled.span`
 const configuration = new Configuration({
   apiKey: process.env.REACT_APP_OPENAI_API_KEY,
 });
+
+const cat = keyframes`
+  0%   {transform: translate(-80%, -30px); opacity:1;}
+  90% {transform: translate(120%, 30px); opacity:1;}
+  100% {transform: translate(130%, -30px); opacity:0;}
+`;
+
+const LoadingCat = styled.div`
+  animation: ${cat} 8s linear 0s normal infinite;
+  z-index:10;
+`;
 
 function generatePrompt(animal) {
   return `You are a psychiatrist with relevant knowledge and experience in psychological counseling. You can provide friendly, considerate and empathetic suggestions based on patients’ problems, and help patients divert their attention and adjust their emotions.
@@ -120,6 +131,7 @@ let uuid = () => {
 export default function Chat() {
   const [animalInput, setAnimalInput] = useState('');
   const [messages, setMessages] = useState([]);
+  const [loading, setLoding] = useState(false);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -148,7 +160,7 @@ export default function Chat() {
         },
         body: JSON.stringify(completion),
       };
-
+      setLoding(true);
       const response = await fetch('https://api.openai.com/v1/completions', requestOptions);
 
       const data = await response.json();
@@ -158,8 +170,9 @@ export default function Chat() {
       }
 
       const res = data.choices[0].text;
-      setMessages((prev) => [...prev, { userMsg: ` ${animalInput}`, aiMsg: `ai: ${res}` }]);
+      setMessages((prev) => [...prev, { userMsg: ` ${animalInput}`, aiMsg: `AI Doctor: ${res}` }]);
       setAnimalInput('');
+      setLoding(false);
     } catch (error) {
       // Consider implementing your own error handling logic here
       console.error(error);
@@ -171,13 +184,19 @@ export default function Chat() {
     <Main>
       <title>聊天功能</title>
 
-      <H3>Chat with AI Doctor</H3>
+      <H3>AI Doctor 在線諮商</H3>
+
+      {loading ? (
+        <LoadingCat>
+          <img style={{ width: '15%' }} src="/img/cat.gif" alt="loading" />
+        </LoadingCat>
+      ) : ''}
 
       <MessageControl>
         {messages?.map((item) => (
           <>
             <Message key={() => uuid()}>{item.userMsg}</Message>
-            <Message key={uuid()} aiRes>{item.aiMsg}</Message>
+            <Message key={uuid() + 40} aiRes>{item.aiMsg}</Message>
           </>
         ))}
       </MessageControl>
