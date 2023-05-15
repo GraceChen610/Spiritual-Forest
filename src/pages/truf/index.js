@@ -5,6 +5,7 @@ import Toast from '../../components/toastAlert';
 import UserContext from '../../userContext';
 import firebaseStores from '../../firebase';
 import MessageModal from '../../components/BaseModal';
+import Chat from '../chat';
 
 const Wrapper = styled.div`
     background: url(/img/155.jpg) no-repeat 0 bottom / cover ;
@@ -141,7 +142,7 @@ const SignBack = styled.div`
   position: absolute;
   bottom: 30px;
   right: 50px;
-  z-index: 9999;
+  z-index: 5;
   display:flex;
   justify-content: center;
   align-items: end;
@@ -277,12 +278,17 @@ export default function Truf() {
   const [worriesArticles, setWorriesArticles] = useState([]);
   const [cheerfulArticles, setCheerfulArticles] = useState([]);
   const [showMessageModal, setShowMessageModal] = useState(false);
+  const [showChatModal, setShowChatModal] = useState(false);
   const [articleTitle, setArticleTitle] = useState('');
   const [articleContent, setArticleContent] = useState('');
   const navigate = useNavigate();
 
   const openModal = () => {
     setShowMessageModal((prev) => !prev);
+  };
+
+  const openChatModal = () => {
+    setShowChatModal((prev) => !prev);
   };
 
   useEffect(() => {
@@ -313,7 +319,7 @@ export default function Truf() {
 
   return (
     <Wrapper>
-      <Sun src="/img/sun.png" />
+      <Sun src="/img/sun.png" onClick={() => openChatModal()} />
       <Sunface src="/img/sunface.png" />
 
       <Link to="/">
@@ -362,6 +368,15 @@ export default function Truf() {
         bkc="rgba(0, 0, 0, 0)"
         width="450px"
         height="auto"
+      />
+      <MessageModal
+        showModal={showChatModal}
+        setShowModal={setShowChatModal}
+        content={<Chat />}
+        bkc="rgba(0, 0, 0, 0)"
+        width="90vw"
+        height="85vh"
+        style={{ 'z-index': '10' }}
       />
       <Butterfly src="/img/Butterfly.png" alt="Butterfly" />
       <ButterflyBlue src="/img/Butterfly2.png" alt="Butterfly" />
